@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      avatars: {
+        Row: {
+          face: string
+          hat: string
+          pants_color: string
+          rig: string
+          shirt_color: string
+          skin_color: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          face?: string
+          hat?: string
+          pants_color?: string
+          rig?: string
+          shirt_color?: string
+          skin_color?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          face?: string
+          hat?: string
+          pants_color?: string
+          rig?: string
+          shirt_color?: string
+          skin_color?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      game_scores: {
+        Row: {
+          bux_earned: number
+          created_at: string
+          game: string
+          id: string
+          score: number
+          user_id: string
+          username: string
+        }
+        Insert: {
+          bux_earned?: number
+          created_at?: string
+          game: string
+          id?: string
+          score: number
+          user_id: string
+          username: string
+        }
+        Update: {
+          bux_earned?: number
+          created_at?: string
+          game?: string
+          id?: string
+          score?: number
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      presence: {
+        Row: {
+          last_seen: string
+          location: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          last_seen?: string
+          location?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          last_seen?: string
+          location?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          bux: number
+          created_at: string
+          id: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          bux?: number
+          created_at?: string
+          id: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          bux?: number
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
