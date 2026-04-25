@@ -13,7 +13,10 @@ import { Route as LobbyRouteImport } from './routes/lobby'
 import { Route as AvatarRouteImport } from './routes/avatar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlayStealBrainrotRouteImport } from './routes/play.steal-brainrot'
+import { Route as PlayRivalsRouteImport } from './routes/play.rivals'
 import { Route as PlayNaturalDisasterRouteImport } from './routes/play.natural-disaster'
+import { Route as PlayGrowGardenRouteImport } from './routes/play.grow-garden'
 
 const LobbyRoute = LobbyRouteImport.update({
   id: '/lobby',
@@ -35,9 +38,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayStealBrainrotRoute = PlayStealBrainrotRouteImport.update({
+  id: '/play/steal-brainrot',
+  path: '/play/steal-brainrot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayRivalsRoute = PlayRivalsRouteImport.update({
+  id: '/play/rivals',
+  path: '/play/rivals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayNaturalDisasterRoute = PlayNaturalDisasterRouteImport.update({
   id: '/play/natural-disaster',
   path: '/play/natural-disaster',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayGrowGardenRoute = PlayGrowGardenRouteImport.update({
+  id: '/play/grow-garden',
+  path: '/play/grow-garden',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -46,14 +64,20 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/rivals': typeof PlayRivalsRoute
+  '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/rivals': typeof PlayRivalsRoute
+  '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,20 +85,42 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/rivals': typeof PlayRivalsRoute
+  '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/avatar' | '/lobby' | '/play/natural-disaster'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/avatar'
+    | '/lobby'
+    | '/play/grow-garden'
+    | '/play/natural-disaster'
+    | '/play/rivals'
+    | '/play/steal-brainrot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/avatar' | '/lobby' | '/play/natural-disaster'
+  to:
+    | '/'
+    | '/auth'
+    | '/avatar'
+    | '/lobby'
+    | '/play/grow-garden'
+    | '/play/natural-disaster'
+    | '/play/rivals'
+    | '/play/steal-brainrot'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/avatar'
     | '/lobby'
+    | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/rivals'
+    | '/play/steal-brainrot'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -82,7 +128,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   AvatarRoute: typeof AvatarRoute
   LobbyRoute: typeof LobbyRoute
+  PlayGrowGardenRoute: typeof PlayGrowGardenRoute
   PlayNaturalDisasterRoute: typeof PlayNaturalDisasterRoute
+  PlayRivalsRoute: typeof PlayRivalsRoute
+  PlayStealBrainrotRoute: typeof PlayStealBrainrotRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,11 +164,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/steal-brainrot': {
+      id: '/play/steal-brainrot'
+      path: '/play/steal-brainrot'
+      fullPath: '/play/steal-brainrot'
+      preLoaderRoute: typeof PlayStealBrainrotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/rivals': {
+      id: '/play/rivals'
+      path: '/play/rivals'
+      fullPath: '/play/rivals'
+      preLoaderRoute: typeof PlayRivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/natural-disaster': {
       id: '/play/natural-disaster'
       path: '/play/natural-disaster'
       fullPath: '/play/natural-disaster'
       preLoaderRoute: typeof PlayNaturalDisasterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/grow-garden': {
+      id: '/play/grow-garden'
+      path: '/play/grow-garden'
+      fullPath: '/play/grow-garden'
+      preLoaderRoute: typeof PlayGrowGardenRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -130,7 +200,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   AvatarRoute: AvatarRoute,
   LobbyRoute: LobbyRoute,
+  PlayGrowGardenRoute: PlayGrowGardenRoute,
   PlayNaturalDisasterRoute: PlayNaturalDisasterRoute,
+  PlayRivalsRoute: PlayRivalsRoute,
+  PlayStealBrainrotRoute: PlayStealBrainrotRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

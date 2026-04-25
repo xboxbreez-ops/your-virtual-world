@@ -33,10 +33,11 @@ const GAMES = [
   {
     id: "rivals",
     title: "Rivals Arena",
-    blurb: "Fast-paced 3D shooter showdowns. Coming soon — top up your Bux while you wait.",
+    blurb: "Fast-paced 3D shooter showdowns vs bot rivals. +15 Bux per elimination.",
     bg: "linear-gradient(135deg, #1e40af, #06b6d4)",
     icon: "🎯",
-    playable: false,
+    playable: true,
+    route: "/play/rivals" as const,
   },
   {
     id: "steal-brainrot",
@@ -44,7 +45,8 @@ const GAMES = [
     blurb: "Race across plots and snatch the silliest items before someone snatches yours.",
     bg: "linear-gradient(135deg, #a21caf, #ec4899)",
     icon: "🧠",
-    playable: false,
+    playable: true,
+    route: "/play/steal-brainrot" as const,
   },
   {
     id: "grow-garden",
@@ -52,7 +54,8 @@ const GAMES = [
     blurb: "Plant, water, harvest, sell. The chillest way to stack Bux.",
     bg: "linear-gradient(135deg, #166534, #84cc16)",
     icon: "🌱",
-    playable: false,
+    playable: true,
+    route: "/play/grow-garden" as const,
   },
 ];
 
