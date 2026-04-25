@@ -35,7 +35,7 @@ const DISASTER_LABEL: Record<Disaster, string> = {
 type GameRefs = {
   player: { pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; onGround: boolean; alive: boolean; hp: number };
   disaster: { kind: Disaster; intensity: number };
-  bots: { pos: THREE.Vector3; alive: boolean; speed: number; color: string }[];
+  bots: { pos: THREE.Vector3; alive: boolean; speed: number; color: string; wander?: THREE.Vector3 }[];
   meteors: { pos: THREE.Vector3; vel: THREE.Vector3 }[];
   floodLevel: number;
   shake: number;
@@ -340,9 +340,10 @@ function WorldController({ refs, hudUpdate, onTimerTick }: {
         target = new THREE.Vector3(0, 1, 0); // huddle center (highest spot)
       } else {
         // wander
-        if (!b.pos.userData) (b.pos as THREE.Vector3 & { userData?: THREE.Vector3 }).userData = new THREE.Vector3((Math.random() - 0.5) * 20, 1, (Math.random() - 0.5) * 20);
-        target = (b.pos as THREE.Vector3 & { userData: THREE.Vector3 }).userData;
-        if (b.pos.distanceTo(target) < 1) (b.pos as THREE.Vector3 & { userData: THREE.Vector3 }).userData = new THREE.Vector3((Math.random() - 0.5) * 20, 1, (Math.random() - 0.5) * 20);
+        if (!b.wander || b.pos.distanceTo(b.wander) < 1) {
+          b.wander = new THREE.Vector3((Math.random() - 0.5) * 20, 1, (Math.random() - 0.5) * 20);
+        }
+        target = b.wander;
       }
       const dir = target.clone().sub(b.pos); dir.y = 0;
       if (dir.lengthSq() > 0.01) {
