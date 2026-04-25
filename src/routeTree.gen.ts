@@ -13,6 +13,7 @@ import { Route as LobbyRouteImport } from './routes/lobby'
 import { Route as AvatarRouteImport } from './routes/avatar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlayNaturalDisasterRouteImport } from './routes/play.natural-disaster'
 
 const LobbyRoute = LobbyRouteImport.update({
   id: '/lobby',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayNaturalDisasterRoute = PlayNaturalDisasterRouteImport.update({
+  id: '/play/natural-disaster',
+  path: '/play/natural-disaster',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/natural-disaster': typeof PlayNaturalDisasterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/natural-disaster': typeof PlayNaturalDisasterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/avatar': typeof AvatarRoute
   '/lobby': typeof LobbyRoute
+  '/play/natural-disaster': typeof PlayNaturalDisasterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/avatar' | '/lobby'
+  fullPaths: '/' | '/auth' | '/avatar' | '/lobby' | '/play/natural-disaster'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/avatar' | '/lobby'
-  id: '__root__' | '/' | '/auth' | '/avatar' | '/lobby'
+  to: '/' | '/auth' | '/avatar' | '/lobby' | '/play/natural-disaster'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/avatar'
+    | '/lobby'
+    | '/play/natural-disaster'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   AvatarRoute: typeof AvatarRoute
   LobbyRoute: typeof LobbyRoute
+  PlayNaturalDisasterRoute: typeof PlayNaturalDisasterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/natural-disaster': {
+      id: '/play/natural-disaster'
+      path: '/play/natural-disaster'
+      fullPath: '/play/natural-disaster'
+      preLoaderRoute: typeof PlayNaturalDisasterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   AvatarRoute: AvatarRoute,
   LobbyRoute: LobbyRoute,
+  PlayNaturalDisasterRoute: PlayNaturalDisasterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
