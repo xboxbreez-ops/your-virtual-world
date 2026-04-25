@@ -39,12 +39,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [avatar, setAvatar] = useState<AvatarConfig | null>(null);
+  const [inventory, setInventory] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
   const loadAll = async (uid: string) => {
-    const [{ data: p }, { data: a }] = await Promise.all([
+    const [{ data: p }, { data: a }, { data: inv }] = await Promise.all([
       supabase.from("profiles").select("id, username, bux").eq("id", uid).maybeSingle(),
       supabase.from("avatars").select("*").eq("user_id", uid).maybeSingle(),
+      supabase.from("inventory").select("item_id").eq("user_id", uid),
     ]);
     if (p) setProfile(p as Profile);
     if (a) setAvatar({
@@ -55,6 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       face: a.face,
       hat: a.hat,
     });
+    setInventory(new Set((inv ?? []).map((row: { item_id: string }) => row.item_id)));
   };
 
   useEffect(() => {
@@ -68,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         setProfile(null);
         setAvatar(null);
+        setInventory(new Set());
       }
     });
     // Then existing session
@@ -105,9 +109,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshProfile = async () => { if (user) await loadAll(user.id); };
   const setAvatarLocal = (a: AvatarConfig) => setAvatar(a);
   const addBux = (n: number) => setProfile((p) => (p ? { ...p, bux: p.bux + n } : p));
+  const setBuxLocal = (n: number) => setProfile((p) => (p ? { ...p, bux: n } : p));
+  const addOwnedItem = (id: string) => setInventory((s) => { const n = new Set(s); n.add(id); return n; });
 
   return (
-    <Ctx.Provider value={{ user, session, profile, avatar, loading, signUp, signIn, signOut, refreshProfile, setAvatarLocal, addBux }}>
+    <Ctx.Provider value={{ user, session, profile, avatar, inventory, loading, signUp, signIn, signOut, refreshProfile, setAvatarLocal, addBux, setBuxLocal, addOwnedItem }}>
       {children}
     </Ctx.Provider>
   );
