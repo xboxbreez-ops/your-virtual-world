@@ -77,6 +77,24 @@ export type Database = {
         }
         Relationships: []
       }
+      inventory: {
+        Row: {
+          acquired_at: string
+          item_id: string
+          user_id: string
+        }
+        Insert: {
+          acquired_at?: string
+          item_id: string
+          user_id: string
+        }
+        Update: {
+          acquired_at?: string
+          item_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       presence: {
         Row: {
           last_seen: string
@@ -127,7 +145,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      purchase_item: {
+        Args: { _item_id: string; _price: number }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
