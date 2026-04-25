@@ -17,6 +17,7 @@ type AuthCtx = {
   session: Session | null;
   profile: Profile | null;
   avatar: AvatarConfig | null;
+  inventory: Set<string>;
   loading: boolean;
   signUp: (username: string, password: string) => Promise<void>;
   signIn: (username: string, password: string) => Promise<void>;
@@ -24,6 +25,8 @@ type AuthCtx = {
   refreshProfile: () => Promise<void>;
   setAvatarLocal: (a: AvatarConfig) => void;
   addBux: (n: number) => void;
+  setBuxLocal: (n: number) => void;
+  addOwnedItem: (id: string) => void;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
