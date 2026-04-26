@@ -17,7 +17,7 @@ export function applyPlayerCamera(
   options: { eyeHeight?: number; distance?: number } = {},
 ) {
   const eyeHeight = options.eyeHeight ?? 1.6;
-  const distance = options.distance ?? 5.5;
+  const distance = options.distance ?? 7;
   const eye = new THREE.Vector3(pos.x, pos.y + eyeHeight, pos.z);
 
   if (!zoomOut) {
