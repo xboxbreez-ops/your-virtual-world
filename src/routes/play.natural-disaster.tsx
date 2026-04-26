@@ -154,7 +154,7 @@ function PlayerController({ refs, hudUpdate, gameOver, input }: {
   refs: RefObject<GameRefs>;
   hudUpdate: (hp: number, alive: boolean) => void;
   gameOver: () => void;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
 }) {
   const { camera } = useThree();
   const lastHpReport = useRef(100);
@@ -215,15 +215,12 @@ function PlayerController({ refs, hudUpdate, gameOver, input }: {
       r.shake = 0.25 * r.disaster.intensity;
     } else { r.shake *= 0.9; }
 
-    // Camera: first-person at eye level, pitch + yaw
-    const eye = new THREE.Vector3(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.position.copy(eye);
-    if (r.shake > 0.01) {
+    // Camera: first-person OR third-person zoomed out (toggled by V / R3)
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
+    if (r.shake > 0.01 && !input.current.zoomOut) {
       camera.position.x += (Math.random() - 0.5) * r.shake;
       camera.position.z += (Math.random() - 0.5) * r.shake;
     }
-    const euler = new THREE.Euler(p.pitch, p.yaw, 0, "YXZ");
-    camera.quaternion.setFromEuler(euler);
 
     p.hp = Math.max(0, p.hp);
     if (Math.floor(p.hp) !== Math.floor(lastHpReport.current)) {

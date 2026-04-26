@@ -109,7 +109,7 @@ function CropMesh({ refs, r, c }: { refs: RefObject<Refs>; r: number; c: number 
 
 function PlayerCtl({ refs, input, onAction, onSell, selectedCrop }: {
   refs: RefObject<Refs>;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
   onAction: (kind: "plant" | "harvest", value?: number) => void;
   onSell: () => void;
   selectedCrop: CropKind;
@@ -175,8 +175,7 @@ function PlayerCtl({ refs, input, onAction, onSell, selectedCrop }: {
     }
     lastAction.current = a;
 
-    camera.position.set(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.quaternion.setFromEuler(new THREE.Euler(p.pitch, p.yaw, 0, "YXZ"));
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
   });
   return null;
 }

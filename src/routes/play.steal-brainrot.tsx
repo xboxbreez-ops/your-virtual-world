@@ -155,7 +155,7 @@ function ItemMesh({ item, idx, refs }: { item: Item; idx: number; refs: RefObjec
 
 function PlayerCtl({ refs, input, onScore }: {
   refs: RefObject<Refs>;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
   onScore: () => void;
 }) {
   const { camera } = useThree();
@@ -236,8 +236,7 @@ function PlayerCtl({ refs, input, onScore }: {
       }
     }
 
-    camera.position.set(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.quaternion.setFromEuler(new THREE.Euler(p.pitch, p.yaw, 0, "YXZ"));
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
   });
   return null;
 }

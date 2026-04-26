@@ -110,7 +110,7 @@ function ARENA_BOUNDS(): AABB[] {
 
 function PlayerCtl({ refs, input, hudUpdate, gameOver }: {
   refs: RefObject<GRefs>;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
   hudUpdate: (hp: number, ammo: number, reload: number) => void;
   gameOver: () => void;
 }) {
@@ -166,9 +166,8 @@ function PlayerCtl({ refs, input, hudUpdate, gameOver }: {
       if (p.ammo === 0) p.reload = 1.4;
     }
 
-    // Camera
-    camera.position.set(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.quaternion.setFromEuler(new THREE.Euler(p.pitch, p.yaw, 0, "YXZ"));
+    // Camera (V / R3 toggles third-person zoom-out)
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
 
     p.hp = Math.max(0, p.hp);
     if (
