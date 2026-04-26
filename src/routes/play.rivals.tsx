@@ -440,7 +440,7 @@ function RivalsPage() {
                     Click to start
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Click fire · Shift sprint · Space jump</div>
+                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Click fire · Shift sprint · Space jump · V zoom-out</div>
                     <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> L-stick · RT fire · A jump · R-stick aim {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
                   </div>
                   <Link to="/lobby" className="mt-4 inline-block text-xs text-muted-foreground hover:text-foreground">← Back to lobby</Link>

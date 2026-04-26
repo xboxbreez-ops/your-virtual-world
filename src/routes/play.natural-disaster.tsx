@@ -455,7 +455,7 @@ function GamePage() {
                     Click to start
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space jump · Shift sprint · Mouse look · Esc release</div>
+                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space jump · Shift sprint · Mouse look · V zoom-out · Esc release</div>
                     <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> L-stick move · A jump · R-stick look {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
                   </div>
                   <p className="mt-3 text-[11px] text-muted-foreground">Tip: open ⚙ to change look sensitivity.</p>
