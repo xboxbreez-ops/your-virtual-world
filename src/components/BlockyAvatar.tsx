@@ -82,7 +82,8 @@ function Hat({ kind }: { kind: string }) {
 }
 
 type Props = {
-  config: AvatarConfig;
+  // Allow callers (e.g. NPC bots) to omit the new cosmetic slots and fall back to defaults
+  config: Omit<AvatarConfig, "hair" | "shoes" | "jacket"> & Partial<Pick<AvatarConfig, "hair" | "shoes" | "jacket">>;
   position?: [number, number, number];
   walking?: boolean;
 };
