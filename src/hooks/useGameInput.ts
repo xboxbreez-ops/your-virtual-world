@@ -8,6 +8,8 @@ export type GameInput = {
   lookDX: number; lookDY: number;
   // Mouse pointer-lock state
   pointerLocked: boolean;
+  // Third-person zoom toggle (V key on keyboard, R3 / right-stick click on gamepad)
+  zoomOut: boolean;
 };
 
 export function useGameInput(canvasContainer: React.RefObject<HTMLDivElement | null>) {
