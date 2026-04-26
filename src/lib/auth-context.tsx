@@ -10,6 +10,9 @@ export type AvatarConfig = {
   pants_color: string;
   face: string;
   hat: string;
+  hair: string;
+  shoes: string;
+  jacket: string;
 };
 
 type AuthCtx = {
@@ -56,6 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       pants_color: a.pants_color,
       face: a.face,
       hat: a.hat,
+      hair: a.hair ?? "none",
+      shoes: a.shoes ?? "sneakers",
+      jacket: a.jacket ?? "none",
     });
     setInventory(new Set((inv ?? []).map((row: { item_id: string }) => row.item_id)));
   };
