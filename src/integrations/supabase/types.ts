@@ -56,6 +56,60 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          message: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          id?: string
+          message: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          message?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      friendships: {
+        Row: {
+          created_at: string
+          friend_id: string
+          friend_username: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          friend_username: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          friend_username?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       game_scores: {
         Row: {
           bux_earned: number
@@ -101,6 +155,27 @@ export type Database = {
           acquired_at?: string
           item_id?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      match_queue: {
+        Row: {
+          joined_at: string
+          mode: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          joined_at?: string
+          mode: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          joined_at?: string
+          mode?: string
+          user_id?: string
+          username?: string
         }
         Relationships: []
       }
