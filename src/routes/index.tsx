@@ -60,7 +60,7 @@ function Landing() {
               <ambientLight intensity={0.6} />
               <directionalLight position={[5, 8, 5]} intensity={1.2} castShadow />
               <BlockyAvatar
-                config={{ rig: "R15", skin_color: "#f5c896", shirt_color: "#dc2626", pants_color: "#1e3a8a", face: "cool", hat: "crown" }}
+                config={{ rig: "R15", skin_color: "#f5c896", shirt_color: "#dc2626", pants_color: "#1e3a8a", face: "cool", hat: "crown", hair: "messy", shoes: "rocketboots", jacket: "varsity" }}
               />
               <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
                 <circleGeometry args={[6, 32]} />

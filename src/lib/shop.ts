@@ -47,5 +47,33 @@ export const PANTS_CATALOG: { color: string; price: number; label: string }[] = 
   { color: "#7c2d12", price: 60, label: "Rust" },
 ];
 
+export const HAIR_CATALOG: { key: string; price: number; label: string }[] = [
+  { key: "none", price: 0, label: "Bald" },
+  { key: "buzz", price: 0, label: "Buzz Cut" },
+  { key: "messy", price: 40, label: "Messy" },
+  { key: "ponytail", price: 80, label: "Ponytail" },
+  { key: "bun", price: 120, label: "Top Bun" },
+  { key: "mohawk", price: 200, label: "Mohawk" },
+  { key: "afro", price: 300, label: "Afro" },
+];
+
+export const SHOES_CATALOG: { key: string; price: number; label: string }[] = [
+  { key: "sneakers", price: 0, label: "Sneakers" },
+  { key: "sandals", price: 0, label: "Sandals" },
+  { key: "boots", price: 60, label: "Boots" },
+  { key: "heels", price: 90, label: "Heels" },
+  { key: "skates", price: 180, label: "Skates" },
+  { key: "rocketboots", price: 450, label: "Rocket Boots" },
+];
+
+export const JACKET_CATALOG: { key: string; price: number; label: string }[] = [
+  { key: "none", price: 0, label: "None" },
+  { key: "hoodie", price: 75, label: "Hoodie" },
+  { key: "varsity", price: 150, label: "Varsity" },
+  { key: "puffer", price: 220, label: "Puffer" },
+  { key: "leather", price: 350, label: "Leather" },
+  { key: "cape", price: 600, label: "Hero Cape" },
+];
+
 // item_id format used in DB inventory
 export const itemId = (category: string, key: string) => `${category}:${key}`;
