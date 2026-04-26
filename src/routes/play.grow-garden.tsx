@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Coins, Sprout, Gamepad2, Keyboard, Carrot, Apple, Cherry } from "lucide-react";
 
 export const Route = createFileRoute("/play/grow-garden")({
