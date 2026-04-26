@@ -17,30 +17,39 @@ export type Database = {
       avatars: {
         Row: {
           face: string
+          hair: string
           hat: string
+          jacket: string
           pants_color: string
           rig: string
           shirt_color: string
+          shoes: string
           skin_color: string
           updated_at: string
           user_id: string
         }
         Insert: {
           face?: string
+          hair?: string
           hat?: string
+          jacket?: string
           pants_color?: string
           rig?: string
           shirt_color?: string
+          shoes?: string
           skin_color?: string
           updated_at?: string
           user_id: string
         }
         Update: {
           face?: string
+          hair?: string
           hat?: string
+          jacket?: string
           pants_color?: string
           rig?: string
           shirt_color?: string
+          shoes?: string
           skin_color?: string
           updated_at?: string
           user_id?: string

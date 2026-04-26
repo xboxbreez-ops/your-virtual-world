@@ -1,0 +1,4 @@
+ALTER TABLE public.avatars 
+  ADD COLUMN IF NOT EXISTS hair text NOT NULL DEFAULT 'none',
+  ADD COLUMN IF NOT EXISTS shoes text NOT NULL DEFAULT 'sneakers',
+  ADD COLUMN IF NOT EXISTS jacket text NOT NULL DEFAULT 'none';

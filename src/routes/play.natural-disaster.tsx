@@ -11,6 +11,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, insideFootprint, type AABB } from "@/lib/collision";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Timer, Coins, Gamepad2, Keyboard } from "lucide-react";
 
 export const Route = createFileRoute("/play/natural-disaster")({
@@ -154,7 +155,7 @@ function PlayerController({ refs, hudUpdate, gameOver, input }: {
   refs: RefObject<GameRefs>;
   hudUpdate: (hp: number, alive: boolean) => void;
   gameOver: () => void;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
 }) {
   const { camera } = useThree();
   const lastHpReport = useRef(100);
@@ -215,15 +216,12 @@ function PlayerController({ refs, hudUpdate, gameOver, input }: {
       r.shake = 0.25 * r.disaster.intensity;
     } else { r.shake *= 0.9; }
 
-    // Camera: first-person at eye level, pitch + yaw
-    const eye = new THREE.Vector3(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.position.copy(eye);
-    if (r.shake > 0.01) {
+    // Camera: first-person OR third-person zoomed out (toggled by V / R3)
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
+    if (r.shake > 0.01 && !input.current.zoomOut) {
       camera.position.x += (Math.random() - 0.5) * r.shake;
       camera.position.z += (Math.random() - 0.5) * r.shake;
     }
-    const euler = new THREE.Euler(p.pitch, p.yaw, 0, "YXZ");
-    camera.quaternion.setFromEuler(euler);
 
     p.hp = Math.max(0, p.hp);
     if (Math.floor(p.hp) !== Math.floor(lastHpReport.current)) {
@@ -457,7 +455,7 @@ function GamePage() {
                     Click to start
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space jump · Shift sprint · Mouse look · Esc release</div>
+                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space jump · Shift sprint · Mouse look · V zoom-out · Esc release</div>
                     <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> L-stick move · A jump · R-stick look {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
                   </div>
                   <p className="mt-3 text-[11px] text-muted-foreground">Tip: open ⚙ to change look sensitivity.</p>

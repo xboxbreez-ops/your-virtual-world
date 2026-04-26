@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Coins, Sprout, Gamepad2, Keyboard, Carrot, Apple, Cherry } from "lucide-react";
 
 export const Route = createFileRoute("/play/grow-garden")({
@@ -109,7 +110,7 @@ function CropMesh({ refs, r, c }: { refs: RefObject<Refs>; r: number; c: number 
 
 function PlayerCtl({ refs, input, onAction, onSell, selectedCrop }: {
   refs: RefObject<Refs>;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
   onAction: (kind: "plant" | "harvest", value?: number) => void;
   onSell: () => void;
   selectedCrop: CropKind;
@@ -175,8 +176,7 @@ function PlayerCtl({ refs, input, onAction, onSell, selectedCrop }: {
     }
     lastAction.current = a;
 
-    camera.position.set(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.quaternion.setFromEuler(new THREE.Euler(p.pitch, p.yaw, 0, "YXZ"));
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
   });
   return null;
 }
@@ -297,7 +297,7 @@ function GardenPage() {
                     Click to start
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · E plant/harvest/sell · 1/2/3 pick seed</div>
+                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · E plant/harvest/sell · 1/2/3 pick seed · V zoom-out</div>
                     <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> L-stick · RT action · R-stick look {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
                   </div>
                   <Link to="/lobby" className="mt-4 inline-block text-xs text-muted-foreground hover:text-foreground">← Back to lobby</Link>

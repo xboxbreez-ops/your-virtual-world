@@ -7,7 +7,7 @@ import { useAuth, type AvatarConfig } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
-import { HAT_CATALOG, FACE_CATALOG, SHIRT_CATALOG, PANTS_CATALOG, itemId } from "@/lib/shop";
+import { HAT_CATALOG, FACE_CATALOG, SHIRT_CATALOG, PANTS_CATALOG, HAIR_CATALOG, SHOES_CATALOG, JACKET_CATALOG, itemId } from "@/lib/shop";
 import { Save, Lock, Coins, Check } from "lucide-react";
 
 export const Route = createFileRoute("/avatar")({
@@ -188,6 +188,28 @@ function AvatarPage() {
             </div>
           </Section>
 
+          <Section title="Hair">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+              {HAIR_CATALOG.map((h) => {
+                const owned = isOwned("hair", h.key, h.price);
+                const equipped = draft.hair === h.key;
+                const id = itemId("hair", h.key);
+                return (
+                  <ItemTile
+                    key={h.key}
+                    label={h.label}
+                    price={h.price}
+                    owned={owned}
+                    equipped={equipped}
+                    busy={busyItem === id}
+                    onEquip={() => update({ hair: h.key })}
+                    onBuy={() => buy("hair", h.key, h.price, h.label)}
+                  />
+                );
+              })}
+            </div>
+          </Section>
+
           <Section title="Hat">
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
               {HAT_CATALOG.map((h) => {
@@ -204,6 +226,50 @@ function AvatarPage() {
                     busy={busyItem === id}
                     onEquip={() => update({ hat: h.key })}
                     onBuy={() => buy("hat", h.key, h.price, h.label)}
+                  />
+                );
+              })}
+            </div>
+          </Section>
+
+          <Section title="Jacket (3D)">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
+              {JACKET_CATALOG.map((j) => {
+                const owned = isOwned("jacket", j.key, j.price);
+                const equipped = draft.jacket === j.key;
+                const id = itemId("jacket", j.key);
+                return (
+                  <ItemTile
+                    key={j.key}
+                    label={j.label}
+                    price={j.price}
+                    owned={owned}
+                    equipped={equipped}
+                    busy={busyItem === id}
+                    onEquip={() => update({ jacket: j.key })}
+                    onBuy={() => buy("jacket", j.key, j.price, j.label)}
+                  />
+                );
+              })}
+            </div>
+          </Section>
+
+          <Section title="Shoes">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
+              {SHOES_CATALOG.map((s) => {
+                const owned = isOwned("shoes", s.key, s.price);
+                const equipped = draft.shoes === s.key;
+                const id = itemId("shoes", s.key);
+                return (
+                  <ItemTile
+                    key={s.key}
+                    label={s.label}
+                    price={s.price}
+                    owned={owned}
+                    equipped={equipped}
+                    busy={busyItem === id}
+                    onEquip={() => update({ shoes: s.key })}
+                    onBuy={() => buy("shoes", s.key, s.price, s.label)}
                   />
                 );
               })}

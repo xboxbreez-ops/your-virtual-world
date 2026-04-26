@@ -11,6 +11,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Crosshair, Coins, Gamepad2, Keyboard, Skull } from "lucide-react";
 
 export const Route = createFileRoute("/play/rivals")({
@@ -110,7 +111,7 @@ function ARENA_BOUNDS(): AABB[] {
 
 function PlayerCtl({ refs, input, hudUpdate, gameOver }: {
   refs: RefObject<GRefs>;
-  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number }>;
+  input: RefObject<{ f: boolean; b: boolean; l: boolean; r: boolean; jump: boolean; sprint: boolean; action: boolean; lookDX: number; lookDY: number; zoomOut: boolean }>;
   hudUpdate: (hp: number, ammo: number, reload: number) => void;
   gameOver: () => void;
 }) {
@@ -166,9 +167,8 @@ function PlayerCtl({ refs, input, hudUpdate, gameOver }: {
       if (p.ammo === 0) p.reload = 1.4;
     }
 
-    // Camera
-    camera.position.set(p.pos.x, p.pos.y + 1.6, p.pos.z);
-    camera.quaternion.setFromEuler(new THREE.Euler(p.pitch, p.yaw, 0, "YXZ"));
+    // Camera (V / R3 toggles third-person zoom-out)
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
 
     p.hp = Math.max(0, p.hp);
     if (
@@ -440,7 +440,7 @@ function RivalsPage() {
                     Click to start
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Click fire · Shift sprint · Space jump</div>
+                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Click fire · Shift sprint · Space jump · V zoom-out</div>
                     <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> L-stick · RT fire · A jump · R-stick aim {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
                   </div>
                   <Link to="/lobby" className="mt-4 inline-block text-xs text-muted-foreground hover:text-foreground">← Back to lobby</Link>
