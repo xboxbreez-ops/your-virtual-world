@@ -17,9 +17,11 @@ export function useGameInput(canvasContainer: React.RefObject<HTMLDivElement | n
     f: false, b: false, l: false, r: false,
     jump: false, action: false, sprint: false,
     lookDX: 0, lookDY: 0, pointerLocked: false,
+    zoomOut: false,
   });
   const [usingPad, setUsingPad] = useState(false);
   const [locked, setLocked] = useState(false);
+  const r3PressedRef = useRef(false);
 
   // Keyboard
   useEffect(() => {
@@ -33,6 +35,7 @@ export function useGameInput(canvasContainer: React.RefObject<HTMLDivElement | n
         case "Space": r.jump = v; if (v) e.preventDefault(); break;
         case "ShiftLeft": case "ShiftRight": r.sprint = v; break;
         case "KeyE": case "Mouse0": r.action = v; break;
+        case "KeyV": if (v && !e.repeat) r.zoomOut = !r.zoomOut; break;
       }
     };
     const dn = (e: KeyboardEvent) => set(e, true);
@@ -93,6 +96,10 @@ export function useGameInput(canvasContainer: React.RefObject<HTMLDivElement | n
         r.jump = !!gp.buttons[0]?.pressed; // A
         r.action = !!gp.buttons[7]?.pressed || !!gp.buttons[5]?.pressed; // RT or RB
         r.sprint = !!gp.buttons[10]?.pressed; // L3
+        // R3 (right-stick click, button 11) toggles zoom-out — edge-detect so a hold doesn't flicker
+        const r3Now = !!gp.buttons[11]?.pressed;
+        if (r3Now && !r3PressedRef.current) r.zoomOut = !r.zoomOut;
+        r3PressedRef.current = r3Now;
         const rx = ax(gp.axes[2] ?? 0);
         const ry = ax(gp.axes[3] ?? 0);
         // Right stick adds delta per frame (~16ms). Multiplier mimics mouse feel.
