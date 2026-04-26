@@ -6,6 +6,9 @@ import type { AvatarConfig } from "@/lib/auth-context";
 // Hat catalog
 export const HATS = ["none", "cap", "crown", "tophat", "horns", "halo"] as const;
 export const FACES = ["smile", "cool", "angry", "happy", "wink"] as const;
+export const HAIRS = ["none", "buzz", "messy", "ponytail", "mohawk", "afro", "bun"] as const;
+export const SHOES = ["sneakers", "boots", "heels", "sandals", "skates", "rocketboots"] as const;
+export const JACKETS = ["none", "hoodie", "varsity", "leather", "puffer", "cape"] as const;
 
 function Face({ kind }: { kind: string }) {
   // eyes + mouth as small dark planes on the front of head
