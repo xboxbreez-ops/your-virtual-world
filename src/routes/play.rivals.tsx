@@ -11,6 +11,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Crosshair, Coins, Gamepad2, Keyboard, Skull } from "lucide-react";
 
 export const Route = createFileRoute("/play/rivals")({

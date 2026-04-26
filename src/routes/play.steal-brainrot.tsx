@@ -11,6 +11,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Coins, Brain, Timer, Gamepad2, Keyboard } from "lucide-react";
 
 export const Route = createFileRoute("/play/steal-brainrot")({

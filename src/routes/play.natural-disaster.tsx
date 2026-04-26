@@ -11,6 +11,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, insideFootprint, type AABB } from "@/lib/collision";
+import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Timer, Coins, Gamepad2, Keyboard } from "lucide-react";
 
 export const Route = createFileRoute("/play/natural-disaster")({
