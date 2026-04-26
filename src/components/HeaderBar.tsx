@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
-import { Coins, LogOut, Shirt, Gamepad2 } from "lucide-react";
+import { Coins, LogOut, Shirt, Gamepad2, Users } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { FriendsPanel } from "@/components/FriendsPanel";
 
 export function HeaderBar({ location }: { location?: string }) {
   const { profile, signOut } = useAuth();
@@ -21,6 +23,16 @@ export function HeaderBar({ location }: { location?: string }) {
           <Link to="/avatar" className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-semibold hover:bg-secondary sm:flex">
             <Shirt className="h-4 w-4" /> Avatar
           </Link>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-semibold hover:bg-secondary">
+                <Users className="h-4 w-4" /> <span className="hidden sm:inline">Friends</span>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80" align="end">
+              <FriendsPanel compact />
+            </PopoverContent>
+          </Popover>
           <div className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-2 text-sm font-bold">
             <Coins className="h-4 w-4 text-bux" />
             <span className="text-bux">{profile?.bux ?? 0}</span>
