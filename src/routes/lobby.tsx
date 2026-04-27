@@ -33,7 +33,7 @@ const GAMES = [
   {
     id: "rivals",
     title: "Rivals Arena",
-    blurb: "Fast-paced 3D shooter showdowns vs bot rivals. +15 Bux per elimination.",
+    blurb: "Queue 1v1 / 2v2 / 3v3 with friends or bots. Pick a weapon class and rack up eliminations.",
     bg: "linear-gradient(135deg, #1e40af, #06b6d4)",
     icon: "🎯",
     playable: true,
@@ -42,7 +42,7 @@ const GAMES = [
   {
     id: "steal-brainrot",
     title: "Steal a Brainrot",
-    blurb: "Race across plots and snatch the silliest items before someone snatches yours.",
+    blurb: "Buy brainrots from the spawning carpet. They walk to your base and pay you per second.",
     bg: "linear-gradient(135deg, #a21caf, #ec4899)",
     icon: "🧠",
     playable: true,
@@ -51,11 +51,29 @@ const GAMES = [
   {
     id: "grow-garden",
     title: "Grow a Garden",
-    blurb: "Plant, water, harvest, sell. The chillest way to stack Bux.",
+    blurb: "Own a plot, buy seeds, harvest crops, and sell them at the market for stacks of Bux.",
     bg: "linear-gradient(135deg, #166534, #84cc16)",
     icon: "🌱",
     playable: true,
     route: "/play/grow-garden" as const,
+  },
+  {
+    id: "obby-tower",
+    title: "Tower of Hell",
+    blurb: "Climb the spinning, lava-filled tower. Reach the top without falling for big Bux.",
+    bg: "linear-gradient(135deg, #4c1d95, #7c3aed)",
+    icon: "🗼",
+    playable: true,
+    route: "/play/obby-tower" as const,
+  },
+  {
+    id: "obby-speed",
+    title: "Speed Run",
+    blurb: "Sprint across moving planks, hop lava strips, and beat the clock to the gold pad.",
+    bg: "linear-gradient(135deg, #0c4a6e, #06b6d4)",
+    icon: "🏃",
+    playable: true,
+    route: "/play/obby-speed" as const,
   },
 ];
 
