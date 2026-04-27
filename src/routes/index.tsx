@@ -78,11 +78,11 @@ function Landing() {
         <p className="mt-2 max-w-2xl text-muted-foreground">A full sandbox of customization and games — not a static demo.</p>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {[
-            { t: "Avatar editor", d: "R6 & R15 rigs, body parts, shirts, pants, faces, hats. Real 3D preview that animates while you tweak.", icon: "👕" },
-            { t: "Real games", d: "Natural Disaster Survival is fully playable in 3D. More games coming each update.", icon: "🌪️" },
-            { t: "Bux economy", d: "Survive disasters and complete matches to stack Bux. Stored to your account.", icon: "🪙" },
-            { t: "Multiplayer", d: "See who's online in the lobby and inside games — powered by realtime presence.", icon: "🟢" },
-            { t: "Controller ready", d: "Full Xbox / generic gamepad support. Move, jump and look around with sticks.", icon: "🎮" },
+            { t: "Avatar editor", d: "R6 & R15 rigs, body parts, shirts, pants, faces, hats, hair, shoes, jackets. Real 3D preview that animates while you tweak.", icon: "👕" },
+            { t: "6 real games", d: "Disasters, shooter arena, brainrot tycoon, garden sim, plus Tower of Hell + Speed Run obbys. All 3D, all playable now.", icon: "🎮" },
+            { t: "Bux economy", d: "Survive, fight, harvest, and climb to stack Bux. Spend on hats, hair, shoes, and jackets in the avatar shop.", icon: "🪙" },
+            { t: "Friends + presence", d: "Search a username, send a request, and jump into whatever game your friends are playing — one click.", icon: "👥" },
+            { t: "Controller ready", d: "Full Xbox / generic gamepad support. Move, jump, look around, and toggle third-person zoom with the right stick.", icon: "🎯" },
             { t: "Username + password", d: "Make an account in seconds — no email required.", icon: "🔐" },
           ].map((f) => (
             <div key={f.t} className="rounded-2xl border border-border bg-card p-6 shadow-block">
@@ -91,6 +91,29 @@ function Landing() {
               <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* GAMES STRIP */}
+      <section className="border-t border-border bg-secondary/40 py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <h2 className="font-display text-4xl">Six games. One avatar.</h2>
+          <p className="mt-2 max-w-2xl text-muted-foreground">Hop between worlds and your fit comes with you.</p>
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {[
+              { t: "Natural Disaster", icon: "🌪️", bg: "linear-gradient(135deg,#f97316,#b91c1c)" },
+              { t: "Rivals Arena", icon: "🎯", bg: "linear-gradient(135deg,#1e40af,#06b6d4)" },
+              { t: "Steal Brainrot", icon: "🧠", bg: "linear-gradient(135deg,#a21caf,#ec4899)" },
+              { t: "Grow Garden", icon: "🌱", bg: "linear-gradient(135deg,#166534,#84cc16)" },
+              { t: "Tower of Hell", icon: "🗼", bg: "linear-gradient(135deg,#4c1d95,#7c3aed)" },
+              { t: "Speed Run", icon: "🏃", bg: "linear-gradient(135deg,#0c4a6e,#06b6d4)" },
+            ].map((g) => (
+              <div key={g.t} className="rounded-xl border border-border p-4 text-center shadow-block" style={{ background: g.bg }}>
+                <div className="text-4xl drop-shadow">{g.icon}</div>
+                <div className="mt-2 text-sm font-bold text-white">{g.t}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
