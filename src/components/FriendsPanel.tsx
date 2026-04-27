@@ -18,6 +18,7 @@ export function FriendsPanel({ compact = false }: { compact?: boolean }) {
   const { user, profile } = useAuth();
   const [rows, setRows] = useState<Friendship[]>([]);
   const [presence, setPresence] = useState<{ user_id: string; location: string }[]>([]);
+  const [usernames, setUsernames] = useState<Record<string, string>>({});
   const [search, setSearch] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -40,6 +41,30 @@ export function FriendsPanel({ compact = false }: { compact?: boolean }) {
     return () => { mounted = false; void supabase.removeChannel(ch); };
   }, [user]);
 
+  // Resolve real usernames for the OTHER party of each friendship row.
+  // The stored `friend_username` is the target at insert-time, which is wrong
+  // for incoming rows (where the other user is `user_id`, not `friend_id`).
+  useEffect(() => {
+    if (!user || rows.length === 0) return;
+    const otherIds = Array.from(new Set(rows.map((r) => (r.user_id === user.id ? r.friend_id : r.user_id))));
+    const missing = otherIds.filter((id) => !usernames[id]);
+    if (missing.length === 0) return;
+    let mounted = true;
+    void supabase
+      .from("profiles")
+      .select("id, username")
+      .in("id", missing)
+      .then(({ data }) => {
+        if (!mounted || !data) return;
+        setUsernames((prev) => {
+          const next = { ...prev };
+          for (const p of data as { id: string; username: string }[]) next[p.id] = p.username;
+          return next;
+        });
+      });
+    return () => { mounted = false; };
+  }, [user, rows, usernames]);
+
   // Load presence
   useEffect(() => {
     let mounted = true;
@@ -60,7 +85,9 @@ export function FriendsPanel({ compact = false }: { compact?: boolean }) {
     return () => { mounted = false; clearInterval(t); void supabase.removeChannel(ch); };
   }, []);
 
-  const friends = user ? buildFriendsList(user.id, rows, presence) : [];
+  // Build list and override usernames with the freshly-resolved ones from profiles
+  const baseFriends = user ? buildFriendsList(user.id, rows, presence) : [];
+  const friends = baseFriends.map((f) => ({ ...f, username: usernames[f.friend_id] ?? f.username }));
   const incoming = friends.filter((f) => f.status === "pending_incoming");
   const outgoing = friends.filter((f) => f.status === "pending_outgoing");
   const accepted = friends.filter((f) => f.status === "accepted");
