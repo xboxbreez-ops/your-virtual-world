@@ -80,6 +80,24 @@ function Hat({ kind }: { kind: string }) {
         <mesh position={[0, 0, 0.55]}><boxGeometry args={[0.9, 0.05, 0.35]} /><meshStandardMaterial color="#dc2626" /></mesh>
       </group>
     );
+  if (kind === "beanie")
+    return (
+      <group position={[0, 0.5, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.32, 0.92]} /><meshStandardMaterial color="#0e7490" /></mesh>
+        <mesh position={[0, 0.22, 0]} castShadow><sphereGeometry args={[0.1, 8, 8]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
+  if (kind === "headphones")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh position={[0, 0.1, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+          <torusGeometry args={[0.45, 0.06, 8, 16, Math.PI]} />
+          <meshStandardMaterial color="#111" />
+        </mesh>
+        <mesh position={[-0.46, -0.05, 0]} castShadow><boxGeometry args={[0.16, 0.28, 0.28]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0.46, -0.05, 0]} castShadow><boxGeometry args={[0.16, 0.28, 0.28]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
   if (kind === "crown")
     return (
       <group position={[0, 0.55, 0]}>
@@ -89,6 +107,19 @@ function Hat({ kind }: { kind: string }) {
         ))}
       </group>
     );
+  if (kind === "fire")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[0.9, 0.18, 0.9]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {[-0.3, 0, 0.3].map((x, i) => (
+          <mesh key={x} position={[x, 0.35 + (i === 1 ? 0.1 : 0), 0]} castShadow>
+            <coneGeometry args={[0.16, 0.55, 6]} />
+            <meshStandardMaterial color="#f97316" emissive="#f97316" emissiveIntensity={1.2} />
+          </mesh>
+        ))}
+        <pointLight color="#f97316" intensity={1.5} distance={3} position={[0, 0.4, 0]} />
+      </group>
+    );
   if (kind === "tophat")
     return (
       <group position={[0, 0.55, 0]}>
@@ -96,11 +127,45 @@ function Hat({ kind }: { kind: string }) {
         <mesh position={[0, 0.4, 0]}><boxGeometry args={[0.7, 0.7, 0.7]} /><meshStandardMaterial color="#111" /></mesh>
       </group>
     );
+  if (kind === "cowboy")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[1.4, 0.06, 1.2]} /><meshStandardMaterial color="#78350f" /></mesh>
+        <mesh position={[0, 0.25, 0]} castShadow><boxGeometry args={[0.7, 0.5, 0.7]} /><meshStandardMaterial color="#78350f" /></mesh>
+        <mesh position={[0, 0.5, 0]} rotation={[0.15, 0, 0]} castShadow><boxGeometry args={[0.72, 0.04, 0.72]} /><meshStandardMaterial color="#78350f" /></mesh>
+      </group>
+    );
+  if (kind === "wizard")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[1.0, 0.08, 1.0]} /><meshStandardMaterial color="#1e3a8a" /></mesh>
+        <mesh position={[0, 0.55, 0]} castShadow>
+          <coneGeometry args={[0.45, 1.1, 6]} />
+          <meshStandardMaterial color="#1e3a8a" />
+        </mesh>
+        <mesh position={[0, 1.05, 0]} castShadow>
+          <sphereGeometry args={[0.1, 8, 8]} />
+          <meshStandardMaterial color="#fde047" emissive="#fde047" emissiveIntensity={0.8} />
+        </mesh>
+      </group>
+    );
   if (kind === "horns")
     return (
       <group position={[0, 0.55, 0]}>
         <mesh position={[-0.25, 0.15, 0]} rotation={[0, 0, -0.3]}><coneGeometry args={[0.12, 0.4, 4]} /><meshStandardMaterial color="#7c2d12" /></mesh>
         <mesh position={[0.25, 0.15, 0]} rotation={[0, 0, 0.3]}><coneGeometry args={[0.12, 0.4, 4]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+      </group>
+    );
+  if (kind === "antlers")
+    return (
+      <group position={[0, 0.55, 0]}>
+        {[-1, 1].map((s) => (
+          <group key={s} position={[s * 0.25, 0.1, 0]} rotation={[0, 0, s * 0.2]}>
+            <mesh castShadow><boxGeometry args={[0.06, 0.5, 0.06]} /><meshStandardMaterial color="#a16207" /></mesh>
+            <mesh position={[s * 0.18, 0.18, 0]} rotation={[0, 0, s * 0.6]} castShadow><boxGeometry args={[0.06, 0.3, 0.06]} /><meshStandardMaterial color="#a16207" /></mesh>
+            <mesh position={[s * -0.05, 0.3, 0]} rotation={[0, 0, s * -0.4]} castShadow><boxGeometry args={[0.06, 0.28, 0.06]} /><meshStandardMaterial color="#a16207" /></mesh>
+          </group>
+        ))}
       </group>
     );
   if (kind === "halo")
