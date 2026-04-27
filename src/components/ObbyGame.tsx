@@ -172,6 +172,29 @@ function PlayerController({
   return null;
 }
 
+/** Bridges Refs.player into the shape SelfAvatar expects. */
+function SelfAvatarBridge({
+  refs,
+  input,
+  config,
+}: {
+  refs: RefObject<Refs>;
+  input: RefObject<{ zoomOut: boolean }>;
+  config: import("@/lib/auth-context").AvatarConfig;
+}) {
+  const posRef = useRef<{ pos: THREE.Vector3; yaw: number }>({
+    pos: refs.current?.player.pos ?? new THREE.Vector3(),
+    yaw: 0,
+  });
+  useFrame(() => {
+    const p = refs.current?.player;
+    if (!p) return;
+    posRef.current.pos = p.pos;
+    posRef.current.yaw = p.yaw;
+  });
+  return <SelfAvatar posRef={posRef} inputRef={input} config={config} />;
+}
+
 export function ObbyGame({
   game,
   title,
