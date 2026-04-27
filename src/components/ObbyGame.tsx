@@ -287,7 +287,7 @@ export function ObbyGame({
               onFinish={onFinish}
               onDeath={onDeath}
             />
-            <SelfAvatar posRef={refs.current.player} inputRef={input} config={avatar} />
+            <SelfAvatarBridge refs={refs} input={input} config={avatar} />
           </Canvas>
 
           <SettingsPanel />
