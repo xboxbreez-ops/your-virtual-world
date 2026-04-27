@@ -194,11 +194,16 @@ function LobbyPage() {
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-4 shadow-block">
+            <h3 className="mb-3 font-display text-lg">Friends</h3>
+            <FriendsPanel compact />
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card p-4 shadow-block">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-display text-lg">Online now</h3>
               <span className="rounded-full bg-success/20 px-2 py-0.5 text-xs font-bold text-success">{players.length}</span>
             </div>
-            <ul className="max-h-72 space-y-2 overflow-y-auto pr-1">
+            <ul className="max-h-60 space-y-2 overflow-y-auto pr-1">
               {players.length === 0 && (
                 <li className="flex items-center gap-2 text-sm text-muted-foreground"><Cloud className="h-4 w-4" /> Just you for now.</li>
               )}
