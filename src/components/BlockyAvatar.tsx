@@ -232,6 +232,59 @@ function Hair({ kind }: { kind: string }) {
         </mesh>
       </group>
     );
+  if (kind === "side")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.88, 0.22, 0.88]} /><meshStandardMaterial color="#3b2f1d" /></mesh>
+        <mesh position={[-0.3, 0.05, 0.3]} rotation={[0, 0, 0.4]} castShadow><boxGeometry args={[0.2, 0.18, 0.4]} /><meshStandardMaterial color="#3b2f1d" /></mesh>
+      </group>
+    );
+  if (kind === "pigtails")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.86, 0.22, 0.86]} /><meshStandardMaterial color="#7c4a1e" /></mesh>
+        {[-1, 1].map((s) => (
+          <mesh key={s} position={[s * 0.55, -0.2, 0]} castShadow>
+            <boxGeometry args={[0.18, 0.6, 0.18]} />
+            <meshStandardMaterial color="#7c4a1e" />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "spikes")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.1, 0.85]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        {[
+          [-0.25, -0.25], [0.25, -0.25], [0, 0], [-0.25, 0.25], [0.25, 0.25],
+        ].map(([x, z], i) => (
+          <mesh key={i} position={[x, 0.25, z]} castShadow>
+            <coneGeometry args={[0.12, 0.4, 4]} />
+            <meshStandardMaterial color="#1c1917" />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "long")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.3, 0.92]} /><meshStandardMaterial color="#a16207" /></mesh>
+        <mesh position={[0, -0.7, -0.4]} castShadow><boxGeometry args={[0.85, 1.4, 0.18]} /><meshStandardMaterial color="#a16207" /></mesh>
+      </group>
+    );
+  if (kind === "fire")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.1, 0.85]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+        {[-0.25, 0, 0.25].map((x, i) => (
+          <mesh key={x} position={[x, 0.35 + (i === 1 ? 0.15 : 0), 0]} castShadow>
+            <coneGeometry args={[0.18, 0.65, 6]} />
+            <meshStandardMaterial color="#f97316" emissive="#f97316" emissiveIntensity={1.4} />
+          </mesh>
+        ))}
+        <pointLight color="#fb923c" intensity={1.2} distance={3} position={[0, 0.4, 0]} />
+      </group>
+    );
   return null;
 }
 
