@@ -329,6 +329,49 @@ function Shoe({ kind, color }: { kind: string; color?: string }) {
         </mesh>
       </group>
     );
+  if (kind === "crocs")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.55, 0.18, 0.7]} /><meshStandardMaterial color="#84cc16" /></mesh>
+        <mesh position={[0, 0.06, 0]} castShadow><boxGeometry args={[0.5, 0.1, 0.5]} /><meshStandardMaterial color="#65a30d" /></mesh>
+      </group>
+    );
+  if (kind === "cleats")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.5, 0.2, 0.62]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0, 0.08, 0]} castShadow><boxGeometry args={[0.46, 0.06, 0.58]} /><meshStandardMaterial color="#16a34a" /></mesh>
+        {[[-0.15, 0.18], [0.15, 0.18], [-0.15, -0.18], [0.15, -0.18]].map(([x, z], i) => (
+          <mesh key={i} position={[x, -0.14, z]} castShadow><boxGeometry args={[0.06, 0.08, 0.06]} /><meshStandardMaterial color="#111" /></mesh>
+        ))}
+      </group>
+    );
+  if (kind === "platforms")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.55, 0.45, 0.65]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 0.28, 0]} castShadow><boxGeometry args={[0.5, 0.18, 0.6]} /><meshStandardMaterial color="#7c3aed" /></mesh>
+      </group>
+    );
+  if (kind === "neonkicks")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.52, 0.24, 0.64]} />
+          <meshStandardMaterial color="#0ea5e9" emissive="#0ea5e9" emissiveIntensity={0.9} />
+        </mesh>
+        <mesh position={[0, -0.14, 0]} castShadow><boxGeometry args={[0.54, 0.06, 0.66]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
+  if (kind === "goldenkicks")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.52, 0.24, 0.64]} />
+          <meshStandardMaterial color="#fbbf24" metalness={0.9} roughness={0.2} emissive="#fbbf24" emissiveIntensity={0.4} />
+        </mesh>
+      </group>
+    );
   // sneakers (default)
   return (
     <mesh castShadow>
