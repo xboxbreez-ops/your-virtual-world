@@ -432,6 +432,60 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
         <meshStandardMaterial color="#7f1d1d" side={2} />
       </mesh>
     );
+  if (kind === "vest")
+    return (
+      <group>
+        {/* Open-front vest: two side panels around the torso */}
+        <mesh position={[-0.55, 1.7, 0]} castShadow><boxGeometry args={[0.3, 1.2, 0.74]} /><meshStandardMaterial color="#1f2937" /></mesh>
+        <mesh position={[0.55, 1.7, 0]} castShadow><boxGeometry args={[0.3, 1.2, 0.74]} /><meshStandardMaterial color="#1f2937" /></mesh>
+        <mesh position={[0, 1.7, -0.32]} castShadow><boxGeometry args={[1.32, 1.2, 0.1]} /><meshStandardMaterial color="#1f2937" /></mesh>
+      </group>
+    );
+  if (kind === "denim")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.34, 1.3, 0.72]} /><meshStandardMaterial color="#1e40af" roughness={0.85} /></mesh>
+        {/* lighter chest pockets */}
+        <mesh position={[-0.3, 1.85, 0.37]} castShadow><boxGeometry args={[0.3, 0.3, 0.04]} /><meshStandardMaterial color="#3b82f6" /></mesh>
+        <mesh position={[0.3, 1.85, 0.37]} castShadow><boxGeometry args={[0.3, 0.3, 0.04]} /><meshStandardMaterial color="#3b82f6" /></mesh>
+      </group>
+    );
+  if (kind === "trench")
+    return (
+      <group>
+        <mesh position={[0, 1.4, 0]} castShadow><boxGeometry args={[1.36, 2.0, 0.74]} /><meshStandardMaterial color="#78350f" /></mesh>
+        {/* belt */}
+        <mesh position={[0, 1.5, 0.38]} castShadow><boxGeometry args={[1.4, 0.12, 0.04]} /><meshStandardMaterial color="#3f1d12" /></mesh>
+        {/* collar pop */}
+        <mesh position={[-0.32, 2.42, 0.28]} rotation={[0, 0, -0.4]} castShadow><boxGeometry args={[0.3, 0.3, 0.05]} /><meshStandardMaterial color="#78350f" /></mesh>
+        <mesh position={[0.32, 2.42, 0.28]} rotation={[0, 0, 0.4]} castShadow><boxGeometry args={[0.3, 0.3, 0.05]} /><meshStandardMaterial color="#78350f" /></mesh>
+      </group>
+    );
+  if (kind === "armor")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow>
+          <boxGeometry args={[1.4, 1.4, 0.78]} />
+          <meshStandardMaterial color="#9ca3af" metalness={0.95} roughness={0.2} />
+        </mesh>
+        {/* shoulder pauldrons */}
+        <mesh position={[-0.78, 2.2, 0]} castShadow><boxGeometry args={[0.42, 0.4, 0.5]} /><meshStandardMaterial color="#6b7280" metalness={0.95} roughness={0.2} /></mesh>
+        <mesh position={[0.78, 2.2, 0]} castShadow><boxGeometry args={[0.42, 0.4, 0.5]} /><meshStandardMaterial color="#6b7280" metalness={0.95} roughness={0.2} /></mesh>
+        {/* chest emblem */}
+        <mesh position={[0, 1.85, 0.4]} castShadow><boxGeometry args={[0.35, 0.35, 0.04]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+      </group>
+    );
+  if (kind === "wings")
+    return (
+      <group position={[0, 2.0, -0.3]}>
+        {[-1, 1].map((s) => (
+          <group key={s} position={[s * 0.7, 0, 0]} rotation={[0, s * 0.4, s * 0.2]}>
+            <mesh castShadow><boxGeometry args={[0.9, 1.4, 0.06]} /><meshStandardMaterial color="#fafafa" emissive="#fafafa" emissiveIntensity={0.2} /></mesh>
+            <mesh position={[s * 0.4, -0.3, 0.01]} castShadow><boxGeometry args={[0.5, 0.7, 0.06]} /><meshStandardMaterial color="#fafafa" /></mesh>
+          </group>
+        ))}
+      </group>
+    );
   return null;
 }
 
