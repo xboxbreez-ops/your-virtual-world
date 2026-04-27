@@ -24,6 +24,25 @@ function Face({ kind }: { kind: string }) {
         </>
       ) : kind === "cool" ? (
         <mesh position={[0, eyeY, 0]}><planeGeometry args={[0.55, 0.13]} /><meshBasicMaterial color="#111" /></mesh>
+      ) : kind === "kawaii" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.16]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.16]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[-0.22, eyeY + 0.04, 0.001]}><planeGeometry args={[0.04, 0.04]} /><meshBasicMaterial color="#fff" /></mesh>
+          <mesh position={[0.14, eyeY + 0.04, 0.001]}><planeGeometry args={[0.04, 0.04]} /><meshBasicMaterial color="#fff" /></mesh>
+          <mesh position={[-0.22, -0.05, 0]}><planeGeometry args={[0.08, 0.04]} /><meshBasicMaterial color="#fb7185" /></mesh>
+          <mesh position={[0.22, -0.05, 0]}><planeGeometry args={[0.08, 0.04]} /><meshBasicMaterial color="#fb7185" /></mesh>
+        </>
+      ) : kind === "evil" ? (
+        <>
+          <mesh position={[-0.18, eyeY + 0.02, 0]} rotation={[0, 0, -0.4]}><planeGeometry args={[0.16, 0.06]} /><meshBasicMaterial color="#dc2626" /></mesh>
+          <mesh position={[0.18, eyeY + 0.02, 0]} rotation={[0, 0, 0.4]}><planeGeometry args={[0.16, 0.06]} /><meshBasicMaterial color="#dc2626" /></mesh>
+        </>
+      ) : kind === "robot" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#22d3ee" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#22d3ee" /></mesh>
+        </>
       ) : (
         <>
           <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
@@ -35,6 +54,16 @@ function Face({ kind }: { kind: string }) {
         <mesh position={[0, mouthY, 0]} rotation={[0, 0, Math.PI]}><planeGeometry args={[0.3, 0.05]} /><meshBasicMaterial color="#111" /></mesh>
       ) : kind === "happy" ? (
         <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.4, 0.12]} /><meshBasicMaterial color="#111" /></mesh>
+      ) : kind === "kawaii" ? (
+        <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.12, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+      ) : kind === "evil" ? (
+        <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.45, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
+      ) : kind === "robot" ? (
+        <>
+          <mesh position={[-0.15, mouthY, 0]}><planeGeometry args={[0.08, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.08, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.15, mouthY, 0]}><planeGeometry args={[0.08, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+        </>
       ) : (
         <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.3, 0.05]} /><meshBasicMaterial color="#111" /></mesh>
       )}
