@@ -15,6 +15,8 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayStealBrainrotRouteImport } from './routes/play.steal-brainrot'
 import { Route as PlayRivalsRouteImport } from './routes/play.rivals'
+import { Route as PlayObbyTowerRouteImport } from './routes/play.obby-tower'
+import { Route as PlayObbySpeedRouteImport } from './routes/play.obby-speed'
 import { Route as PlayNaturalDisasterRouteImport } from './routes/play.natural-disaster'
 import { Route as PlayGrowGardenRouteImport } from './routes/play.grow-garden'
 
@@ -48,6 +50,16 @@ const PlayRivalsRoute = PlayRivalsRouteImport.update({
   path: '/play/rivals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayObbyTowerRoute = PlayObbyTowerRouteImport.update({
+  id: '/play/obby-tower',
+  path: '/play/obby-tower',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayObbySpeedRoute = PlayObbySpeedRouteImport.update({
+  id: '/play/obby-speed',
+  path: '/play/obby-speed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayNaturalDisasterRoute = PlayNaturalDisasterRouteImport.update({
   id: '/play/natural-disaster',
   path: '/play/natural-disaster',
@@ -66,6 +78,8 @@ export interface FileRoutesByFullPath {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-speed': typeof PlayObbySpeedRoute
+  '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -76,6 +90,8 @@ export interface FileRoutesByTo {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-speed': typeof PlayObbySpeedRoute
+  '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -87,6 +103,8 @@ export interface FileRoutesById {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-speed': typeof PlayObbySpeedRoute
+  '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -99,6 +117,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-speed'
+    | '/play/obby-tower'
     | '/play/rivals'
     | '/play/steal-brainrot'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +129,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-speed'
+    | '/play/obby-tower'
     | '/play/rivals'
     | '/play/steal-brainrot'
   id:
@@ -119,6 +141,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-speed'
+    | '/play/obby-tower'
     | '/play/rivals'
     | '/play/steal-brainrot'
   fileRoutesById: FileRoutesById
@@ -130,6 +154,8 @@ export interface RootRouteChildren {
   LobbyRoute: typeof LobbyRoute
   PlayGrowGardenRoute: typeof PlayGrowGardenRoute
   PlayNaturalDisasterRoute: typeof PlayNaturalDisasterRoute
+  PlayObbySpeedRoute: typeof PlayObbySpeedRoute
+  PlayObbyTowerRoute: typeof PlayObbyTowerRoute
   PlayRivalsRoute: typeof PlayRivalsRoute
   PlayStealBrainrotRoute: typeof PlayStealBrainrotRoute
 }
@@ -178,6 +204,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayRivalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/obby-tower': {
+      id: '/play/obby-tower'
+      path: '/play/obby-tower'
+      fullPath: '/play/obby-tower'
+      preLoaderRoute: typeof PlayObbyTowerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/obby-speed': {
+      id: '/play/obby-speed'
+      path: '/play/obby-speed'
+      fullPath: '/play/obby-speed'
+      preLoaderRoute: typeof PlayObbySpeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/natural-disaster': {
       id: '/play/natural-disaster'
       path: '/play/natural-disaster'
@@ -202,6 +242,8 @@ const rootRouteChildren: RootRouteChildren = {
   LobbyRoute: LobbyRoute,
   PlayGrowGardenRoute: PlayGrowGardenRoute,
   PlayNaturalDisasterRoute: PlayNaturalDisasterRoute,
+  PlayObbySpeedRoute: PlayObbySpeedRoute,
+  PlayObbyTowerRoute: PlayObbyTowerRoute,
   PlayRivalsRoute: PlayRivalsRoute,
   PlayStealBrainrotRoute: PlayStealBrainrotRoute,
 }
