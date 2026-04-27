@@ -90,6 +90,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => sub.subscription.unsubscribe();
   }, []);
 
+  // Global presence heartbeat — keeps user "online" everywhere (homepage, avatar editor, etc.).
+  // Game routes overwrite `location` with their own value while mounted.
+  useEffect(() => {
+    if (!user || !profile) return;
+    let cancelled = false;
+    const beat = async () => {
+      if (cancelled) return;
+      // Use a lightweight default location; game routes will override with their own.
+      const path = typeof window !== "undefined" ? window.location.pathname : "/";
+      let loc = "lobby";
+      if (path.startsWith("/play/")) loc = path.replace("/play/", "");
+      else if (path === "/avatar") loc = "avatar";
+      else if (path === "/") loc = "home";
+      await supabase.from("presence").upsert({
+        user_id: user.id,
+        username: profile.username,
+        location: loc,
+        last_seen: new Date().toISOString(),
+      });
+    };
+    void beat();
+    const t = setInterval(beat, 20_000);
+    return () => { cancelled = true; clearInterval(t); };
+  }, [user, profile]);
+
   const signUp = async (username: string, password: string) => {
     const { error } = await supabase.auth.signUp({
       email: usernameToEmail(username),
