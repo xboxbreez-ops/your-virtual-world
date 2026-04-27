@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
+import { FriendsPanel } from "@/components/FriendsPanel";
 import { Users, Play, Lock, Cloud } from "lucide-react";
 
 export const Route = createFileRoute("/lobby")({
