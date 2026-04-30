@@ -118,4 +118,6 @@ export const LOCATION_TO_ROUTE: Record<string, string> = {
   "grow-garden": "/play/grow-garden",
   "obby-tower": "/play/obby-tower",
   "obby-speed": "/play/obby-speed",
+  "obby-lava": "/play/obby-lava",
+  "obby-ice": "/play/obby-ice",
 };

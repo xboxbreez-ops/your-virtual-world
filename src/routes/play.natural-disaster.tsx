@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,10 +9,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
+import { SelfAvatar } from "@/components/SelfAvatar";
+import { RemotePlayers } from "@/components/RemotePlayers";
+import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, insideFootprint, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
-import { Heart, Timer, Coins, Gamepad2, Keyboard } from "lucide-react";
+import { Heart, Timer, Coins, Gamepad2, Keyboard, Users } from "lucide-react";
 
 export const Route = createFileRoute("/play/natural-disaster")({
   head: () => ({
@@ -357,6 +360,21 @@ function GamePage() {
   const [disaster, setDisaster] = useState<Disaster>("calm");
   const [bux, setBux] = useState(0);
 
+  const getSelfState = useCallback(() => {
+    const p = refs.current.player;
+    return {
+      px: p.pos.x, py: p.pos.y, pz: p.pos.z, yaw: p.yaw,
+      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      hp: p.hp,
+    };
+  }, []);
+  const { playersRef, version } = useRoomPlayers({
+    game: "natural-disaster",
+    selfUserId: user?.id ?? null,
+    selfUsername: profile?.username ?? null,
+    getSelfState,
+  });
+
   useEffect(() => { if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } }); }, [user, loading, navigate]);
 
   useEffect(() => {
@@ -416,12 +434,14 @@ function GamePage() {
             <Bots refs={refs} />
             <PlayerController refs={refs} input={input} hudUpdate={(h, a) => { setHp(h); setAlive(a); }} gameOver={onGameOver} />
             <WorldController refs={refs} onTimerTick={(tt, d) => { setT(tt); if (d !== disaster) setDisaster(d); }} />
+            <SelfAvatar posRef={{ current: refs.current.player }} inputRef={input} config={avatar} />
+            <RemotePlayers playersRef={playersRef} version={version} />
           </Canvas>
 
           <SettingsPanel />
 
           <div className="pointer-events-none absolute inset-0 p-4">
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-2">
               <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
                   <Heart className="h-3.5 w-3.5 text-red-400" /> HP
@@ -430,6 +450,12 @@ function GamePage() {
                   <div className="h-full bg-red-500 transition-all" style={{ width: `${hp}%` }} />
                 </div>
                 <div className="mt-1 text-sm font-bold text-white">{Math.ceil(hp)} / 100</div>
+              </div>
+              <div className="rounded-xl bg-black/55 px-3 py-3 backdrop-blur">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
+                  <Users className="h-3.5 w-3.5" /> Live
+                </div>
+                <div className="font-display text-2xl text-white">{1 + (playersRef.current?.size ?? 0)}</div>
               </div>
               <div className={`rounded-xl px-4 py-3 backdrop-blur ${disasterColor[disaster]}`}>
                 <div className="text-xs uppercase tracking-wider opacity-80">Now</div>

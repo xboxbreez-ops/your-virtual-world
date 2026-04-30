@@ -76,6 +76,24 @@ const GAMES = [
     playable: true,
     route: "/play/obby-speed" as const,
   },
+  {
+    id: "obby-lava",
+    title: "Lava Escape",
+    blurb: "Hop pulsing pistons and weave fire walls in a fiery dungeon. One slip and you're toast.",
+    bg: "linear-gradient(135deg, #7f1d1d, #f97316)",
+    icon: "🔥",
+    playable: true,
+    route: "/play/obby-lava" as const,
+  },
+  {
+    id: "obby-ice",
+    title: "Ice Slide",
+    blurb: "Drift across frozen plates while icicles fall from the sky. Slippery and beautiful.",
+    bg: "linear-gradient(135deg, #0c4a6e, #bae6fd)",
+    icon: "❄️",
+    playable: true,
+    route: "/play/obby-ice" as const,
+  },
 ];
 
 function LobbyPage() {

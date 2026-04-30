@@ -17,6 +17,8 @@ import { Route as PlayStealBrainrotRouteImport } from './routes/play.steal-brain
 import { Route as PlayRivalsRouteImport } from './routes/play.rivals'
 import { Route as PlayObbyTowerRouteImport } from './routes/play.obby-tower'
 import { Route as PlayObbySpeedRouteImport } from './routes/play.obby-speed'
+import { Route as PlayObbyLavaRouteImport } from './routes/play.obby-lava'
+import { Route as PlayObbyIceRouteImport } from './routes/play.obby-ice'
 import { Route as PlayNaturalDisasterRouteImport } from './routes/play.natural-disaster'
 import { Route as PlayGrowGardenRouteImport } from './routes/play.grow-garden'
 
@@ -60,6 +62,16 @@ const PlayObbySpeedRoute = PlayObbySpeedRouteImport.update({
   path: '/play/obby-speed',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayObbyLavaRoute = PlayObbyLavaRouteImport.update({
+  id: '/play/obby-lava',
+  path: '/play/obby-lava',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayObbyIceRoute = PlayObbyIceRouteImport.update({
+  id: '/play/obby-ice',
+  path: '/play/obby-ice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayNaturalDisasterRoute = PlayNaturalDisasterRouteImport.update({
   id: '/play/natural-disaster',
   path: '/play/natural-disaster',
@@ -78,6 +90,8 @@ export interface FileRoutesByFullPath {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-ice': typeof PlayObbyIceRoute
+  '/play/obby-lava': typeof PlayObbyLavaRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
@@ -90,6 +104,8 @@ export interface FileRoutesByTo {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-ice': typeof PlayObbyIceRoute
+  '/play/obby-lava': typeof PlayObbyLavaRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
@@ -103,6 +119,8 @@ export interface FileRoutesById {
   '/lobby': typeof LobbyRoute
   '/play/grow-garden': typeof PlayGrowGardenRoute
   '/play/natural-disaster': typeof PlayNaturalDisasterRoute
+  '/play/obby-ice': typeof PlayObbyIceRoute
+  '/play/obby-lava': typeof PlayObbyLavaRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/rivals': typeof PlayRivalsRoute
@@ -117,6 +135,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-ice'
+    | '/play/obby-lava'
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/rivals'
@@ -129,6 +149,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-ice'
+    | '/play/obby-lava'
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/rivals'
@@ -141,6 +163,8 @@ export interface FileRouteTypes {
     | '/lobby'
     | '/play/grow-garden'
     | '/play/natural-disaster'
+    | '/play/obby-ice'
+    | '/play/obby-lava'
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/rivals'
@@ -154,6 +178,8 @@ export interface RootRouteChildren {
   LobbyRoute: typeof LobbyRoute
   PlayGrowGardenRoute: typeof PlayGrowGardenRoute
   PlayNaturalDisasterRoute: typeof PlayNaturalDisasterRoute
+  PlayObbyIceRoute: typeof PlayObbyIceRoute
+  PlayObbyLavaRoute: typeof PlayObbyLavaRoute
   PlayObbySpeedRoute: typeof PlayObbySpeedRoute
   PlayObbyTowerRoute: typeof PlayObbyTowerRoute
   PlayRivalsRoute: typeof PlayRivalsRoute
@@ -218,6 +244,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayObbySpeedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/obby-lava': {
+      id: '/play/obby-lava'
+      path: '/play/obby-lava'
+      fullPath: '/play/obby-lava'
+      preLoaderRoute: typeof PlayObbyLavaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/obby-ice': {
+      id: '/play/obby-ice'
+      path: '/play/obby-ice'
+      fullPath: '/play/obby-ice'
+      preLoaderRoute: typeof PlayObbyIceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/natural-disaster': {
       id: '/play/natural-disaster'
       path: '/play/natural-disaster'
@@ -242,6 +282,8 @@ const rootRouteChildren: RootRouteChildren = {
   LobbyRoute: LobbyRoute,
   PlayGrowGardenRoute: PlayGrowGardenRoute,
   PlayNaturalDisasterRoute: PlayNaturalDisasterRoute,
+  PlayObbyIceRoute: PlayObbyIceRoute,
+  PlayObbyLavaRoute: PlayObbyLavaRoute,
   PlayObbySpeedRoute: PlayObbySpeedRoute,
   PlayObbyTowerRoute: PlayObbyTowerRoute,
   PlayRivalsRoute: PlayRivalsRoute,

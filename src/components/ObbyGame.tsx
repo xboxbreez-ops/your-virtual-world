@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,10 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
+import { RemotePlayers } from "@/components/RemotePlayers";
+import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
 import { type Platform, platformGround, platformWorldPos } from "@/lib/obby";
-import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw } from "lucide-react";
+import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users } from "lucide-react";
 
 type Refs = {
   player: { pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; pitch: number; onGround: boolean };
@@ -224,6 +226,22 @@ export function ObbyGame({
   const [finished, setFinished] = useState(false);
   const [reward, setReward] = useState(0);
 
+  const getSelfState = useCallback(() => {
+    const p = refs.current.player;
+    return {
+      px: p.pos.x, py: p.pos.y, pz: p.pos.z,
+      yaw: p.yaw,
+      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      hp: 100,
+    };
+  }, []);
+  const { playersRef, version } = useRoomPlayers({
+    game,
+    selfUserId: user?.id ?? null,
+    selfUsername: profile?.username ?? null,
+    getSelfState,
+  });
+
   useEffect(() => {
     if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } });
   }, [user, loading, navigate]);
@@ -311,17 +329,24 @@ export function ObbyGame({
               onDeath={onDeath}
             />
             <SelfAvatarBridge refs={refs} input={input} config={avatar} />
+            <RemotePlayers playersRef={playersRef} version={version} />
           </Canvas>
 
           <SettingsPanel />
 
           <div className="pointer-events-none absolute inset-0 p-4">
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-2">
               <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
                   <Timer className="h-3.5 w-3.5" /> Time
                 </div>
                 <div className="font-display text-2xl text-white">{elapsed.toFixed(1)}s</div>
+              </div>
+              <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
+                  <Users className="h-3.5 w-3.5" /> Live
+                </div>
+                <div className="font-display text-2xl text-white">{1 + (playersRef.current?.size ?? 0)}</div>
               </div>
               <div className="rounded-xl bg-black/55 px-4 py-3 text-right backdrop-blur">
                 <div className="text-xs uppercase tracking-wider text-white/70">Deaths</div>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,10 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
+import { RemotePlayers } from "@/components/RemotePlayers";
+import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
-import { Coins, Brain, Gamepad2, Keyboard, Timer } from "lucide-react";
+import { Coins, Brain, Gamepad2, Keyboard, Timer, Users } from "lucide-react";
 
 export const Route = createFileRoute("/play/steal-brainrot")({
   head: () => ({
@@ -403,6 +405,21 @@ function BrainrotPage() {
   const [bux, setBux] = useState(0);
   const [timeLeft, setTimeLeft] = useState(MATCH_LEN_SEC);
 
+  const getSelfState = useCallback(() => {
+    const p = refs.current.player;
+    return {
+      px: p.pos.x, py: p.pos.y, pz: p.pos.z, yaw: p.yaw,
+      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      hp: 100,
+    };
+  }, []);
+  const { playersRef, version } = useRoomPlayers({
+    game: "steal-brainrot",
+    selfUserId: user?.id ?? null,
+    selfUsername: profile?.username ?? null,
+    getSelfState,
+  });
+
   useEffect(() => { if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } }); }, [user, loading, navigate]);
 
   useEffect(() => {
@@ -467,6 +484,7 @@ function BrainrotPage() {
             <SelfAvatar posRef={{ current: refs.current.player }} inputRef={input} config={avatar} />
             <PlayerCtl refs={refs} input={input} onPurchase={() => setTick((t) => t + 1)} />
             <WorldCtl refs={refs} onTick={() => setTick((t) => t + 1)} />
+            <RemotePlayers playersRef={playersRef} version={version} />
           </Canvas>
 
           <SettingsPanel />
