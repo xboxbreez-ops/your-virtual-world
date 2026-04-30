@@ -329,17 +329,24 @@ export function ObbyGame({
               onDeath={onDeath}
             />
             <SelfAvatarBridge refs={refs} input={input} config={avatar} />
+            <RemotePlayers playersRef={playersRef} version={version} />
           </Canvas>
 
           <SettingsPanel />
 
           <div className="pointer-events-none absolute inset-0 p-4">
-            <div className="flex items-start justify-between">
+            <div className="flex items-start justify-between gap-2">
               <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
                   <Timer className="h-3.5 w-3.5" /> Time
                 </div>
                 <div className="font-display text-2xl text-white">{elapsed.toFixed(1)}s</div>
+              </div>
+              <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
+                <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
+                  <Users className="h-3.5 w-3.5" /> Live
+                </div>
+                <div className="font-display text-2xl text-white">{1 + (playersRef.current?.size ?? 0)}</div>
               </div>
               <div className="rounded-xl bg-black/55 px-4 py-3 text-right backdrop-blur">
                 <div className="text-xs uppercase tracking-wider text-white/70">Deaths</div>
