@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,6 +10,8 @@ import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
+import { RemotePlayers } from "@/components/RemotePlayers";
+import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
