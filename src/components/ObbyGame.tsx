@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Sky } from "@react-three/drei";
 import * as THREE from "three";
@@ -9,10 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
+import { RemotePlayers } from "@/components/RemotePlayers";
+import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
 import { type Platform, platformGround, platformWorldPos } from "@/lib/obby";
-import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw } from "lucide-react";
+import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users } from "lucide-react";
 
 type Refs = {
   player: { pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; pitch: number; onGround: boolean };
@@ -223,6 +225,22 @@ export function ObbyGame({
   const [deaths, setDeaths] = useState(0);
   const [finished, setFinished] = useState(false);
   const [reward, setReward] = useState(0);
+
+  const getSelfState = useCallback(() => {
+    const p = refs.current.player;
+    return {
+      px: p.pos.x, py: p.pos.y, pz: p.pos.z,
+      yaw: p.yaw,
+      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      hp: 100,
+    };
+  }, []);
+  const { playersRef, version } = useRoomPlayers({
+    game,
+    selfUserId: user?.id ?? null,
+    selfUsername: profile?.username ?? null,
+    getSelfState,
+  });
 
   useEffect(() => {
     if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } });
