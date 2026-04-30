@@ -160,6 +160,164 @@ export function buildTowerCourse(): Platform[] {
   return out;
 }
 
+/** Lava Escape — dim, fiery dungeon with shrinking platforms over a sea of lava */
+export function buildLavaCourse(): Platform[] {
+  const out: Platform[] = [];
+  // Massive lava floor (kills on contact)
+  out.push({ pos: [0, -0.6, -40], size: [60, 0.4, 120], color: "#dc2626", killer: true });
+
+  // Start pad
+  out.push({ pos: [0, 0, 0], size: [8, 0.5, 8], color: "#0e7490" });
+  out.push({ pos: [0, 0.4, 0], size: [3, 0.3, 3], color: "#22d3ee", checkpoint: true });
+
+  let z = -6;
+  const step = 4;
+
+  // Stepping stones
+  for (let i = 0; i < 7; i++) {
+    out.push({
+      pos: [Math.sin(i * 1.1) * 2.5, 0, z],
+      size: [1.8, 0.3, 1.8],
+      color: "#7c2d12",
+    });
+    z -= step;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Pulsing piston platforms (move up/down through lava)
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      pos: [(i % 2 === 0 ? 1.8 : -1.8), 0, z],
+      size: [1.6, 0.3, 1.6],
+      color: "#f97316",
+      moveY: { amp: 1.2, period: 1.6 + i * 0.25 },
+    });
+    z -= step - 0.5;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Fire walls (killer pillars to weave around)
+  for (let i = 0; i < 5; i++) {
+    out.push({ pos: [(i % 2 === 0 ? -1.8 : 1.8), 1.4, z - 1], size: [1.4, 3, 0.5], color: "#dc2626", killer: true });
+    out.push({ pos: [(i % 2 === 0 ? 1.5 : -1.5), 0, z], size: [1.6, 0.3, 1.6], color: "#7c2d12" });
+    z -= step;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Sliding bridge over lava
+  for (let i = 0; i < 5; i++) {
+    out.push({
+      pos: [0, 0, z],
+      size: [2, 0.3, 2],
+      color: "#facc15",
+      moveX: { amp: 4.5, period: 2 + i * 0.3 },
+    });
+    z -= step;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Final ascent — narrow steps climbing over a wall of fire
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      pos: [Math.cos(i * 0.7) * 2, i * 1.0, z - i * 1.5],
+      size: [1.6, 0.3, 1.6],
+      color: "#ec4899",
+    });
+  }
+
+  out.push({ pos: [0, 6.2, z - 11], size: [5, 0.5, 5], color: "#fde047", finish: true });
+  return out;
+}
+
+/** Ice Slide — slippery blue platforms drifting over an icy abyss */
+export function buildIceCourse(): Platform[] {
+  const out: Platform[] = [];
+  // Icy floor far below (death plane)
+  out.push({ pos: [0, -8, -40], size: [80, 0.4, 140], color: "#0c4a6e" });
+
+  // Start pad
+  out.push({ pos: [0, 0, 0], size: [8, 0.5, 8], color: "#0e7490" });
+  out.push({ pos: [0, 0.4, 0], size: [3, 0.3, 3], color: "#22d3ee", checkpoint: true });
+
+  let z = -6;
+  const step = 4.5;
+
+  // Wide drifting ice plates
+  for (let i = 0; i < 5; i++) {
+    out.push({
+      pos: [(i % 2 === 0 ? -1 : 1) * 1.5, 0, z],
+      size: [3.2, 0.3, 3.2],
+      color: "#bae6fd",
+      moveX: { amp: 2.5, period: 3 + i * 0.2 },
+    });
+    z -= step;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Falling icicle field — overhead killer spikes that bob downward
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      pos: [(i % 2 === 0 ? -1.5 : 1.5), 4, z],
+      size: [0.6, 1.6, 0.6],
+      color: "#dc2626",
+      killer: true,
+      moveY: { amp: 2.5, period: 1.4 + i * 0.15 },
+    });
+    out.push({ pos: [0, 0, z], size: [2.4, 0.3, 2.4], color: "#e0f2fe" });
+    z -= step - 0.5;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Spinning ring of small ice slabs (move on Z so timing matters)
+  for (let i = 0; i < 8; i++) {
+    out.push({
+      pos: [(i - 3.5) * 1.4, 0, z],
+      size: [1.2, 0.3, 1.2],
+      color: "#7dd3fc",
+      moveY: { amp: 0.5, period: 1.2 + (i % 3) * 0.4 },
+    });
+  }
+  z -= step + 1;
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Slippery slalom — narrow walks with killer crevasses between
+  for (let i = 0; i < 5; i++) {
+    out.push({ pos: [0, -0.2, z], size: [4, 0.3, 1], color: "#dc2626", killer: true });
+    out.push({ pos: [(i % 2 === 0 ? 1.6 : -1.6), 0, z + 0.5], size: [1.4, 0.3, 1.4], color: "#bae6fd" });
+    out.push({ pos: [(i % 2 === 0 ? -1.6 : 1.6), 0, z - 0.5], size: [1.4, 0.3, 1.4], color: "#bae6fd" });
+    z -= step;
+  }
+
+  out.push({ pos: [0, 0, z], size: [3.4, 0.4, 3.4], color: "#22d3ee", checkpoint: true });
+  z -= step;
+
+  // Final ascent — staircase of glowing crystals
+  for (let i = 0; i < 8; i++) {
+    out.push({
+      pos: [(i % 2 === 0 ? 1 : -1) * 0.8, i * 0.9, z - i * 1.3],
+      size: [1.8, 0.3, 1.8],
+      color: "#a5f3fc",
+    });
+  }
+
+  out.push({ pos: [0, 7.5, z - 12], size: [5, 0.5, 5], color: "#fde047", finish: true });
+  return out;
+}
+
 /** Speed Run — long horizontal sprint with gaps & moving platforms */
 export function buildSpeedCourse(): Platform[] {
   const out: Platform[] = [];
