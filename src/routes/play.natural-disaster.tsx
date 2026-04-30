@@ -360,6 +360,21 @@ function GamePage() {
   const [disaster, setDisaster] = useState<Disaster>("calm");
   const [bux, setBux] = useState(0);
 
+  const getSelfState = useCallback(() => {
+    const p = refs.current.player;
+    return {
+      px: p.pos.x, py: p.pos.y, pz: p.pos.z, yaw: p.yaw,
+      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      hp: p.hp,
+    };
+  }, []);
+  const { playersRef, version } = useRoomPlayers({
+    game: "natural-disaster",
+    selfUserId: user?.id ?? null,
+    selfUsername: profile?.username ?? null,
+    getSelfState,
+  });
+
   useEffect(() => { if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } }); }, [user, loading, navigate]);
 
   useEffect(() => {
