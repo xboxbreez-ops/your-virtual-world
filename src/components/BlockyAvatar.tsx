@@ -543,8 +543,72 @@ function Hair({ kind }: { kind: string }) {
       </group>
     );
   return null;
+}
+
+function Shoe({ kind, color }: { kind: string; color?: string }) {
   // Renders a single shoe centered at origin (caller positions it on each foot).
   // `color` is used for the default sneaker; other shoes have their own palettes.
+  if (kind === "geta")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.5, 0.1, 0.66]} /><meshStandardMaterial color="#78350f" /></mesh>
+        <mesh position={[-0.12, -0.12, 0]} castShadow><boxGeometry args={[0.08, 0.18, 0.6]} /><meshStandardMaterial color="#78350f" /></mesh>
+        <mesh position={[0.12, -0.12, 0]} castShadow><boxGeometry args={[0.08, 0.18, 0.6]} /><meshStandardMaterial color="#78350f" /></mesh>
+      </group>
+    );
+  if (kind === "ninjaboots")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.48, 0.3, 0.62]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 0, 0.32]}><boxGeometry args={[0.46, 0.06, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "samuraiboots")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.5, 0.4, 0.62]} /><meshStandardMaterial color="#1c1917" metalness={0.5} roughness={0.4} /></mesh>
+        <mesh position={[0, 0.1, 0]} castShadow><boxGeometry args={[0.52, 0.08, 0.62]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+      </group>
+    );
+  if (kind === "magicalboots")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.36, 0.62]} />
+          <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={0.4} />
+        </mesh>
+        <mesh position={[0, 0.1, 0.3]}><boxGeometry args={[0.4, 0.08, 0.04]} /><meshStandardMaterial color="#fde047" /></mesh>
+      </group>
+    );
+  if (kind === "iceboots")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.3, 0.62]} />
+          <meshStandardMaterial color="#bae6fd" emissive="#22d3ee" emissiveIntensity={0.6} metalness={0.3} roughness={0.2} />
+        </mesh>
+      </group>
+    );
+  if (kind === "lavaboots")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.3, 0.62]} />
+          <meshStandardMaterial color="#7c2d12" emissive="#f97316" emissiveIntensity={0.9} />
+        </mesh>
+        <pointLight color="#f97316" intensity={0.6} distance={1.6} />
+      </group>
+    );
+  if (kind === "void")
+    return (
+      <group>
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.3, 0.62]} />
+          <meshStandardMaterial color="#0a0a0a" emissive="#7c3aed" emissiveIntensity={0.7} />
+        </mesh>
+        <pointLight color="#a855f7" intensity={0.7} distance={2} />
+      </group>
+    );
   if (kind === "boots")
     return (
       <group>
