@@ -12,6 +12,7 @@ import { SelfAvatar } from "@/components/SelfAvatar";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { Coins, Sprout, Gamepad2, Keyboard, Carrot, Apple, Cherry, ShoppingCart, Store } from "lucide-react";
 
 export const Route = createFileRoute("/play/grow-garden")({
