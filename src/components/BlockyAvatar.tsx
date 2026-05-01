@@ -888,6 +888,9 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
       </group>
     );
   return null;
+}
+
+type Props = {
   // Allow callers (e.g. NPC bots) to omit the new cosmetic slots and fall back to defaults
   config: Omit<AvatarConfig, "hair" | "shoes" | "jacket"> & Partial<Pick<AvatarConfig, "hair" | "shoes" | "jacket">>;
   position?: [number, number, number];
