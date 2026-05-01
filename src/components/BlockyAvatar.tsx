@@ -223,6 +223,109 @@ function Hat({ kind }: { kind: string }) {
         <meshStandardMaterial color="#fde047" emissive="#fbbf24" emissiveIntensity={0.6} />
       </mesh>
     );
+  if (kind === "catears" || kind === "foxears" || kind === "bunnyears") {
+    const isBunny = kind === "bunnyears";
+    const earColor = kind === "foxears" ? "#ea580c" : kind === "catears" ? "#1f2937" : "#fafafa";
+    const inner = "#fb7185";
+    const earH = isBunny ? 0.7 : 0.4;
+    const earW = isBunny ? 0.16 : 0.22;
+    return (
+      <group position={[0, 0.5, 0]}>
+        {[-1, 1].map((s) => (
+          <group key={s} position={[s * 0.28, earH / 2, 0]} rotation={[0, 0, s * (isBunny ? 0.05 : 0.25)]}>
+            <mesh castShadow><boxGeometry args={[earW, earH, 0.08]} /><meshStandardMaterial color={earColor} /></mesh>
+            <mesh position={[0, 0, 0.05]}><boxGeometry args={[earW * 0.5, earH * 0.7, 0.02]} /><meshBasicMaterial color={inner} /></mesh>
+          </group>
+        ))}
+      </group>
+    );
+  }
+  if (kind === "headband")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.95, 0.18, 0.95]} /><meshStandardMaterial color="#1e3a8a" /></mesh>
+        <mesh position={[0, 0, 0.48]}><boxGeometry args={[0.3, 0.16, 0.02]} /><meshStandardMaterial color="#9ca3af" metalness={0.8} /></mesh>
+      </group>
+    );
+  if (kind === "strawhat")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><cylinderGeometry args={[0.95, 0.95, 0.08, 16]} /><meshStandardMaterial color="#fde047" /></mesh>
+        <mesh position={[0, 0.22, 0]} castShadow><cylinderGeometry args={[0.5, 0.55, 0.4, 16]} /><meshStandardMaterial color="#fde047" /></mesh>
+        <mesh position={[0, 0.05, 0.46]}><boxGeometry args={[0.6, 0.06, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "samurai")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[0.95, 0.45, 0.95]} /><meshStandardMaterial color="#0a0a0a" metalness={0.6} roughness={0.3} /></mesh>
+        <mesh position={[0, 0.4, 0]} castShadow><boxGeometry args={[0.6, 0.3, 0.6]} /><meshStandardMaterial color="#7f1d1d" /></mesh>
+        {/* horns / kuwagata */}
+        <mesh position={[-0.32, 0.45, 0]} rotation={[0, 0, -0.5]} castShadow><boxGeometry args={[0.06, 0.5, 0.06]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+        <mesh position={[0.32, 0.45, 0]} rotation={[0, 0, 0.5]} castShadow><boxGeometry args={[0.06, 0.5, 0.06]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+      </group>
+    );
+  if (kind === "demonhorns")
+    return (
+      <group position={[0, 0.5, 0]}>
+        {[-1, 1].map((s) => (
+          <mesh key={s} position={[s * 0.3, 0.25, 0]} rotation={[0, 0, s * 0.4]} castShadow>
+            <coneGeometry args={[0.14, 0.55, 6]} />
+            <meshStandardMaterial color="#0a0a0a" emissive="#dc2626" emissiveIntensity={0.5} />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "angelhalo")
+    return (
+      <group>
+        <mesh position={[0, 1.0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.45, 0.07, 12, 32]} />
+          <meshStandardMaterial color="#fef9c3" emissive="#fde047" emissiveIntensity={1.4} />
+        </mesh>
+        <pointLight color="#fde047" intensity={1.2} distance={3} position={[0, 1.0, 0]} />
+      </group>
+    );
+  if (kind === "ninjahood")
+    return (
+      <group position={[0, 0.45, 0]}>
+        <mesh castShadow><boxGeometry args={[1.0, 0.8, 1.0]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, -0.05, 0.41]}><boxGeometry args={[0.85, 0.18, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "magicalgirl")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.2, 0.85]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} roughness={0.2} /></mesh>
+        <mesh position={[0, 0.2, 0.4]}><boxGeometry args={[0.18, 0.18, 0.04]} /><meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={0.6} /></mesh>
+      </group>
+    );
+  if (kind === "visor")
+    return (
+      <group position={[0, 0.2, 0]}>
+        <mesh position={[0, 0, 0.42]}><boxGeometry args={[0.95, 0.22, 0.06]} /><meshStandardMaterial color="#0a0a0a" emissive="#22d3ee" emissiveIntensity={0.9} /></mesh>
+        <mesh position={[0, 0.08, 0]}><boxGeometry args={[0.95, 0.1, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+      </group>
+    );
+  if (kind === "skullcrown")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><boxGeometry args={[0.95, 0.22, 0.95]} /><meshStandardMaterial color="#0a0a0a" metalness={0.6} /></mesh>
+        <mesh position={[0, 0.25, 0]} castShadow><boxGeometry args={[0.35, 0.35, 0.35]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
+  if (kind === "rainbow")
+    return (
+      <group position={[0, 0.6, 0]}>
+        {["#dc2626", "#f59e0b", "#fde047", "#16a34a", "#0ea5e9", "#7c3aed"].map((c, i) => (
+          <mesh key={c} position={[0, i * 0.04, 0]}>
+            <torusGeometry args={[0.5 + i * 0.04, 0.025, 8, 24]} />
+            <meshStandardMaterial color={c} emissive={c} emissiveIntensity={0.8} />
+          </mesh>
+        ))}
+        <pointLight color="#a855f7" intensity={1.3} distance={4} />
+      </group>
+    );
   return null;
 }
 
