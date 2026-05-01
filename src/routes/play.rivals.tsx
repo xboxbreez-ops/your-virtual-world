@@ -620,7 +620,7 @@ function RivalsPage() {
                   <div className="max-w-md rounded-2xl border border-border bg-card p-6 text-center shadow-block">
                     <h2 className="font-display text-3xl">{match.mode} · {match.gun.name}</h2>
                     <p className="mt-1 text-sm text-muted-foreground">+20 Bux per elim. Reload when empty.</p>
-                    <button onClick={() => containerRef.current?.requestPointerLock?.()} className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block">
+                    <button onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }} className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block">
                       Click to start
                     </button>
                     <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
