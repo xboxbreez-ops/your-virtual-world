@@ -10,6 +10,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
 import { RemotePlayers } from "@/components/RemotePlayers";
+import { GameAtmosphere, type AtmospherePreset } from "@/components/GameAtmosphere";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
@@ -60,8 +61,10 @@ function PlatformsMesh({ platforms }: { platforms: Platform[] }) {
           <boxGeometry args={p.size} />
           <meshStandardMaterial
             color={p.color}
+            roughness={p.killer ? 0.4 : p.checkpoint ? 0.25 : p.finish ? 0.2 : 0.55}
+            metalness={p.checkpoint || p.finish ? 0.35 : 0.1}
             emissive={p.killer ? "#7f1d1d" : p.finish ? "#fbbf24" : p.checkpoint ? "#22d3ee" : "#000"}
-            emissiveIntensity={p.killer ? 0.4 : p.finish ? 0.5 : p.checkpoint ? 0.3 : 0}
+            emissiveIntensity={p.killer ? 0.55 : p.finish ? 0.7 : p.checkpoint ? 0.45 : 0}
           />
         </mesh>
       ))}
@@ -122,11 +125,12 @@ function PlayerController({
     }
     p.vel.y -= 22 * dt;
 
+    const prevY = p.pos.y;
     p.pos.addScaledVector(p.vel, dt);
 
-    // platform ground check
+    // platform ground check (swept against previous Y so we don't tunnel through)
     const t = state.clock.getElapsedTime();
-    const hit = platformGround(p.pos, p.vel.y, platforms, t);
+    const hit = platformGround(p.pos, p.vel.y, platforms, t, prevY);
     if (hit.standing) {
       if (p.pos.y <= hit.groundY + 0.05) {
         p.pos.y = hit.groundY;
@@ -206,6 +210,7 @@ export function ObbyGame({
   bgNear,
   rewardPerSec,
   baseReward,
+  preset = "obby",
 }: {
   game: string;
   title: string;
@@ -213,8 +218,9 @@ export function ObbyGame({
   spawn: [number, number, number];
   bgFar: string;
   bgNear: string;
-  rewardPerSec: number; // bonus for finishing fast (max-time)
+  rewardPerSec: number;
   baseReward: number;
+  preset?: AtmospherePreset;
 }) {
   const { user, profile, avatar, loading, addBux } = useAuth();
   const navigate = useNavigate();
@@ -310,14 +316,13 @@ export function ObbyGame({
       <HeaderBar location={title} />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }}>
-            <Sky sunPosition={[100, 40, 100]} turbidity={2} />
+          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
+            <Sky sunPosition={[100, 40, 100]} turbidity={preset === "lava" ? 8 : preset === "ice" ? 1 : 2} rayleigh={preset === "lava" ? 4 : 1} />
             <fog attach="fog" args={[bgFar, 30, 120]} />
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[20, 40, 20]} intensity={1.2} castShadow shadow-mapSize={[2048, 2048]} />
+            <GameAtmosphere preset={preset} contactPos={[0, 0, 0]} contactScale={80} />
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -30, 0]} receiveShadow>
               <planeGeometry args={[400, 400]} />
-              <meshStandardMaterial color={bgNear} />
+              <meshStandardMaterial color={bgNear} roughness={0.9} metalness={0.05} />
             </mesh>
             <PlatformsMesh platforms={platforms} />
             <PlayerController
@@ -360,7 +365,7 @@ export function ObbyGame({
                   <h2 className="font-display text-3xl">{title}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">Reach the gold finish pad. Don't fall, don't touch lava.</p>
                   <button
-                    onClick={() => containerRef.current?.requestPointerLock?.()}
+                    onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }}
                     className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block"
                   >
                     Click to start

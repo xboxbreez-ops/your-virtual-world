@@ -15,6 +15,7 @@ import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { Heart, Coins, Gamepad2, Keyboard, Skull, Users, Send } from "lucide-react";
 
 export const Route = createFileRoute("/play/rivals")({
@@ -105,9 +106,14 @@ function Arena() {
     <>
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[80, 80]} />
-        <meshStandardMaterial color="#0f172a" />
+        <meshStandardMaterial color="#0f172a" roughness={0.6} metalness={0.2} />
       </mesh>
       <gridHelper args={[60, 30, "#3b82f6", "#1e293b"]} position={[0, 0.01, 0]} />
+      {/* central glow ring */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <ringGeometry args={[3.4, 3.6, 64]} />
+        <meshStandardMaterial color="#a855f7" emissive="#a855f7" emissiveIntensity={1.2} toneMapped={false} />
+      </mesh>
       {[
         [0, 1.5, ARENA_HALF, 60, 3, 1],
         [0, 1.5, -ARENA_HALF, 60, 3, 1],
@@ -116,13 +122,25 @@ function Arena() {
       ].map((w, i) => (
         <mesh key={i} position={[w[0], w[1], w[2]]} castShadow>
           <boxGeometry args={[w[3], w[4], w[5]]} />
-          <meshStandardMaterial color="#1e293b" />
+          <meshStandardMaterial color="#1e293b" roughness={0.4} metalness={0.5} emissive="#3b82f6" emissiveIntensity={0.15} />
         </mesh>
       ))}
       {COVER.map((c, i) => (
         <mesh key={i} position={c.pos} castShadow receiveShadow>
           <boxGeometry args={c.size} />
-          <meshStandardMaterial color={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} />
+          <meshStandardMaterial color={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} roughness={0.35} metalness={0.45} emissive={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} emissiveIntensity={0.1} />
+        </mesh>
+      ))}
+      {/* rim lights along each wall */}
+      {[
+        [0, 0.1, ARENA_HALF - 0.6],
+        [0, 0.1, -ARENA_HALF + 0.6],
+        [ARENA_HALF - 0.6, 0.1, 0],
+        [-ARENA_HALF + 0.6, 0.1, 0],
+      ].map((p, i) => (
+        <mesh key={`r${i}`} position={p as [number, number, number]} rotation={[-Math.PI / 2, 0, i >= 2 ? Math.PI / 2 : 0]}>
+          <planeGeometry args={[40, 0.3]} />
+          <meshBasicMaterial color="#22d3ee" toneMapped={false} />
         </mesh>
       ))}
     </>
@@ -340,8 +358,8 @@ function Bullets({ refs }: { refs: RefObject<GRefs> }) {
   });
   return (
     <instancedMesh ref={ref} args={[undefined, undefined, 120]}>
-      <sphereGeometry args={[0.08, 6, 6]} />
-      <meshBasicMaterial color="#fde047" />
+      <sphereGeometry args={[0.1, 8, 8]} />
+      <meshBasicMaterial color="#fde047" toneMapped={false} />
     </instancedMesh>
   );
 }
@@ -540,7 +558,9 @@ function RivalsPage() {
     refs.current = makeRefs(mode, gun);
     setMatch({ mode, gun });
     setHp(100); setAmmo(gun.mag); setReload(0); setKills(0); setAlive(true); setBux(0);
-    setTimeout(() => containerRef.current?.requestPointerLock?.(), 100);
+    // Don't auto-request pointer lock here — the browser throttles silent
+    // requests, which then makes the user's "Click to start" click fail too.
+    // The overlay's button is the user's first gesture; let it lock cleanly.
   };
 
   const onKill = () => setKills((k) => k + 1);
@@ -570,11 +590,10 @@ function RivalsPage() {
           <LobbyView onStart={startMatch} />
         ) : (
           <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-            <Canvas shadows camera={{ position: [0, 1.6, 12], fov: 75 }}>
+            <Canvas shadows camera={{ position: [0, 1.6, 12], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.0 }}>
               <Sky sunPosition={[10, 5, 10]} turbidity={6} />
-              <fog attach="fog" args={["#0f172a", 20, 60]} />
-              <ambientLight intensity={0.55} />
-              <directionalLight position={[10, 20, 10]} intensity={1} castShadow />
+              <fog attach="fog" args={["#0a0f1f", 18, 55]} />
+              <GameAtmosphere preset="arena" contactPos={[0, 0, 0]} contactScale={70} />
               <Arena />
               <Bots refs={refs as RefObject<GRefs>} />
               <Bullets refs={refs as RefObject<GRefs>} />
@@ -618,7 +637,7 @@ function RivalsPage() {
                   <div className="max-w-md rounded-2xl border border-border bg-card p-6 text-center shadow-block">
                     <h2 className="font-display text-3xl">{match.mode} · {match.gun.name}</h2>
                     <p className="mt-1 text-sm text-muted-foreground">+20 Bux per elim. Reload when empty.</p>
-                    <button onClick={() => containerRef.current?.requestPointerLock?.()} className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block">
+                    <button onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }} className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block">
                       Click to start
                     </button>
                     <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">

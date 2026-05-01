@@ -14,6 +14,7 @@ import { RemotePlayers } from "@/components/RemotePlayers";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, insideFootprint, type AABB } from "@/lib/collision";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Timer, Coins, Gamepad2, Keyboard, Users } from "lucide-react";
 
@@ -421,11 +422,10 @@ function GamePage() {
       <HeaderBar location="Natural Disaster" />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }}>
+          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.0 }}>
             <Sky sunPosition={[100, 20, 100]} turbidity={disaster === "tornado" || disaster === "meteor" ? 10 : 2} />
             <fog attach="fog" args={["#0a1029", 25, 80]} />
-            <ambientLight intensity={disaster === "meteor" ? 0.25 : 0.55} />
-            <directionalLight position={[20, 30, 10]} intensity={1.1} castShadow shadow-mapSize={[2048, 2048]} />
+            <GameAtmosphere preset="disaster" contactPos={[0, -0.05, 0]} contactScale={70} />
             <Island />
             <Shelters />
             <Tornado visible={disaster === "tornado"} position={[0, 0, 0]} />
@@ -475,7 +475,7 @@ function GamePage() {
                   <h2 className="font-display text-3xl">Block Island</h2>
                   <p className="mt-1 text-sm text-muted-foreground">Survive whatever the world throws at you.</p>
                   <button
-                    onClick={() => containerRef.current?.requestPointerLock?.()}
+                    onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }}
                     className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block"
                   >
                     Click to start

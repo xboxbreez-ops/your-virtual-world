@@ -14,6 +14,7 @@ import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { Coins, Brain, Gamepad2, Keyboard, Timer, Users } from "lucide-react";
 
 export const Route = createFileRoute("/play/steal-brainrot")({
@@ -475,10 +476,10 @@ function BrainrotPage() {
       <HeaderBar location="Steal a Brainrot" />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, -22], fov: 75 }}>
+          <Canvas shadows camera={{ position: [0, 1.6, -22], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
             <Sky sunPosition={[50, 30, 50]} />
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[20, 30, 10]} intensity={1.1} castShadow />
+            <fog attach="fog" args={["#1a0b2e", 35, 110]} />
+            <GameAtmosphere preset="tycoon" contactPos={[0, 0, 0]} contactScale={120} />
             <World />
             <BrainrotMeshes refs={refs} />
             <SelfAvatar posRef={{ current: refs.current.player }} inputRef={input} config={avatar} />

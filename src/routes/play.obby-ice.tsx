@@ -25,6 +25,7 @@ function IceObby() {
       bgNear="#082f49"
       baseReward={45}
       rewardPerSec={110}
+      preset="ice"
     />
   );
 }

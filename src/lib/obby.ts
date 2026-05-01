@@ -36,16 +36,20 @@ export type PlatformHit = {
 };
 
 /**
- * Check which platform the player is standing on. Returns the highest one
- * whose footprint contains the player and whose top is just below feet.
+ * Swept ground check: returns the highest platform the player crossed/landed
+ * on between `prevY` (last frame's pos.y) and current `pos.y`. This prevents
+ * falling through thin platforms when moving fast.
  */
 export function platformGround(
   pos: THREE.Vector3,
   velY: number,
   platforms: Platform[],
   time: number,
+  prevY?: number,
 ): PlatformHit {
   let best: { plat: Platform; top: number } | null = null;
+  const curFeet = pos.y - FOOT_OFFSET;
+  const prevFeet = (prevY ?? pos.y) - FOOT_OFFSET;
   for (const p of platforms) {
     const wp = platformWorldPos(p, time);
     const halfX = p.size[0] / 2 + PLAYER_RADIUS * 0.5;
@@ -54,9 +58,11 @@ export function platformGround(
     const dz = pos.z - wp.z;
     if (Math.abs(dx) > halfX || Math.abs(dz) > halfZ) continue;
     const top = wp.y + p.size[1] / 2;
-    const playerFeet = pos.y - FOOT_OFFSET;
-    // Allow snapping when descending or close to top
-    if (playerFeet >= top - 0.4 && playerFeet <= top + 0.6 && velY <= 0.5) {
+    // Snap if (a) we crossed the top from above this frame (swept), or
+    // (b) we're already resting on / very close to it.
+    const crossed = prevFeet >= top - 0.05 && curFeet <= top + 0.6 && velY <= 1.0;
+    const resting = curFeet >= top - 0.4 && curFeet <= top + 0.6 && Math.abs(velY) <= 0.5;
+    if (crossed || resting) {
       if (!best || top > best.top) best = { plat: p, top };
     }
   }
