@@ -210,6 +210,7 @@ export function ObbyGame({
   bgNear,
   rewardPerSec,
   baseReward,
+  preset = "obby",
 }: {
   game: string;
   title: string;
@@ -217,8 +218,9 @@ export function ObbyGame({
   spawn: [number, number, number];
   bgFar: string;
   bgNear: string;
-  rewardPerSec: number; // bonus for finishing fast (max-time)
+  rewardPerSec: number;
   baseReward: number;
+  preset?: AtmospherePreset;
 }) {
   const { user, profile, avatar, loading, addBux } = useAuth();
   const navigate = useNavigate();
