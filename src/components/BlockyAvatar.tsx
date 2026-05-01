@@ -804,10 +804,90 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
         ))}
       </group>
     );
+  if (kind === "kimono")
+    return (
+      <group>
+        <mesh position={[0, 1.4, 0]} castShadow><boxGeometry args={[1.36, 2.0, 0.74]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+        <mesh position={[0, 1.5, 0.38]} castShadow><boxGeometry args={[1.4, 0.16, 0.04]} /><meshStandardMaterial color="#fde047" /></mesh>
+        <mesh position={[-0.35, 1.95, 0.36]} rotation={[0, 0, -0.7]}><boxGeometry args={[0.5, 0.06, 0.04]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.35, 1.95, 0.36]} rotation={[0, 0, 0.7]}><boxGeometry args={[0.5, 0.06, 0.04]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
+  if (kind === "haori")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.42, 1.6, 0.78]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* shoulder flame trim */}
+        <mesh position={[0, 0.95, 0.4]}><boxGeometry args={[1.4, 0.4, 0.04]} /><meshStandardMaterial color="#f97316" emissive="#f97316" emissiveIntensity={0.5} /></mesh>
+        <mesh position={[-0.55, 1.45, 0.41]}><boxGeometry args={[0.18, 0.5, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0.55, 1.45, 0.41]}><boxGeometry args={[0.18, 0.5, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "schooluniform")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.34, 1.3, 0.72]} /><meshStandardMaterial color="#1e3a8a" /></mesh>
+        {/* white collar */}
+        <mesh position={[0, 2.32, 0.36]}><boxGeometry args={[0.7, 0.18, 0.04]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        {/* red ribbon */}
+        <mesh position={[0, 2.18, 0.39]}><boxGeometry args={[0.22, 0.18, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "ninjagi")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.34, 1.3, 0.72]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 1.5, 0.38]}><boxGeometry args={[1.4, 0.18, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "demonwings")
+    return (
+      <group position={[0, 2.0, -0.3]}>
+        {[-1, 1].map((s) => (
+          <group key={s} position={[s * 0.7, 0, 0]} rotation={[0, s * 0.4, s * 0.2]}>
+            <mesh castShadow>
+              <boxGeometry args={[0.95, 1.5, 0.06]} />
+              <meshStandardMaterial color="#1c1917" emissive="#7f1d1d" emissiveIntensity={0.4} />
+            </mesh>
+          </group>
+        ))}
+      </group>
+    );
+  if (kind === "dragonscale")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow>
+          <boxGeometry args={[1.4, 1.4, 0.78]} />
+          <meshStandardMaterial color="#16a34a" metalness={0.7} roughness={0.3} emissive="#14532d" emissiveIntensity={0.4} />
+        </mesh>
+        {/* spikes on shoulders */}
+        {[-0.6, -0.2, 0.2, 0.6].map((x) => (
+          <mesh key={x} position={[x, 2.4, 0]} castShadow>
+            <coneGeometry args={[0.1, 0.3, 4]} />
+            <meshStandardMaterial color="#14532d" />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "magicalgirl")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.36, 1.3, 0.74]} /><meshStandardMaterial color="#fb7185" /></mesh>
+        <mesh position={[0, 1.05, 0]}><boxGeometry args={[1.5, 0.15, 0.78]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0, 1.85, 0.4]}><boxGeometry args={[0.3, 0.18, 0.04]} /><meshStandardMaterial color="#fde047" emissive="#fde047" emissiveIntensity={0.5} /></mesh>
+      </group>
+    );
+  if (kind === "akatsuki")
+    return (
+      <group>
+        <mesh position={[0, 1.4, 0]} castShadow><boxGeometry args={[1.4, 2.0, 0.78]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* red clouds */}
+        <mesh position={[-0.4, 1.85, 0.4]}><boxGeometry args={[0.3, 0.22, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0.4, 1.4, 0.4]}><boxGeometry args={[0.3, 0.22, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0, 1.0, 0.4]}><boxGeometry args={[0.28, 0.2, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
   return null;
-}
-
-type Props = {
   // Allow callers (e.g. NPC bots) to omit the new cosmetic slots and fall back to defaults
   config: Omit<AvatarConfig, "hair" | "shoes" | "jacket"> & Partial<Pick<AvatarConfig, "hair" | "shoes" | "jacket">>;
   position?: [number, number, number];
