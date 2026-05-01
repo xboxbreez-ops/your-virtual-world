@@ -10,6 +10,7 @@ import { HeaderBar } from "@/components/HeaderBar";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
 import { RemotePlayers } from "@/components/RemotePlayers";
+import { GameAtmosphere, type AtmospherePreset } from "@/components/GameAtmosphere";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
