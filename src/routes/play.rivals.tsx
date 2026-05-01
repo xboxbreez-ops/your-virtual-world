@@ -15,6 +15,7 @@ import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, type AABB } from "@/lib/collision";
 import { applyPlayerCamera } from "@/lib/camera";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { Heart, Coins, Gamepad2, Keyboard, Skull, Users, Send } from "lucide-react";
 
 export const Route = createFileRoute("/play/rivals")({
