@@ -475,7 +475,7 @@ function GamePage() {
                   <h2 className="font-display text-3xl">Block Island</h2>
                   <p className="mt-1 text-sm text-muted-foreground">Survive whatever the world throws at you.</p>
                   <button
-                    onClick={() => containerRef.current?.requestPointerLock?.()}
+                    onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }}
                     className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block"
                   >
                     Click to start
