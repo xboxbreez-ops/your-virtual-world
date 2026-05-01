@@ -19,15 +19,6 @@ export const Route = createFileRoute("/avatar")({
     ],
   }),
   component: AvatarPage,
-});
-  head: () => ({
-    meta: [
-      { title: "Avatar Editor — BloxWorld" },
-      { name: "description", content: "Pick R6 or R15, buy hats, faces, and clothes with Bux. Live 3D preview." },
-    ],
-  }),
-  component: AvatarPage,
-});
 
 const SKIN = ["#f5c896", "#e0ac69", "#c68642", "#8d5524", "#f1c27d", "#ffdbac", "#a78b6f", "#3b2f2f"];
 
