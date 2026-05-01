@@ -61,8 +61,10 @@ function PlatformsMesh({ platforms }: { platforms: Platform[] }) {
           <boxGeometry args={p.size} />
           <meshStandardMaterial
             color={p.color}
+            roughness={p.killer ? 0.4 : p.checkpoint ? 0.25 : p.finish ? 0.2 : 0.55}
+            metalness={p.checkpoint || p.finish ? 0.35 : 0.1}
             emissive={p.killer ? "#7f1d1d" : p.finish ? "#fbbf24" : p.checkpoint ? "#22d3ee" : "#000"}
-            emissiveIntensity={p.killer ? 0.4 : p.finish ? 0.5 : p.checkpoint ? 0.3 : 0}
+            emissiveIntensity={p.killer ? 0.55 : p.finish ? 0.7 : p.checkpoint ? 0.45 : 0}
           />
         </mesh>
       ))}
