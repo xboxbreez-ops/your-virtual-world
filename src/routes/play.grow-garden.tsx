@@ -357,10 +357,10 @@ function GardenPage() {
       <HeaderBar location="Grow a Garden" />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, 8], fov: 75 }}>
-            <Sky sunPosition={[50, 40, 30]} />
-            <ambientLight intensity={0.85} />
-            <directionalLight position={[10, 20, 5]} intensity={1.1} castShadow />
+          <Canvas shadows camera={{ position: [0, 1.6, 8], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
+            <Sky sunPosition={[50, 40, 30]} turbidity={1.5} />
+            <fog attach="fog" args={["#bae6fd", 50, 130]} />
+            <GameAtmosphere preset="garden" contactPos={[0, 0, 0]} contactScale={120} />
             <World />
             {PLOTS.map((p, pi) => (
               Array.from({ length: ROW }).map((_, r) =>
