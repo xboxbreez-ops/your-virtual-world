@@ -142,7 +142,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ shirt_color: it.color })}
-                    onBuy={() => buy("shirt", it.color, it.price, it.label)}
+                    onBuy={() => setPreview({ category: "shirt", key: it.color, price: it.price, label: it.label, patch: { shirt_color: it.color } })}
                   />
                 );
               })}
@@ -165,7 +165,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ pants_color: it.color })}
-                    onBuy={() => buy("pants", it.color, it.price, it.label)}
+                    onBuy={() => setPreview({ category: "pants", key: it.color, price: it.price, label: it.label, patch: { pants_color: it.color } })}
                   />
                 );
               })}
@@ -187,7 +187,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ face: f.key })}
-                    onBuy={() => buy("face", f.key, f.price, f.label)}
+                    onBuy={() => setPreview({ category: "face", key: f.key, price: f.price, label: f.label, patch: { face: f.key } })}
                   />
                 );
               })}
@@ -209,7 +209,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ hair: h.key })}
-                    onBuy={() => buy("hair", h.key, h.price, h.label)}
+                    onBuy={() => setPreview({ category: "hair", key: h.key, price: h.price, label: h.label, patch: { hair: h.key } })}
                   />
                 );
               })}
@@ -231,7 +231,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ hat: h.key })}
-                    onBuy={() => buy("hat", h.key, h.price, h.label)}
+                    onBuy={() => setPreview({ category: "hat", key: h.key, price: h.price, label: h.label, patch: { hat: h.key } })}
                   />
                 );
               })}
@@ -253,7 +253,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ jacket: j.key })}
-                    onBuy={() => buy("jacket", j.key, j.price, j.label)}
+                    onBuy={() => setPreview({ category: "jacket", key: j.key, price: j.price, label: j.label, patch: { jacket: j.key } })}
                   />
                 );
               })}
@@ -275,7 +275,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ shoes: s.key })}
-                    onBuy={() => buy("shoes", s.key, s.price, s.label)}
+                    onBuy={() => setPreview({ category: "shoes", key: s.key, price: s.price, label: s.label, patch: { shoes: s.key } })}
                   />
                 );
               })}
