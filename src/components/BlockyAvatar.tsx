@@ -4,11 +4,11 @@ import type { Group, Mesh } from "three";
 import type { AvatarConfig } from "@/lib/auth-context";
 
 // Hat catalog
-export const HATS = ["none", "cap", "beanie", "horns", "headphones", "tophat", "cowboy", "wizard", "halo", "antlers", "crown", "fire"] as const;
-export const FACES = ["smile", "happy", "wink", "cool", "kawaii", "angry", "evil", "robot"] as const;
-export const HAIRS = ["none", "buzz", "messy", "side", "ponytail", "pigtails", "bun", "spikes", "mohawk", "long", "afro", "fire"] as const;
-export const SHOES = ["sneakers", "sandals", "crocs", "boots", "heels", "cleats", "skates", "platforms", "neonkicks", "rocketboots", "goldenkicks"] as const;
-export const JACKETS = ["none", "vest", "hoodie", "denim", "varsity", "puffer", "trench", "leather", "armor", "cape", "wings"] as const;
+export const HATS = ["none", "cap", "beanie", "horns", "headphones", "tophat", "cowboy", "wizard", "halo", "antlers", "crown", "fire", "catears", "foxears", "bunnyears", "headband", "strawhat", "samurai", "demonhorns", "angelhalo", "ninjahood", "magicalgirl", "visor", "skullcrown", "rainbow"] as const;
+export const FACES = ["smile", "happy", "wink", "cool", "kawaii", "angry", "evil", "robot", "anime", "tsundere", "sleepy", "starry", "heart", "demon", "void", "blush"] as const;
+export const HAIRS = ["none", "buzz", "messy", "side", "ponytail", "pigtails", "bun", "spikes", "mohawk", "long", "afro", "fire", "twintails", "hime", "spiky", "silver", "bluebob", "pinkpunk", "swordsman", "lightning", "rainbow", "demonking"] as const;
+export const SHOES = ["sneakers", "sandals", "crocs", "boots", "heels", "cleats", "skates", "platforms", "neonkicks", "rocketboots", "goldenkicks", "geta", "ninjaboots", "samuraiboots", "magicalboots", "iceboots", "lavaboots", "void"] as const;
+export const JACKETS = ["none", "vest", "hoodie", "denim", "varsity", "puffer", "trench", "leather", "armor", "cape", "wings", "kimono", "haori", "schooluniform", "ninjagi", "demonwings", "dragonscale", "magicalgirl", "akatsuki"] as const;
 
 function Face({ kind }: { kind: string }) {
   // eyes + mouth as small dark planes on the front of head
