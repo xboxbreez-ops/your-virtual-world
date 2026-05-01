@@ -25,6 +25,7 @@ function LavaObby() {
       bgNear="#450a0a"
       baseReward={45}
       rewardPerSec={110}
+      preset="lava"
     />
   );
 }
