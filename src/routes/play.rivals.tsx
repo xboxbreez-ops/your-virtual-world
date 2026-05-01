@@ -105,9 +105,14 @@ function Arena() {
     <>
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[80, 80]} />
-        <meshStandardMaterial color="#0f172a" />
+        <meshStandardMaterial color="#0f172a" roughness={0.6} metalness={0.2} />
       </mesh>
       <gridHelper args={[60, 30, "#3b82f6", "#1e293b"]} position={[0, 0.01, 0]} />
+      {/* central glow ring */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <ringGeometry args={[3.4, 3.6, 64]} />
+        <meshStandardMaterial color="#a855f7" emissive="#a855f7" emissiveIntensity={1.2} toneMapped={false} />
+      </mesh>
       {[
         [0, 1.5, ARENA_HALF, 60, 3, 1],
         [0, 1.5, -ARENA_HALF, 60, 3, 1],
@@ -116,13 +121,25 @@ function Arena() {
       ].map((w, i) => (
         <mesh key={i} position={[w[0], w[1], w[2]]} castShadow>
           <boxGeometry args={[w[3], w[4], w[5]]} />
-          <meshStandardMaterial color="#1e293b" />
+          <meshStandardMaterial color="#1e293b" roughness={0.4} metalness={0.5} emissive="#3b82f6" emissiveIntensity={0.15} />
         </mesh>
       ))}
       {COVER.map((c, i) => (
         <mesh key={i} position={c.pos} castShadow receiveShadow>
           <boxGeometry args={c.size} />
-          <meshStandardMaterial color={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} />
+          <meshStandardMaterial color={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} roughness={0.35} metalness={0.45} emissive={i % 2 === 0 ? "#7c3aed" : "#0ea5e9"} emissiveIntensity={0.1} />
+        </mesh>
+      ))}
+      {/* rim lights along each wall */}
+      {[
+        [0, 0.1, ARENA_HALF - 0.6],
+        [0, 0.1, -ARENA_HALF + 0.6],
+        [ARENA_HALF - 0.6, 0.1, 0],
+        [-ARENA_HALF + 0.6, 0.1, 0],
+      ].map((p, i) => (
+        <mesh key={`r${i}`} position={p as [number, number, number]} rotation={[-Math.PI / 2, 0, i >= 2 ? Math.PI / 2 : 0]}>
+          <planeGeometry args={[40, 0.3]} />
+          <meshBasicMaterial color="#22d3ee" toneMapped={false} />
         </mesh>
       ))}
     </>
