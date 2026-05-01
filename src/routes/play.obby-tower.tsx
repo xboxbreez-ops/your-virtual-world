@@ -25,6 +25,7 @@ function TowerObby() {
       bgNear="#0f0a2c"
       baseReward={50}
       rewardPerSec={120}
+      preset="obby"
     />
   );
 }

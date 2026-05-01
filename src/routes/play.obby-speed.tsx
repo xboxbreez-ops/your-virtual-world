@@ -25,6 +25,7 @@ function SpeedObby() {
       bgNear="#082f49"
       baseReward={40}
       rewardPerSec={100}
+      preset="obby"
     />
   );
 }
