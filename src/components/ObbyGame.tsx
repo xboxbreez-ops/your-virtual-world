@@ -316,14 +316,13 @@ export function ObbyGame({
       <HeaderBar location={title} />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }}>
-            <Sky sunPosition={[100, 40, 100]} turbidity={2} />
+          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
+            <Sky sunPosition={[100, 40, 100]} turbidity={preset === "lava" ? 8 : preset === "ice" ? 1 : 2} rayleigh={preset === "lava" ? 4 : 1} />
             <fog attach="fog" args={[bgFar, 30, 120]} />
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[20, 40, 20]} intensity={1.2} castShadow shadow-mapSize={[2048, 2048]} />
+            <GameAtmosphere preset={preset} contactPos={[0, 0, 0]} contactScale={80} />
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -30, 0]} receiveShadow>
               <planeGeometry args={[400, 400]} />
-              <meshStandardMaterial color={bgNear} />
+              <meshStandardMaterial color={bgNear} roughness={0.9} metalness={0.05} />
             </mesh>
             <PlatformsMesh platforms={platforms} />
             <PlayerController
