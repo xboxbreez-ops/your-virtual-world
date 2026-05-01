@@ -358,8 +358,8 @@ function Bullets({ refs }: { refs: RefObject<GRefs> }) {
   });
   return (
     <instancedMesh ref={ref} args={[undefined, undefined, 120]}>
-      <sphereGeometry args={[0.08, 6, 6]} />
-      <meshBasicMaterial color="#fde047" />
+      <sphereGeometry args={[0.1, 8, 8]} />
+      <meshBasicMaterial color="#fde047" toneMapped={false} />
     </instancedMesh>
   );
 }
