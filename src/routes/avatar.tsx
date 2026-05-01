@@ -69,9 +69,10 @@ function AvatarPage() {
         <div className="relative h-[60vh] min-h-[420px] overflow-hidden rounded-3xl border border-border shadow-block lg:sticky lg:top-20 lg:h-[78vh]">
           <Canvas shadows camera={{ position: [4, 3, 6], fov: 45 }}>
             <color attach="background" args={["#0a1029"]} />
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
-            <Environment preset="city" />
+            <ambientLight intensity={0.6} />
+            <hemisphereLight args={["#bae6fd", "#1e1b4b", 0.6]} />
+            <directionalLight position={[5, 10, 5]} intensity={1.3} castShadow shadow-mapSize={[1024, 1024]} />
+            <directionalLight position={[-5, 6, -3]} intensity={0.5} color="#a855f7" />
             <BlockyAvatar config={draft} />
             <ContactShadows position={[0, 0, 0]} opacity={0.5} scale={10} blur={2.5} far={4} />
             <OrbitControls enablePan={false} target={[0, 1.7, 0]} minDistance={3} maxDistance={10} />
