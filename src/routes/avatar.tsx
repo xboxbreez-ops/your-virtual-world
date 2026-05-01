@@ -29,6 +29,10 @@ function AvatarPage() {
   const [draft, setDraft] = useState<AvatarConfig | null>(avatar);
   const [saving, setSaving] = useState(false);
   const [busyItem, setBusyItem] = useState<string | null>(null);
+  const [preview, setPreview] = useState<null | {
+    category: string; key: string; price: number; label: string;
+    patch: Partial<AvatarConfig>;
+  }>(null);
 
   useEffect(() => { if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } }); }, [user, loading, navigate]);
   useEffect(() => { if (avatar && !draft) setDraft(avatar); }, [avatar, draft]);
