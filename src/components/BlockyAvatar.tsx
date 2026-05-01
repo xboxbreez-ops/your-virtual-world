@@ -43,6 +43,54 @@ function Face({ kind }: { kind: string }) {
           <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#22d3ee" /></mesh>
           <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#22d3ee" /></mesh>
         </>
+      ) : kind === "anime" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.22]} /><meshBasicMaterial color="#7c3aed" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.14, 0.22]} /><meshBasicMaterial color="#7c3aed" /></mesh>
+          <mesh position={[-0.16, eyeY + 0.06, 0.001]}><planeGeometry args={[0.04, 0.06]} /><meshBasicMaterial color="#fff" /></mesh>
+          <mesh position={[0.2, eyeY + 0.06, 0.001]}><planeGeometry args={[0.04, 0.06]} /><meshBasicMaterial color="#fff" /></mesh>
+        </>
+      ) : kind === "tsundere" ? (
+        <>
+          <mesh position={[-0.18, eyeY + 0.02, 0]} rotation={[0, 0, 0.3]}><planeGeometry args={[0.16, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.18, eyeY + 0.02, 0]} rotation={[0, 0, -0.3]}><planeGeometry args={[0.16, 0.06]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[-0.22, -0.05, 0]}><planeGeometry args={[0.08, 0.04]} /><meshBasicMaterial color="#fb7185" /></mesh>
+          <mesh position={[0.22, -0.05, 0]}><planeGeometry args={[0.08, 0.04]} /><meshBasicMaterial color="#fb7185" /></mesh>
+        </>
+      ) : kind === "sleepy" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.03]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.03]} /><meshBasicMaterial color="#111" /></mesh>
+        </>
+      ) : kind === "starry" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.18]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.18]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[-0.18, eyeY, 0.001]}><planeGeometry args={[0.06, 0.06]} /><meshBasicMaterial color="#fde047" /></mesh>
+          <mesh position={[0.18, eyeY, 0.001]}><planeGeometry args={[0.06, 0.06]} /><meshBasicMaterial color="#fde047" /></mesh>
+        </>
+      ) : kind === "heart" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.16]} /><meshBasicMaterial color="#ec4899" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.16, 0.16]} /><meshBasicMaterial color="#ec4899" /></mesh>
+        </>
+      ) : kind === "demon" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.14]} /><meshBasicMaterial color="#dc2626" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.14]} /><meshBasicMaterial color="#dc2626" /></mesh>
+        </>
+      ) : kind === "void" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.18]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.18, 0.18]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+        </>
+      ) : kind === "blush" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[-0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
+          <mesh position={[0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
+        </>
       ) : (
         <>
           <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
