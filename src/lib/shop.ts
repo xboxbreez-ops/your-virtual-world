@@ -20,6 +20,20 @@ export const HAT_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "antlers", price: 300, label: "Antlers" },
   { key: "crown", price: 500, label: "Crown" },
   { key: "fire", price: 800, label: "Fire Crown" },
+  // Anime / new
+  { key: "catears", price: 220, label: "Cat Ears 🐱" },
+  { key: "foxears", price: 260, label: "Fox Ears 🦊" },
+  { key: "bunnyears", price: 240, label: "Bunny Ears 🐰" },
+  { key: "headband", price: 180, label: "Ninja Headband" },
+  { key: "strawhat", price: 320, label: "Straw Hat" },
+  { key: "samurai", price: 600, label: "Samurai Helm" },
+  { key: "demonhorns", price: 700, label: "Demon Horns" },
+  { key: "angelhalo", price: 750, label: "Glowing Halo" },
+  { key: "ninjahood", price: 350, label: "Ninja Hood" },
+  { key: "magicalgirl", price: 900, label: "Magical Tiara" },
+  { key: "visor", price: 400, label: "Cyber Visor" },
+  { key: "skullcrown", price: 1000, label: "Skull Crown" },
+  { key: "rainbow", price: 1500, label: "Rainbow Aura" },
 ];
 
 export const FACE_CATALOG: { key: string; price: number; label: string }[] = [
@@ -27,10 +41,19 @@ export const FACE_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "happy", price: 0, label: "Happy" },
   { key: "wink", price: 30, label: "Wink" },
   { key: "cool", price: 75, label: "Cool" },
-  { key: "kawaii", price: 90, label: "Kawaii" },
+  { key: "kawaii", price: 90, label: "Kawaii UwU" },
   { key: "angry", price: 150, label: "Angry" },
   { key: "evil", price: 220, label: "Evil" },
   { key: "robot", price: 300, label: "Robot" },
+  // Anime / new
+  { key: "anime", price: 200, label: "Anime Eyes ✨" },
+  { key: "tsundere", price: 260, label: "Tsundere >.<" },
+  { key: "sleepy", price: 120, label: "Sleepy zzz" },
+  { key: "starry", price: 320, label: "Starry Eyes" },
+  { key: "heart", price: 280, label: "Heart Eyes ♥" },
+  { key: "demon", price: 500, label: "Demon Glare" },
+  { key: "void", price: 700, label: "Void Stare" },
+  { key: "blush", price: 150, label: "Blush" },
 ];
 
 // Shirt/pants color packs — basic free, premium colors unlock
@@ -47,6 +70,17 @@ export const SHIRT_CATALOG: { color: string; price: number; label: string }[] = 
   { color: "#fafafa", price: 120, label: "White" },
   { color: "#fde047", price: 180, label: "Sunshine" },
   { color: "#7c3aed", price: 250, label: "Royal Violet" },
+  // New
+  { color: "#f43f5e", price: 90, label: "Rose" },
+  { color: "#84cc16", price: 90, label: "Lime" },
+  { color: "#06b6d4", price: 130, label: "Aqua" },
+  { color: "#fb7185", price: 160, label: "Sakura" },
+  { color: "#a3e635", price: 200, label: "Slime" },
+  { color: "#1e293b", price: 220, label: "Onyx" },
+  { color: "#fcd34d", price: 260, label: "Gold Dust" },
+  { color: "#e879f9", price: 300, label: "Neon Pink" },
+  { color: "#22d3ee", price: 360, label: "Ice Glow" },
+  { color: "#f97316", price: 400, label: "Inferno" },
 ];
 
 export const PANTS_CATALOG: { color: string; price: number; label: string }[] = [
@@ -62,6 +96,15 @@ export const PANTS_CATALOG: { color: string; price: number; label: string }[] = 
   { color: "#0e7490", price: 110, label: "Ocean" },
   { color: "#a16207", price: 180, label: "Khaki" },
   { color: "#be185d", price: 220, label: "Magenta" },
+  // New
+  { color: "#0c4a6e", price: 140, label: "Deep Sea" },
+  { color: "#4c1d95", price: 180, label: "Twilight" },
+  { color: "#9a3412", price: 200, label: "Ember" },
+  { color: "#155e75", price: 220, label: "Lagoon" },
+  { color: "#312e81", price: 280, label: "Cosmic" },
+  { color: "#831843", price: 320, label: "Wine" },
+  { color: "#fafafa", price: 360, label: "Snow" },
+  { color: "#facc15", price: 420, label: "Lightning" },
 ];
 
 export const HAIR_CATALOG: { key: string; price: number; label: string }[] = [
@@ -77,6 +120,17 @@ export const HAIR_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "long", price: 260, label: "Long Hair" },
   { key: "afro", price: 300, label: "Afro" },
   { key: "fire", price: 700, label: "Fire Hair" },
+  // Anime / new
+  { key: "twintails", price: 280, label: "Anime Twintails" },
+  { key: "hime", price: 350, label: "Hime Cut" },
+  { key: "spiky", price: 320, label: "Anime Spiky" },
+  { key: "silver", price: 400, label: "Silver Long" },
+  { key: "bluebob", price: 280, label: "Blue Bob" },
+  { key: "pinkpunk", price: 380, label: "Pink Punk" },
+  { key: "swordsman", price: 500, label: "Swordsman" },
+  { key: "lightning", price: 850, label: "Lightning Hair" },
+  { key: "rainbow", price: 1200, label: "Rainbow Hair" },
+  { key: "demonking", price: 1500, label: "Demon King" },
 ];
 
 export const SHOES_CATALOG: { key: string; price: number; label: string }[] = [
@@ -91,6 +145,14 @@ export const SHOES_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "neonkicks", price: 320, label: "Neon Kicks" },
   { key: "rocketboots", price: 450, label: "Rocket Boots" },
   { key: "goldenkicks", price: 750, label: "Golden Kicks" },
+  // Anime / new
+  { key: "geta", price: 200, label: "Wooden Geta" },
+  { key: "ninjaboots", price: 280, label: "Ninja Tabi" },
+  { key: "samuraiboots", price: 380, label: "Samurai Greaves" },
+  { key: "magicalboots", price: 500, label: "Magical Boots" },
+  { key: "iceboots", price: 600, label: "Frost Boots" },
+  { key: "lavaboots", price: 700, label: "Lava Boots" },
+  { key: "void", price: 1000, label: "Void Walkers" },
 ];
 
 export const JACKET_CATALOG: { key: string; price: number; label: string }[] = [
@@ -105,6 +167,15 @@ export const JACKET_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "armor", price: 480, label: "Armor" },
   { key: "cape", price: 600, label: "Hero Cape" },
   { key: "wings", price: 1200, label: "Angel Wings" },
+  // Anime / new
+  { key: "kimono", price: 350, label: "Kimono" },
+  { key: "haori", price: 420, label: "Haori (Anime)" },
+  { key: "schooluniform", price: 280, label: "School Uniform" },
+  { key: "ninjagi", price: 400, label: "Ninja Gi" },
+  { key: "demonwings", price: 1300, label: "Demon Wings" },
+  { key: "dragonscale", price: 1500, label: "Dragon Scale" },
+  { key: "magicalgirl", price: 900, label: "Magical Outfit" },
+  { key: "akatsuki", price: 1100, label: "Crimson Cloak" },
 ];
 
 // item_id format used in DB inventory
