@@ -1,14 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, ContactShadows, Environment } from "@react-three/drei";
+import { OrbitControls, ContactShadows } from "@react-three/drei";
 import { toast } from "sonner";
 import { useAuth, type AvatarConfig } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
 import { HAT_CATALOG, FACE_CATALOG, SHIRT_CATALOG, PANTS_CATALOG, HAIR_CATALOG, SHOES_CATALOG, JACKET_CATALOG, itemId } from "@/lib/shop";
-import { Save, Lock, Coins, Check } from "lucide-react";
+import { Save, Lock, Coins, Check, Eye } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/avatar")({
   head: () => ({
@@ -28,6 +29,10 @@ function AvatarPage() {
   const [draft, setDraft] = useState<AvatarConfig | null>(avatar);
   const [saving, setSaving] = useState(false);
   const [busyItem, setBusyItem] = useState<string | null>(null);
+  const [preview, setPreview] = useState<null | {
+    category: string; key: string; price: number; label: string;
+    patch: Partial<AvatarConfig>;
+  }>(null);
 
   useEffect(() => { if (!loading && !user) void navigate({ to: "/auth", search: { mode: "signin" } }); }, [user, loading, navigate]);
   useEffect(() => { if (avatar && !draft) setDraft(avatar); }, [avatar, draft]);
@@ -68,9 +73,10 @@ function AvatarPage() {
         <div className="relative h-[60vh] min-h-[420px] overflow-hidden rounded-3xl border border-border shadow-block lg:sticky lg:top-20 lg:h-[78vh]">
           <Canvas shadows camera={{ position: [4, 3, 6], fov: 45 }}>
             <color attach="background" args={["#0a1029"]} />
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 10, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
-            <Environment preset="city" />
+            <ambientLight intensity={0.6} />
+            <hemisphereLight args={["#bae6fd", "#1e1b4b", 0.6]} />
+            <directionalLight position={[5, 10, 5]} intensity={1.3} castShadow shadow-mapSize={[1024, 1024]} />
+            <directionalLight position={[-5, 6, -3]} intensity={0.5} color="#a855f7" />
             <BlockyAvatar config={draft} />
             <ContactShadows position={[0, 0, 0]} opacity={0.5} scale={10} blur={2.5} far={4} />
             <OrbitControls enablePan={false} target={[0, 1.7, 0]} minDistance={3} maxDistance={10} />
@@ -136,7 +142,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ shirt_color: it.color })}
-                    onBuy={() => buy("shirt", it.color, it.price, it.label)}
+                    onBuy={() => setPreview({ category: "shirt", key: it.color, price: it.price, label: it.label, patch: { shirt_color: it.color } })}
                   />
                 );
               })}
@@ -159,7 +165,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ pants_color: it.color })}
-                    onBuy={() => buy("pants", it.color, it.price, it.label)}
+                    onBuy={() => setPreview({ category: "pants", key: it.color, price: it.price, label: it.label, patch: { pants_color: it.color } })}
                   />
                 );
               })}
@@ -181,7 +187,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ face: f.key })}
-                    onBuy={() => buy("face", f.key, f.price, f.label)}
+                    onBuy={() => setPreview({ category: "face", key: f.key, price: f.price, label: f.label, patch: { face: f.key } })}
                   />
                 );
               })}
@@ -203,7 +209,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ hair: h.key })}
-                    onBuy={() => buy("hair", h.key, h.price, h.label)}
+                    onBuy={() => setPreview({ category: "hair", key: h.key, price: h.price, label: h.label, patch: { hair: h.key } })}
                   />
                 );
               })}
@@ -225,7 +231,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ hat: h.key })}
-                    onBuy={() => buy("hat", h.key, h.price, h.label)}
+                    onBuy={() => setPreview({ category: "hat", key: h.key, price: h.price, label: h.label, patch: { hat: h.key } })}
                   />
                 );
               })}
@@ -247,7 +253,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ jacket: j.key })}
-                    onBuy={() => buy("jacket", j.key, j.price, j.label)}
+                    onBuy={() => setPreview({ category: "jacket", key: j.key, price: j.price, label: j.label, patch: { jacket: j.key } })}
                   />
                 );
               })}
@@ -269,7 +275,7 @@ function AvatarPage() {
                     equipped={equipped}
                     busy={busyItem === id}
                     onEquip={() => update({ shoes: s.key })}
-                    onBuy={() => buy("shoes", s.key, s.price, s.label)}
+                    onBuy={() => setPreview({ category: "shoes", key: s.key, price: s.price, label: s.label, patch: { shoes: s.key } })}
                   />
                 );
               })}
@@ -277,6 +283,71 @@ function AvatarPage() {
           </Section>
         </div>
       </main>
+
+      <Dialog open={!!preview} onOpenChange={(o) => { if (!o) setPreview(null); }}>
+        <DialogContent className="max-w-2xl border-2 border-border bg-card p-0 shadow-block">
+          {preview && (() => {
+            const previewConfig: AvatarConfig = { ...draft, ...preview.patch };
+            const canAfford = (profile.bux ?? 0) >= preview.price;
+            const id = itemId(preview.category, preview.key);
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr]">
+                <div className="relative h-[60vh] min-h-[360px] overflow-hidden rounded-l-lg bg-[#0a1029]">
+                  <Canvas shadows camera={{ position: [4, 3, 6], fov: 45 }} dpr={[1, 1.5]}>
+                    <ambientLight intensity={0.6} />
+                    <hemisphereLight args={["#bae6fd", "#1e1b4b", 0.6]} />
+                    <directionalLight position={[5, 10, 5]} intensity={1.3} castShadow shadow-mapSize={[1024, 1024]} />
+                    <directionalLight position={[-5, 6, -3]} intensity={0.5} color="#a855f7" />
+                    <BlockyAvatar config={previewConfig} />
+                    <ContactShadows position={[0, 0, 0]} opacity={0.5} scale={10} blur={2.5} far={4} resolution={512} />
+                    <OrbitControls enablePan={false} target={[0, 1.7, 0]} minDistance={3} maxDistance={10} autoRotate autoRotateSpeed={1.5} />
+                  </Canvas>
+                  <div className="pointer-events-none absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+                    <Eye className="h-3.5 w-3.5" /> Preview
+                  </div>
+                </div>
+                <div className="flex flex-col justify-between p-6">
+                  <div>
+                    <DialogHeader>
+                      <DialogTitle className="font-display text-2xl">{preview.label}</DialogTitle>
+                      <DialogDescription className="capitalize">{preview.category}</DialogDescription>
+                    </DialogHeader>
+                    <div className="mt-4 inline-flex items-center gap-2 rounded-lg bg-bux/15 px-3 py-2 text-bux">
+                      <Coins className="h-5 w-5" />
+                      <span className="font-display text-xl">{preview.price} Bux</span>
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      You have <span className="font-bold text-foreground">{profile.bux} Bux</span>.
+                      {!canAfford && <span className="ml-1 text-destructive">Not enough.</span>}
+                    </p>
+                  </div>
+                  <div className="mt-6 flex flex-col gap-2">
+                    <button
+                      onClick={async () => {
+                        if (!canAfford) { toast.error("Not enough Bux"); return; }
+                        await buy(preview.category, preview.key, preview.price, preview.label);
+                        // auto-equip after purchase
+                        update(preview.patch);
+                        setPreview(null);
+                      }}
+                      disabled={!canAfford || busyItem === id}
+                      className="w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block transition hover:translate-y-0.5 disabled:opacity-50"
+                    >
+                      <Coins className="mr-1 inline h-5 w-5" /> Buy & equip
+                    </button>
+                    <button
+                      onClick={() => setPreview(null)}
+                      className="w-full rounded-lg bg-secondary py-2 font-display text-sm text-secondary-foreground"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
