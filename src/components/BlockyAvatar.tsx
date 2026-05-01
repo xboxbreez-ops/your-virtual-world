@@ -436,10 +436,113 @@ function Hair({ kind }: { kind: string }) {
         <pointLight color="#fb923c" intensity={1.2} distance={3} position={[0, 0.4, 0]} />
       </group>
     );
+  if (kind === "twintails")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.9, 0.28, 0.9]} /><meshStandardMaterial color="#f472b6" /></mesh>
+        {[-1, 1].map((s) => (
+          <group key={s} position={[s * 0.55, -0.3, 0]}>
+            <mesh castShadow><boxGeometry args={[0.22, 1.0, 0.22]} /><meshStandardMaterial color="#f472b6" /></mesh>
+            <mesh position={[0, -0.5, 0]} castShadow><boxGeometry args={[0.18, 0.4, 0.18]} /><meshStandardMaterial color="#f472b6" /></mesh>
+          </group>
+        ))}
+      </group>
+    );
+  if (kind === "hime")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.95, 0.3, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* side bangs */}
+        <mesh position={[-0.42, -0.2, 0.3]} castShadow><boxGeometry args={[0.16, 0.55, 0.32]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0.42, -0.2, 0.3]} castShadow><boxGeometry args={[0.16, 0.55, 0.32]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* long back hair */}
+        <mesh position={[0, -0.7, -0.4]} castShadow><boxGeometry args={[0.9, 1.5, 0.18]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+      </group>
+    );
+  if (kind === "spiky")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.18, 0.85]} /><meshStandardMaterial color="#fbbf24" /></mesh>
+        {[[-0.3, 0.2], [0, 0.35], [0.3, 0.2], [-0.15, 0.0], [0.15, 0.0]].map(([x, h], i) => (
+          <mesh key={i} position={[x, 0.22 + h, 0]} rotation={[0, 0, (i % 2 ? 0.2 : -0.2)]} castShadow>
+            <coneGeometry args={[0.16, 0.5 + h, 4]} />
+            <meshStandardMaterial color="#fbbf24" />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "silver")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.3, 0.92]} /><meshStandardMaterial color="#e5e7eb" metalness={0.3} roughness={0.6} /></mesh>
+        <mesh position={[0, -0.7, -0.4]} castShadow><boxGeometry args={[0.85, 1.4, 0.18]} /><meshStandardMaterial color="#e5e7eb" metalness={0.3} roughness={0.6} /></mesh>
+      </group>
+    );
+  if (kind === "bluebob")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[1.0, 0.55, 1.0]} /><meshStandardMaterial color="#0ea5e9" /></mesh>
+        <mesh position={[0, -0.05, 0.42]}><boxGeometry args={[0.9, 0.18, 0.04]} /><meshStandardMaterial color="#0ea5e9" /></mesh>
+      </group>
+    );
+  if (kind === "pinkpunk")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.12, 0.85]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 0.3, 0]} castShadow>
+          <boxGeometry args={[0.25, 0.55, 0.85]} />
+          <meshStandardMaterial color="#ec4899" emissive="#ec4899" emissiveIntensity={0.4} />
+        </mesh>
+      </group>
+    );
+  if (kind === "swordsman")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.28, 0.92]} /><meshStandardMaterial color="#16a34a" /></mesh>
+        <mesh position={[0, -0.05, 0.42]}><boxGeometry args={[0.9, 0.2, 0.04]} /><meshStandardMaterial color="#16a34a" /></mesh>
+        {/* small ponytail */}
+        <mesh position={[0, -0.25, -0.5]} rotation={[0.4, 0, 0]} castShadow><boxGeometry args={[0.18, 0.5, 0.18]} /><meshStandardMaterial color="#16a34a" /></mesh>
+      </group>
+    );
+  if (kind === "lightning")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.85, 0.12, 0.85]} /><meshStandardMaterial color="#fde047" /></mesh>
+        {[-0.3, 0, 0.3].map((x, i) => (
+          <mesh key={x} position={[x, 0.4 + (i === 1 ? 0.18 : 0), 0]} rotation={[0, 0, (i - 1) * 0.3]} castShadow>
+            <coneGeometry args={[0.16, 0.7, 4]} />
+            <meshStandardMaterial color="#fde047" emissive="#fbbf24" emissiveIntensity={1.2} />
+          </mesh>
+        ))}
+        <pointLight color="#fde047" intensity={1.4} distance={3} position={[0, 0.5, 0]} />
+      </group>
+    );
+  if (kind === "rainbow") {
+    const cols = ["#dc2626", "#f59e0b", "#fde047", "#16a34a", "#0ea5e9", "#7c3aed"];
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.9, 0.28, 0.9]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        {cols.map((c, i) => (
+          <mesh key={c} position={[(i - 2.5) * 0.15, 0.25, 0]} castShadow>
+            <boxGeometry args={[0.13, 0.3, 0.85]} />
+            <meshStandardMaterial color={c} emissive={c} emissiveIntensity={0.6} />
+          </mesh>
+        ))}
+      </group>
+    );
+  }
+  if (kind === "demonking")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.28, 0.92]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, -0.7, -0.4]} castShadow>
+          <boxGeometry args={[0.85, 1.5, 0.18]} />
+          <meshStandardMaterial color="#0a0a0a" emissive="#7f1d1d" emissiveIntensity={0.4} />
+        </mesh>
+        <pointLight color="#dc2626" intensity={0.9} distance={3} />
+      </group>
+    );
   return null;
-}
-
-function Shoe({ kind, color }: { kind: string; color?: string }) {
   // Renders a single shoe centered at origin (caller positions it on each foot).
   // `color` is used for the default sneaker; other shoes have their own palettes.
   if (kind === "boots")
