@@ -14,6 +14,7 @@ import { RemotePlayers } from "@/components/RemotePlayers";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { resolveBoxCollisions, insideFootprint, type AABB } from "@/lib/collision";
+import { GameAtmosphere } from "@/components/GameAtmosphere";
 import { applyPlayerCamera } from "@/lib/camera";
 import { Heart, Timer, Coins, Gamepad2, Keyboard, Users } from "lucide-react";
 
