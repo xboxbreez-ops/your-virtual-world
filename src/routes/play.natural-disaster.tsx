@@ -422,11 +422,10 @@ function GamePage() {
       <HeaderBar location="Natural Disaster" />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
         <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }}>
+          <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.0 }}>
             <Sky sunPosition={[100, 20, 100]} turbidity={disaster === "tornado" || disaster === "meteor" ? 10 : 2} />
             <fog attach="fog" args={["#0a1029", 25, 80]} />
-            <ambientLight intensity={disaster === "meteor" ? 0.25 : 0.55} />
-            <directionalLight position={[20, 30, 10]} intensity={1.1} castShadow shadow-mapSize={[2048, 2048]} />
+            <GameAtmosphere preset="disaster" contactPos={[0, -0.05, 0]} contactScale={70} />
             <Island />
             <Shelters />
             <Tornado visible={disaster === "tornado"} position={[0, 0, 0]} />
