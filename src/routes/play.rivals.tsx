@@ -590,11 +590,10 @@ function RivalsPage() {
           <LobbyView onStart={startMatch} />
         ) : (
           <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
-            <Canvas shadows camera={{ position: [0, 1.6, 12], fov: 75 }}>
+            <Canvas shadows camera={{ position: [0, 1.6, 12], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.0 }}>
               <Sky sunPosition={[10, 5, 10]} turbidity={6} />
-              <fog attach="fog" args={["#0f172a", 20, 60]} />
-              <ambientLight intensity={0.55} />
-              <directionalLight position={[10, 20, 10]} intensity={1} castShadow />
+              <fog attach="fog" args={["#0a0f1f", 18, 55]} />
+              <GameAtmosphere preset="arena" contactPos={[0, 0, 0]} contactScale={70} />
               <Arena />
               <Bots refs={refs as RefObject<GRefs>} />
               <Bullets refs={refs as RefObject<GRefs>} />
