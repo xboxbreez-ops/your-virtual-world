@@ -540,7 +540,9 @@ function RivalsPage() {
     refs.current = makeRefs(mode, gun);
     setMatch({ mode, gun });
     setHp(100); setAmmo(gun.mag); setReload(0); setKills(0); setAlive(true); setBux(0);
-    setTimeout(() => containerRef.current?.requestPointerLock?.(), 100);
+    // Don't auto-request pointer lock here — the browser throttles silent
+    // requests, which then makes the user's "Click to start" click fail too.
+    // The overlay's button is the user's first gesture; let it lock cleanly.
   };
 
   const onKill = () => setKills((k) => k + 1);
