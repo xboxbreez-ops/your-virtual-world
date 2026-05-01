@@ -122,11 +122,12 @@ function PlayerController({
     }
     p.vel.y -= 22 * dt;
 
+    const prevY = p.pos.y;
     p.pos.addScaledVector(p.vel, dt);
 
-    // platform ground check
+    // platform ground check (swept against previous Y so we don't tunnel through)
     const t = state.clock.getElapsedTime();
-    const hit = platformGround(p.pos, p.vel.y, platforms, t);
+    const hit = platformGround(p.pos, p.vel.y, platforms, t, prevY);
     if (hit.standing) {
       if (p.pos.y <= hit.groundY + 0.05) {
         p.pos.y = hit.groundY;
