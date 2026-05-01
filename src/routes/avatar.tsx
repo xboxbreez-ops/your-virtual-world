@@ -1,16 +1,25 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, ContactShadows, Environment } from "@react-three/drei";
+import { OrbitControls, ContactShadows } from "@react-three/drei";
 import { toast } from "sonner";
 import { useAuth, type AvatarConfig } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { BlockyAvatar } from "@/components/BlockyAvatar";
 import { HeaderBar } from "@/components/HeaderBar";
 import { HAT_CATALOG, FACE_CATALOG, SHIRT_CATALOG, PANTS_CATALOG, HAIR_CATALOG, SHOES_CATALOG, JACKET_CATALOG, itemId } from "@/lib/shop";
-import { Save, Lock, Coins, Check } from "lucide-react";
+import { Save, Lock, Coins, Check, Eye } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/avatar")({
+  head: () => ({
+    meta: [
+      { title: "Avatar Editor — BloxWorld" },
+      { name: "description", content: "Pick R6 or R15, buy hats, faces, and clothes with Bux. Live 3D preview." },
+    ],
+  }),
+  component: AvatarPage,
+});
   head: () => ({
     meta: [
       { title: "Avatar Editor — BloxWorld" },
