@@ -26,7 +26,9 @@ export function platformWorldPos(p: Platform, time: number): THREE.Vector3 {
 }
 
 const PLAYER_RADIUS = 0.45;
+const PLAYER_HEIGHT = 1.8;
 const FOOT_OFFSET = 1.0; // player.pos.y === feet + 1
+const SWEEP_SAMPLES = 5;
 
 export type PlatformHit = {
   /** the platform the player is currently standing on */
@@ -34,6 +36,77 @@ export type PlatformHit = {
   /** target ground level for player feet */
   groundY: number;
 };
+
+function overlapsPlatformFootprint(
+  pos: THREE.Vector3,
+  platform: Platform,
+  time: number,
+  prevPos?: THREE.Vector3,
+) {
+  const wp = platformWorldPos(platform, time);
+  const halfX = platform.size[0] / 2 + PLAYER_RADIUS;
+  const halfZ = platform.size[2] / 2 + PLAYER_RADIUS;
+  const samples = prevPos ? SWEEP_SAMPLES : 1;
+
+  for (let i = 0; i < samples; i++) {
+    const t = samples === 1 ? 1 : i / (samples - 1);
+    const sx = prevPos ? THREE.MathUtils.lerp(prevPos.x, pos.x, t) : pos.x;
+    const sz = prevPos ? THREE.MathUtils.lerp(prevPos.z, pos.z, t) : pos.z;
+    if (Math.abs(sx - wp.x) <= halfX && Math.abs(sz - wp.z) <= halfZ) {
+      return { wp, top: wp.y + platform.size[1] / 2 };
+    }
+  }
+
+  return null;
+}
+
+export function resolvePlatformBodyCollisions(
+  pos: THREE.Vector3,
+  vel: THREE.Vector3,
+  platforms: Platform[],
+  time: number,
+): boolean {
+  let hit = false;
+  const playerBottom = pos.y - FOOT_OFFSET;
+  const playerTop = playerBottom + PLAYER_HEIGHT;
+
+  for (const platform of platforms) {
+    const wp = platformWorldPos(platform, time);
+    const boxBottom = wp.y - platform.size[1] / 2;
+    const boxTop = wp.y + platform.size[1] / 2;
+    const halfX = platform.size[0] / 2 + PLAYER_RADIUS;
+    const halfZ = platform.size[2] / 2 + PLAYER_RADIUS;
+
+    if (playerTop < boxBottom || playerBottom > boxTop) continue;
+
+    const dx = pos.x - wp.x;
+    const dz = pos.z - wp.z;
+    const insideXZ = Math.abs(dx) < halfX && Math.abs(dz) < halfZ;
+    if (!insideXZ) continue;
+
+    const belowTop = playerBottom < boxTop - 0.08;
+    if (belowTop) {
+      const overlapX = halfX - Math.abs(dx);
+      const overlapZ = halfZ - Math.abs(dz);
+      if (overlapX < overlapZ) {
+        pos.x = wp.x + Math.sign(dx || vel.x || 1) * halfX;
+        vel.x = 0;
+      } else {
+        pos.z = wp.z + Math.sign(dz || vel.z || 1) * halfZ;
+        vel.z = 0;
+      }
+      hit = true;
+    }
+
+    if (vel.y > 0 && playerTop > boxBottom && playerBottom < boxBottom) {
+      pos.y = boxBottom - (PLAYER_HEIGHT - FOOT_OFFSET) - 0.02;
+      vel.y = Math.min(vel.y, 0);
+      hit = true;
+    }
+  }
+
+  return hit;
+}
 
 /**
  * Swept ground check: returns the highest platform the player crossed/landed
@@ -46,18 +119,15 @@ export function platformGround(
   platforms: Platform[],
   time: number,
   prevY?: number,
+  prevPos?: THREE.Vector3,
 ): PlatformHit {
   let best: { plat: Platform; top: number } | null = null;
   const curFeet = pos.y - FOOT_OFFSET;
   const prevFeet = (prevY ?? pos.y) - FOOT_OFFSET;
   for (const p of platforms) {
-    const wp = platformWorldPos(p, time);
-    const halfX = p.size[0] / 2 + PLAYER_RADIUS * 0.5;
-    const halfZ = p.size[2] / 2 + PLAYER_RADIUS * 0.5;
-    const dx = pos.x - wp.x;
-    const dz = pos.z - wp.z;
-    if (Math.abs(dx) > halfX || Math.abs(dz) > halfZ) continue;
-    const top = wp.y + p.size[1] / 2;
+    const overlap = overlapsPlatformFootprint(pos, p, time, prevPos);
+    if (!overlap) continue;
+    const top = overlap.top;
     // Snap if (a) we crossed the top from above this frame (swept), or
     // (b) we're already resting on / very close to it.
     const crossed = prevFeet >= top - 0.05 && curFeet <= top + 0.6 && velY <= 1.0;

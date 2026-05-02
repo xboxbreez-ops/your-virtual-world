@@ -14,7 +14,7 @@ import { GameAtmosphere, type AtmospherePreset } from "@/components/GameAtmosphe
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
-import { type Platform, platformGround, platformWorldPos } from "@/lib/obby";
+import { type Platform, platformGround, platformWorldPos, resolvePlatformBodyCollisions } from "@/lib/obby";
 import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users } from "lucide-react";
 
 type Refs = {
@@ -89,6 +89,7 @@ function PlayerController({
 }) {
   const { camera } = useThree();
   const lastCheckpointRef = useRef<Platform | null>(null);
+  const standingRef = useRef<{ platform: Platform | null; pos: THREE.Vector3 }>({ platform: null, pos: new THREE.Vector3() });
 
   useFrame((state, dt) => {
     const r = refs.current;
@@ -125,13 +126,20 @@ function PlayerController({
     }
     p.vel.y -= 22 * dt;
 
+    const prevPos = p.pos.clone();
     const prevY = p.pos.y;
     p.pos.addScaledVector(p.vel, dt);
 
-    // platform ground check (swept against previous Y so we don't tunnel through)
     const t = state.clock.getElapsedTime();
-    const hit = platformGround(p.pos, p.vel.y, platforms, t, prevY);
+    resolvePlatformBodyCollisions(p.pos, p.vel, platforms, t);
+    const hit = platformGround(p.pos, p.vel.y, platforms, t, prevY, prevPos);
     if (hit.standing) {
+      const currentWorldPos = platformWorldPos(hit.standing, t);
+      if (standingRef.current.platform === hit.standing) {
+        const delta = currentWorldPos.clone().sub(standingRef.current.pos);
+        p.pos.add(delta);
+      }
+      standingRef.current = { platform: hit.standing, pos: currentWorldPos.clone() };
       if (p.pos.y <= hit.groundY + 0.05) {
         p.pos.y = hit.groundY;
         p.vel.y = 0;
@@ -159,6 +167,7 @@ function PlayerController({
         onFinish();
       }
     } else {
+      standingRef.current.platform = null;
       p.onGround = false;
     }
 
@@ -170,6 +179,7 @@ function PlayerController({
         : r.spawn.clone();
       p.pos.copy(sp);
       p.vel.set(0, 0, 0);
+      standingRef.current.platform = null;
     }
 
     applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, input.current.zoomOut);
