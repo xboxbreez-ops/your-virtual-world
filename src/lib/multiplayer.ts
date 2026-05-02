@@ -20,7 +20,7 @@ export type RemoteState = {
   username: string;
   px: number; py: number; pz: number;
   yaw: number;
-  anim: "idle" | "walk" | "shoot";
+  anim: "idle" | "walk" | "shoot" | "jump";
   hp: number;
   team?: "ally" | "enemy" | null;
   ts: number;

@@ -890,11 +890,16 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
   return null;
 }
 
+type AvatarAnim = "idle" | "walk" | "jump" | "shoot";
+
 type Props = {
   // Allow callers (e.g. NPC bots) to omit the new cosmetic slots and fall back to defaults
   config: Omit<AvatarConfig, "hair" | "shoes" | "jacket"> & Partial<Pick<AvatarConfig, "hair" | "shoes" | "jacket">>;
   position?: [number, number, number];
+  /** Legacy: when true, plays walk cycle. Prefer `anim` for full state. */
   walking?: boolean;
+  /** Animation state. If omitted, falls back to `walking` flag for backwards compat. */
+  anim?: AvatarAnim;
 };
 
 /**
@@ -902,21 +907,51 @@ type Props = {
  * R6: 6 limbs (head, torso, 2 arms, 2 legs)
  * R15: 15 parts — arms split into upper/lower/hand, legs split into upper/lower/foot
  */
-export function BlockyAvatar({ config, position = [0, 0, 0], walking = false }: Props) {
+export function BlockyAvatar({ config, position = [0, 0, 0], walking = false, anim }: Props) {
   const group = useRef<Group>(null);
   const lArm = useRef<Mesh | Group>(null);
   const rArm = useRef<Mesh | Group>(null);
   const lLeg = useRef<Mesh | Group>(null);
   const rLeg = useRef<Mesh | Group>(null);
+  // Smoothed pose targets so transitions between idle/walk/jump don't snap.
+  const poseRef = useRef({ lArm: 0, rArm: 0, lLeg: 0, rLeg: 0 });
 
   useFrame((_s, dt) => {
     if (!group.current) return;
-    const t = (group.current.userData.t = (group.current.userData.t ?? 0) + dt * (walking ? 8 : 1.5));
-    const swing = walking ? Math.sin(t) * 0.6 : Math.sin(t * 0.5) * 0.05;
-    if (lArm.current) lArm.current.rotation.x = swing;
-    if (rArm.current) rArm.current.rotation.x = -swing;
-    if (lLeg.current) lLeg.current.rotation.x = -swing;
-    if (rLeg.current) rLeg.current.rotation.x = swing;
+    const state: AvatarAnim = anim ?? (walking ? "walk" : "idle");
+    const t = (group.current.userData.t = (group.current.userData.t ?? 0) + dt * (state === "walk" ? 8 : state === "jump" ? 6 : 1.5));
+
+    let lArmX = 0, rArmX = 0, lLegX = 0, rLegX = 0;
+    if (state === "walk") {
+      const s = Math.sin(t) * 0.6;
+      lArmX = s; rArmX = -s; lLegX = -s; rLegX = s;
+    } else if (state === "jump") {
+      // Tuck legs up, arms slightly raised — classic Roblox jump pose
+      lArmX = -1.0; rArmX = -1.0;
+      lLegX = 0.6; rLegX = 0.6;
+    } else if (state === "shoot") {
+      // arms forward, legs idle micro-sway
+      lArmX = -1.4; rArmX = -1.4;
+      const s = Math.sin(t * 0.5) * 0.04;
+      lLegX = -s; rLegX = s;
+    } else {
+      // idle: no swing — just hold neutral with a tiny breathing micro-motion
+      const s = Math.sin(t * 0.5) * 0.03;
+      lArmX = s; rArmX = -s; lLegX = 0; rLegX = 0;
+    }
+
+    // Lerp toward target so jump→land doesn't snap
+    const k = Math.min(1, dt * 14);
+    const p = poseRef.current;
+    p.lArm += (lArmX - p.lArm) * k;
+    p.rArm += (rArmX - p.rArm) * k;
+    p.lLeg += (lLegX - p.lLeg) * k;
+    p.rLeg += (rLegX - p.rLeg) * k;
+
+    if (lArm.current) lArm.current.rotation.x = p.lArm;
+    if (rArm.current) rArm.current.rotation.x = p.rArm;
+    if (lLeg.current) lLeg.current.rotation.x = p.lLeg;
+    if (rLeg.current) rLeg.current.rotation.x = p.rLeg;
   });
 
   const skin = config.skin_color;
