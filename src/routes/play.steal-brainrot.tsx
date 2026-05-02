@@ -127,6 +127,10 @@ function World() {
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color="#1e293b" />
       </mesh>
+      <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[18, 18]} />
+        <meshStandardMaterial color="#6d28d9" emissive="#581c87" emissiveIntensity={0.2} />
+      </mesh>
       {/* Center carpet */}
       <mesh position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[8, 48]} />
@@ -143,6 +147,16 @@ function World() {
             <boxGeometry args={[4, 1.2, 4]} />
             <meshStandardMaterial color={b.color} />
           </mesh>
+          <mesh position={[0, 0.08, 4.6]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+            <planeGeometry args={[5.4, 4.8]} />
+            <meshStandardMaterial color="#334155" roughness={0.95} />
+          </mesh>
+          {[[-2.8, 1.1, 0], [2.8, 1.1, 0], [0, 1.1, -2.8]].map((pad, i) => (
+            <mesh key={`pad-${i}`} position={[pad[0], pad[1], pad[2]]} castShadow receiveShadow>
+              <boxGeometry args={[1.6, 2.2, 1.6]} />
+              <meshStandardMaterial color="#475569" emissive={b.color} emissiveIntensity={0.12} />
+            </mesh>
+          ))}
           <mesh position={[0, 1.6, 0]} castShadow>
             <boxGeometry args={[3.2, 0.4, 3.2]} />
             <meshStandardMaterial color={b.color} emissive={b.color} emissiveIntensity={0.4} />
@@ -164,6 +178,21 @@ function World() {
         <mesh key={i} position={[w[0], w[1], w[2]]} castShadow>
           <boxGeometry args={[w[3], w[4], w[5]]} />
           <meshStandardMaterial color="#334155" />
+        </mesh>
+      ))}
+      {[
+        [0, 0.1, 20, 26, 0.25],
+        [0, 0.1, -20, 26, 0.25],
+        [20, 0.1, 0, 26, 0.25, true],
+        [-20, 0.1, 0, 26, 0.25, true],
+      ].map((lane, i) => (
+        <mesh
+          key={`lane-${i}`}
+          position={[lane[0], lane[1], lane[2]]}
+          rotation={[-Math.PI / 2, 0, lane[5] ? Math.PI / 2 : 0]}
+        >
+          <planeGeometry args={[lane[3], lane[4]]} />
+          <meshBasicMaterial color="#facc15" toneMapped={false} />
         </mesh>
       ))}
     </>
