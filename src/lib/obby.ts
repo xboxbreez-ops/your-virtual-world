@@ -474,3 +474,145 @@ export function buildSpeedCourse(): Platform[] {
 
   return out;
 }
+
+/** Neon — pulsing rotating cyber course with rotating bridges */
+export function buildNeonCourse(): Platform[] {
+  const out: Platform[] = [];
+  out.push({ pos: [0, 0, 0], size: [6, 0.5, 6], color: "#7c3aed" });
+  out.push({ pos: [0, 0.4, 0], size: [3, 0.3, 3], color: "#22d3ee", checkpoint: true });
+
+  let z = -5;
+  // Pulsing pads
+  for (let i = 0; i < 8; i++) {
+    out.push({
+      pos: [(i % 2 ? 1.6 : -1.6), 0, z],
+      size: [1.6, 0.3, 1.6],
+      color: i % 2 ? "#ec4899" : "#22d3ee",
+      moveY: { amp: 0.5, period: 1.4 + i * 0.15, phase: i * 0.4 },
+    });
+    z -= 3.2;
+  }
+  out.push({ pos: [0, 0, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // Rotating long bridges
+  for (let i = 0; i < 4; i++) {
+    out.push({
+      pos: [0, 0.5 + i * 0.8, z],
+      size: [6, 0.3, 1.4],
+      color: "#a855f7",
+      rotY: { period: 4 + i * 0.5, dir: i % 2 ? 1 : -1 },
+    });
+    z -= 5;
+  }
+  out.push({ pos: [0, 4, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // Killer neon walls between safe pads
+  for (let i = 0; i < 5; i++) {
+    out.push({ pos: [0, 4, z], size: [5, 0.3, 1.6], color: "#ec4899", killer: true });
+    out.push({
+      pos: [(i % 2 ? 2 : -2), 4, z - 1.6],
+      size: [1.6, 0.3, 1.6],
+      color: "#22d3ee",
+      moveX: { amp: 1.2, period: 1.8 + i * 0.2 },
+    });
+    z -= 3.2;
+  }
+  out.push({ pos: [0, 4, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // Final climb
+  for (let i = 0; i < 6; i++) {
+    out.push({ pos: [(i % 2 ? 1.4 : -1.4), 4 + i * 0.9, z - i * 1.2], size: [1.6, 0.3, 1.6], color: "#7c3aed" });
+  }
+  out.push({ pos: [0, 4 + 6 * 0.9, z - 8], size: [5, 0.5, 5], color: "#fde047", finish: true });
+  return out;
+}
+
+/** Jungle — vine-swing style course with moving green planks */
+export function buildJungleCourse(): Platform[] {
+  const out: Platform[] = [];
+  out.push({ pos: [0, 0, 0], size: [6, 0.5, 6], color: "#166534" });
+  out.push({ pos: [0, 0.4, 0], size: [3, 0.3, 3], color: "#22d3ee", checkpoint: true });
+
+  let z = -5;
+  // log bridges
+  for (let i = 0; i < 6; i++) {
+    out.push({ pos: [0, i * 0.4, z], size: [1.0, 0.3, 3.5], color: "#78350f" });
+    z -= 4.2;
+  }
+  out.push({ pos: [0, 2.4, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // swinging vines (moveX wide)
+  for (let i = 0; i < 6; i++) {
+    out.push({
+      pos: [0, 2.4 + i * 0.5, z],
+      size: [1.4, 0.3, 1.4],
+      color: "#84cc16",
+      moveX: { amp: 3.5, period: 2.2 + i * 0.3, phase: i * 0.6 },
+    });
+    z -= 3.6;
+  }
+  out.push({ pos: [0, 5.4, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // poison swamp (killer) with leaf pads
+  for (let i = 0; i < 7; i++) {
+    out.push({ pos: [0, 5.2, z], size: [5, 0.3, 2.5], color: "#65a30d", killer: true });
+    out.push({
+      pos: [(i % 2 ? 1.4 : -1.4), 5.5, z],
+      size: [1.5, 0.3, 1.5],
+      color: "#16a34a",
+      moveY: { amp: 0.4, period: 1.5 + i * 0.15 },
+    });
+    z -= 3.2;
+  }
+  out.push({ pos: [0, 5.4, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  out.push({ pos: [0, 6, z - 2], size: [5, 0.5, 5], color: "#fde047", finish: true });
+  return out;
+}
+
+/** Sky Islands — long airborne hops between drifting cubes */
+export function buildSkyCourse(): Platform[] {
+  const out: Platform[] = [];
+  out.push({ pos: [0, 0, 0], size: [6, 0.5, 6], color: "#0ea5e9" });
+  out.push({ pos: [0, 0.4, 0], size: [3, 0.3, 3], color: "#22d3ee", checkpoint: true });
+
+  let z = -5;
+  for (let i = 0; i < 10; i++) {
+    out.push({
+      pos: [(i % 2 ? 1 : -1) * (1.2 + i * 0.1), i * 0.3, z],
+      size: [2.2, 0.4, 2.2],
+      color: i % 3 === 0 ? "#fafafa" : "#bae6fd",
+      moveY: { amp: 0.3 + i * 0.05, period: 2.2 + i * 0.1, phase: i * 0.5 },
+    });
+    z -= 4;
+  }
+  out.push({ pos: [0, 3, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // Drifting bridges
+  for (let i = 0; i < 5; i++) {
+    out.push({
+      pos: [0, 3 + i * 0.6, z],
+      size: [1.4, 0.3, 4],
+      color: "#fafafa",
+      moveX: { amp: 2.8, period: 3 + i * 0.3, phase: i },
+    });
+    z -= 5;
+  }
+  out.push({ pos: [0, 6, z], size: [3.2, 0.4, 3.2], color: "#22d3ee", checkpoint: true });
+  z -= 4;
+
+  // Final spiral hop
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    out.push({ pos: [Math.cos(a) * 3, 6 + i * 0.5, z - Math.sin(a) * 3], size: [1.4, 0.3, 1.4], color: "#fde68a" });
+  }
+  out.push({ pos: [0, 6 + 4, z - 4], size: [5, 0.5, 5], color: "#fde047", finish: true });
+  return out;
+}
