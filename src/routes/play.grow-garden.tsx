@@ -35,8 +35,8 @@ const CROP_INFO: Record<CropKind, { color: string; growMs: number; price: number
 };
 const CROP_KEYS: CropKind[] = ["carrot", "apple", "cherry", "pumpkin", "diamond"];
 
-const ROW = 4;
-const COL = 4;
+const ROW = 5;
+const COL = 5;
 const TILE = 1.6;
 const PLOT_SIZE = ROW * TILE + 3; // including border
 
@@ -76,7 +76,7 @@ function makeRefs(initialBux: number): Refs {
     player: { pos: new THREE.Vector3(0, 1, PLOT_SIZE), vel: new THREE.Vector3(), yaw: 0, pitch: 0, onGround: true },
     plots,
     inventory: {},
-    seeds: { carrot: 5 }, // start with 5 carrot seeds
+    seeds: { carrot: 8 }, // start with extra starter seeds so the early loop feels fuller
   };
 }
 
@@ -94,6 +94,25 @@ function World() {
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color="#86efac" />
       </mesh>
+      <mesh position={[0, 0.02, 9]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[46, 10]} />
+        <meshStandardMaterial color="#d6d3d1" roughness={1} />
+      </mesh>
+      <mesh position={[0, 0.021, 14]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[26, 5]} />
+        <meshStandardMaterial color="#e7e5e4" roughness={1} />
+      </mesh>
+      {[
+        [0, 1.2, 38, 110, 2.4, 2],
+        [0, 1.2, -38, 110, 2.4, 2],
+        [38, 1.2, 0, 2, 2.4, 110],
+        [-38, 1.2, 0, 2, 2.4, 110],
+      ].map((wall, i) => (
+        <mesh key={`garden-wall-${i}`} position={[wall[0], wall[1], wall[2]]} castShadow receiveShadow>
+          <boxGeometry args={[wall[3], wall[4], wall[5]]} />
+          <meshStandardMaterial color="#166534" roughness={0.8} />
+        </mesh>
+      ))}
       {/* Plots */}
       {PLOTS.map((p) => (
         <group key={p.id} position={[p.pos[0], 0, p.pos[1]]}>
@@ -107,6 +126,17 @@ function World() {
             <mesh key={i} position={[s[0] * (PLOT_SIZE / 2 - 0.4), 0.5, s[1] * (PLOT_SIZE / 2 - 0.4)]} castShadow>
               <boxGeometry args={[0.3, 1, 0.3]} />
               <meshStandardMaterial color={p.color} />
+            </mesh>
+          ))}
+          {[
+            [0, 0.35, -(PLOT_SIZE / 2 - 0.3), PLOT_SIZE - 1.2, 0.4, 0.25],
+            [0, 0.35, PLOT_SIZE / 2 - 0.3, PLOT_SIZE - 1.2, 0.4, 0.25],
+            [-(PLOT_SIZE / 2 - 0.3), 0.35, 0, 0.25, 0.4, PLOT_SIZE - 1.2],
+            [PLOT_SIZE / 2 - 0.3, 0.35, 0, 0.25, 0.4, PLOT_SIZE - 1.2],
+          ].map((rail, i) => (
+            <mesh key={`rail-${i}`} position={[rail[0], rail[1], rail[2]]} castShadow>
+              <boxGeometry args={[rail[3], rail[4], rail[5]]} />
+              <meshStandardMaterial color="#eab308" roughness={0.65} />
             </mesh>
           ))}
           {/* dirt tiles */}
@@ -135,6 +165,8 @@ function World() {
         <mesh position={[0, 1, 0]} castShadow><boxGeometry args={[3, 2, 3]} /><meshStandardMaterial color="#16a34a" /></mesh>
         <mesh position={[0, 2.4, 0]} castShadow><boxGeometry args={[3.6, 0.4, 3.6]} /><meshStandardMaterial color="#15803d" /></mesh>
         <mesh position={[0, 3, 0]} castShadow><boxGeometry args={[2, 0.7, 0.2]} /><meshStandardMaterial color="#fef3c7" /></mesh>
+        <mesh position={[0, 2, 1.65]} castShadow><boxGeometry args={[3.4, 1, 0.2]} /><meshStandardMaterial color="#dcfce7" /></mesh>
+        <mesh position={[0, 2.9, 1.7]} castShadow><boxGeometry args={[4, 0.2, 1.4]} /><meshStandardMaterial color="#22c55e" /></mesh>
       </group>
 
       {/* Sell shop */}
@@ -142,6 +174,8 @@ function World() {
         <mesh position={[0, 1, 0]} castShadow><boxGeometry args={[3, 2, 3]} /><meshStandardMaterial color="#a16207" /></mesh>
         <mesh position={[0, 2.4, 0]} castShadow><boxGeometry args={[3.6, 0.4, 3.6]} /><meshStandardMaterial color="#facc15" /></mesh>
         <mesh position={[0, 3, 0]} castShadow><boxGeometry args={[2, 0.7, 0.2]} /><meshStandardMaterial color="#fef3c7" /></mesh>
+        <mesh position={[0, 2, 1.65]} castShadow><boxGeometry args={[3.4, 1, 0.2]} /><meshStandardMaterial color="#fef3c7" /></mesh>
+        <mesh position={[0, 2.9, 1.7]} castShadow><boxGeometry args={[4, 0.2, 1.4]} /><meshStandardMaterial color="#f59e0b" /></mesh>
       </group>
     </>
   );
