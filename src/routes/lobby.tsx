@@ -94,6 +94,33 @@ const GAMES = [
     playable: true,
     route: "/play/obby-ice" as const,
   },
+  {
+    id: "obby-neon",
+    title: "Neon Rush",
+    blurb: "Pulsing pads, rotating bridges, and laser walls in a glowing cyber tower.",
+    bg: "linear-gradient(135deg, #1e1b4b, #ec4899)",
+    icon: "🌈",
+    playable: true,
+    route: "/play/obby-neon" as const,
+  },
+  {
+    id: "obby-jungle",
+    title: "Jungle Run",
+    blurb: "Hop slick logs, swing past vines, and dodge the poison swamp in a deep jungle.",
+    bg: "linear-gradient(135deg, #14532d, #84cc16)",
+    icon: "🌴",
+    playable: true,
+    route: "/play/obby-jungle" as const,
+  },
+  {
+    id: "obby-sky",
+    title: "Sky Islands",
+    blurb: "Drift between floating islands high above the clouds. One slip and you're falling.",
+    bg: "linear-gradient(135deg, #0ea5e9, #fafafa)",
+    icon: "☁️",
+    playable: true,
+    route: "/play/obby-sky" as const,
+  },
 ];
 
 function LobbyPage() {

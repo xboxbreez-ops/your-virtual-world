@@ -198,15 +198,18 @@ function SelfAvatarBridge({
   input: RefObject<{ zoomOut: boolean }>;
   config: import("@/lib/auth-context").AvatarConfig;
 }) {
-  const posRef = useRef<{ pos: THREE.Vector3; yaw: number }>({
+  const posRef = useRef<{ pos: THREE.Vector3; yaw: number; anim: "idle" | "walk" | "jump" }>({
     pos: refs.current?.player.pos ?? new THREE.Vector3(),
     yaw: 0,
+    anim: "idle",
   });
   useFrame(() => {
     const p = refs.current?.player;
     if (!p) return;
     posRef.current.pos = p.pos;
     posRef.current.yaw = p.yaw;
+    const horizSq = p.vel.x * p.vel.x + p.vel.z * p.vel.z;
+    posRef.current.anim = !p.onGround ? "jump" : horizSq > 0.5 ? "walk" : "idle";
   });
   return <SelfAvatar posRef={posRef} inputRef={input} config={config} />;
 }
@@ -244,10 +247,13 @@ export function ObbyGame({
 
   const getSelfState = useCallback(() => {
     const p = refs.current.player;
+    const horizSq = p.vel.x * p.vel.x + p.vel.z * p.vel.z;
+    const anim: "idle" | "walk" | "jump" =
+      !p.onGround ? "jump" : horizSq > 0.5 ? "walk" : "idle";
     return {
       px: p.pos.x, py: p.pos.y, pz: p.pos.z,
       yaw: p.yaw,
-      anim: p.vel.lengthSq() > 0.5 ? ("walk" as const) : ("idle" as const),
+      anim,
       hp: 100,
     };
   }, []);

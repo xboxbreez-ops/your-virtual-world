@@ -97,7 +97,15 @@ function RemoteAvatar({
             jacket: "none",
           }
         }
-        walking={walkingRef.current || player.anim === "walk"}
+        anim={
+          player.anim === "jump"
+            ? "jump"
+            : player.anim === "shoot"
+              ? "shoot"
+              : (walkingRef.current || player.anim === "walk")
+                ? "walk"
+                : "idle"
+        }
       />
       {/* Floating name tag — counter-rotated so it always faces upright */}
       <group position={[0, 3.0, 0]} rotation={[0, -lerpYaw.current - Math.PI, 0]}>
