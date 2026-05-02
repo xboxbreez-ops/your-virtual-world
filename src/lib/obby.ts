@@ -501,7 +501,7 @@ export function buildNeonCourse(): Platform[] {
       pos: [0, 0.5 + i * 0.8, z],
       size: [6, 0.3, 1.4],
       color: "#a855f7",
-      rotY: { period: 4 + i * 0.5, dir: i % 2 ? 1 : -1 },
+      rotateY: ((i % 2 ? 1 : -1) * Math.PI * 2) / (4 + i * 0.5),
     });
     z -= 5;
   }
