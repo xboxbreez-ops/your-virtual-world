@@ -488,7 +488,7 @@ export function buildNeonCourse(): Platform[] {
       pos: [(i % 2 ? 1.6 : -1.6), 0, z],
       size: [1.6, 0.3, 1.6],
       color: i % 2 ? "#ec4899" : "#22d3ee",
-      moveY: { amp: 0.5, period: 1.4 + i * 0.15, phase: i * 0.4 },
+      moveY: { amp: 0.5, period: 1.4 + i * 0.15 * 0.4 },
     });
     z -= 3.2;
   }
@@ -551,7 +551,7 @@ export function buildJungleCourse(): Platform[] {
       pos: [0, 2.4 + i * 0.5, z],
       size: [1.4, 0.3, 1.4],
       color: "#84cc16",
-      moveX: { amp: 3.5, period: 2.2 + i * 0.3, phase: i * 0.6 },
+      moveX: { amp: 3.5, period: 2.2 + i * 0.3 * 0.6 },
     });
     z -= 3.6;
   }
@@ -588,7 +588,7 @@ export function buildSkyCourse(): Platform[] {
       pos: [(i % 2 ? 1 : -1) * (1.2 + i * 0.1), i * 0.3, z],
       size: [2.2, 0.4, 2.2],
       color: i % 3 === 0 ? "#fafafa" : "#bae6fd",
-      moveY: { amp: 0.3 + i * 0.05, period: 2.2 + i * 0.1, phase: i * 0.5 },
+      moveY: { amp: 0.3 + i * 0.05, period: 2.2 + i * 0.1 * 0.5 },
     });
     z -= 4;
   }
@@ -601,7 +601,7 @@ export function buildSkyCourse(): Platform[] {
       pos: [0, 3 + i * 0.6, z],
       size: [1.4, 0.3, 4],
       color: "#fafafa",
-      moveX: { amp: 2.8, period: 3 + i * 0.3, phase: i },
+      moveX: { amp: 2.8, period: 3 + i * 0.3 },
     });
     z -= 5;
   }
