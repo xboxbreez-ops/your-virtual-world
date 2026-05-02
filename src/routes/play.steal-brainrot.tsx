@@ -181,17 +181,17 @@ function World() {
         </mesh>
       ))}
       {[
-        [0, 0.1, 20, 26, 0.25],
-        [0, 0.1, -20, 26, 0.25],
-        [20, 0.1, 0, 26, 0.25, true],
-        [-20, 0.1, 0, 26, 0.25, true],
+        { pos: [0, 0.1, 20] as [number, number, number], size: [26, 0.25] as [number, number], rotate: false },
+        { pos: [0, 0.1, -20] as [number, number, number], size: [26, 0.25] as [number, number], rotate: false },
+        { pos: [20, 0.1, 0] as [number, number, number], size: [26, 0.25] as [number, number], rotate: true },
+        { pos: [-20, 0.1, 0] as [number, number, number], size: [26, 0.25] as [number, number], rotate: true },
       ].map((lane, i) => (
         <mesh
           key={`lane-${i}`}
-          position={[lane[0], lane[1], lane[2]]}
-          rotation={[-Math.PI / 2, 0, lane[5] ? Math.PI / 2 : 0]}
+          position={lane.pos}
+          rotation={[-Math.PI / 2, 0, lane.rotate ? Math.PI / 2 : 0]}
         >
-          <planeGeometry args={[lane[3], lane[4]]} />
+          <planeGeometry args={lane.size} />
           <meshBasicMaterial color="#facc15" toneMapped={false} />
         </mesh>
       ))}
