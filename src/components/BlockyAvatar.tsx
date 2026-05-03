@@ -577,10 +577,79 @@ function Hair({ kind }: { kind: string }) {
         <pointLight color="#dc2626" intensity={0.9} distance={3} />
       </group>
     );
+  // Streetwear hair
+  if (kind === "dreads")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.22, 0.92]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        {[[-0.35, 0.35], [0, 0.4], [0.35, 0.35], [-0.4, 0], [0.4, 0], [-0.35, -0.35], [0, -0.4], [0.35, -0.35]].map(([x, z], i) => (
+          <mesh key={i} position={[x, -0.35, z]} castShadow>
+            <cylinderGeometry args={[0.05, 0.05, 0.8, 6]} />
+            <meshStandardMaterial color="#1c1917" roughness={1} />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "longdreads")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.22, 0.92]} /><meshStandardMaterial color="#3b2f1d" /></mesh>
+        {[[-0.35, 0.3], [0, 0.4], [0.35, 0.3], [-0.42, -0.05], [0.42, -0.05], [-0.3, -0.35], [0, -0.42], [0.3, -0.35]].map(([x, z], i) => (
+          <mesh key={i} position={[x, -0.7, z]} castShadow>
+            <cylinderGeometry args={[0.06, 0.06, 1.5, 6]} />
+            <meshStandardMaterial color="#3b2f1d" roughness={1} />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "freeform")
+    return (
+      <group position={[0, 0.55, 0]}>
+        {/* irregular puffy freeform mass */}
+        <mesh castShadow><sphereGeometry args={[0.62, 14, 14]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[-0.3, 0.15, 0.2]} castShadow><sphereGeometry args={[0.32, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[0.32, 0.18, -0.1]} castShadow><sphereGeometry args={[0.34, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[0.05, 0.3, 0.25]} castShadow><sphereGeometry args={[0.28, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[-0.2, 0.25, -0.25]} castShadow><sphereGeometry args={[0.3, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        {/* a few stray locks */}
+        <mesh position={[-0.5, -0.1, 0.2]} rotation={[0, 0, 0.4]} castShadow><cylinderGeometry args={[0.05, 0.05, 0.5, 6]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        <mesh position={[0.5, -0.05, -0.1]} rotation={[0, 0, -0.3]} castShadow><cylinderGeometry args={[0.05, 0.05, 0.45, 6]} /><meshStandardMaterial color="#1c1917" /></mesh>
+      </group>
+    );
+  if (kind === "twists")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.2, 0.92]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          const r = 0.4;
+          return (
+            <mesh key={i} position={[Math.cos(a) * r, -0.25, Math.sin(a) * r]} castShadow>
+              <cylinderGeometry args={[0.045, 0.045, 0.55, 5]} />
+              <meshStandardMaterial color="#1c1917" />
+            </mesh>
+          );
+        })}
+      </group>
+    );
+  if (kind === "waves360")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow>
+          <sphereGeometry args={[0.46, 16, 16]} />
+          <meshStandardMaterial color="#1c1917" roughness={0.45} metalness={0.05} />
+        </mesh>
+        {/* faint wave rings to suggest 360 waves */}
+        {[0.1, 0.2, 0.3].map((y) => (
+          <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.42, 0.012, 6, 24]} />
+            <meshStandardMaterial color="#000" transparent opacity={0.25} />
+          </mesh>
+        ))}
+      </group>
+    );
   return null;
 }
-
-function Shoe({ kind, color }: { kind: string; color?: string }) {
   // Renders a single shoe centered at origin (caller positions it on each foot).
   // `color` is used for the default sneaker; other shoes have their own palettes.
   if (kind === "geta")
