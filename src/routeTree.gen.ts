@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayStealBrainrotRouteImport } from './routes/play.steal-brainrot'
 import { Route as PlayRivalsRouteImport } from './routes/play.rivals'
+import { Route as PlayPetPalsRouteImport } from './routes/play.pet-pals'
 import { Route as PlayObbyTowerRouteImport } from './routes/play.obby-tower'
 import { Route as PlayObbySpeedRouteImport } from './routes/play.obby-speed'
 import { Route as PlayObbySkyRouteImport } from './routes/play.obby-sky'
@@ -53,6 +54,11 @@ const PlayStealBrainrotRoute = PlayStealBrainrotRouteImport.update({
 const PlayRivalsRoute = PlayRivalsRouteImport.update({
   id: '/play/rivals',
   path: '/play/rivals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayPetPalsRoute = PlayPetPalsRouteImport.update({
+  id: '/play/pet-pals',
+  path: '/play/pet-pals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlayObbyTowerRoute = PlayObbyTowerRouteImport.update({
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/play/obby-sky': typeof PlayObbySkyRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
+  '/play/pet-pals': typeof PlayPetPalsRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/play/obby-sky': typeof PlayObbySkyRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
+  '/play/pet-pals': typeof PlayPetPalsRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/play/obby-sky': typeof PlayObbySkyRoute
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
+  '/play/pet-pals': typeof PlayPetPalsRoute
   '/play/rivals': typeof PlayRivalsRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/play/obby-sky'
     | '/play/obby-speed'
     | '/play/obby-tower'
+    | '/play/pet-pals'
     | '/play/rivals'
     | '/play/steal-brainrot'
   fileRoutesByTo: FileRoutesByTo
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/play/obby-sky'
     | '/play/obby-speed'
     | '/play/obby-tower'
+    | '/play/pet-pals'
     | '/play/rivals'
     | '/play/steal-brainrot'
   id:
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/play/obby-sky'
     | '/play/obby-speed'
     | '/play/obby-tower'
+    | '/play/pet-pals'
     | '/play/rivals'
     | '/play/steal-brainrot'
   fileRoutesById: FileRoutesById
@@ -221,6 +233,7 @@ export interface RootRouteChildren {
   PlayObbySkyRoute: typeof PlayObbySkyRoute
   PlayObbySpeedRoute: typeof PlayObbySpeedRoute
   PlayObbyTowerRoute: typeof PlayObbyTowerRoute
+  PlayPetPalsRoute: typeof PlayPetPalsRoute
   PlayRivalsRoute: typeof PlayRivalsRoute
   PlayStealBrainrotRoute: typeof PlayStealBrainrotRoute
 }
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/play/rivals'
       fullPath: '/play/rivals'
       preLoaderRoute: typeof PlayRivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/pet-pals': {
+      id: '/play/pet-pals'
+      path: '/play/pet-pals'
+      fullPath: '/play/pet-pals'
+      preLoaderRoute: typeof PlayPetPalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/play/obby-tower': {
@@ -349,6 +369,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlayObbySkyRoute: PlayObbySkyRoute,
   PlayObbySpeedRoute: PlayObbySpeedRoute,
   PlayObbyTowerRoute: PlayObbyTowerRoute,
+  PlayPetPalsRoute: PlayPetPalsRoute,
   PlayRivalsRoute: PlayRivalsRoute,
   PlayStealBrainrotRoute: PlayStealBrainrotRoute,
 }
