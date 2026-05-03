@@ -650,6 +650,8 @@ function Hair({ kind }: { kind: string }) {
     );
   return null;
 }
+
+function Shoe({ kind, color }: { kind: string; color?: string }) {
   // Renders a single shoe centered at origin (caller positions it on each foot).
   // `color` is used for the default sneaker; other shoes have their own palettes.
   if (kind === "geta")
