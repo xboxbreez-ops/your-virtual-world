@@ -141,6 +141,12 @@ export const HAIR_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "lightning", price: 850, label: "Lightning Hair" },
   { key: "rainbow", price: 1200, label: "Rainbow Hair" },
   { key: "demonking", price: 1500, label: "Demon King" },
+  // Streetwear
+  { key: "dreads", price: 350, label: "Dreads" },
+  { key: "longdreads", price: 480, label: "Long Dreads" },
+  { key: "freeform", price: 600, label: "Freeform Dreads" },
+  { key: "twists", price: 320, label: "Twists" },
+  { key: "waves360", price: 280, label: "360 Waves" },
 ];
 
 export const SHOES_CATALOG: { key: string; price: number; label: string }[] = [
@@ -163,6 +169,10 @@ export const SHOES_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "iceboots", price: 600, label: "Frost Boots" },
   { key: "lavaboots", price: 700, label: "Lava Boots" },
   { key: "void", price: 1000, label: "Void Walkers" },
+  // Streetwear / designer
+  { key: "designersneaks", price: 450, label: "Designer Sneaks" },
+  { key: "redbottoms", price: 900, label: "Red Bottoms" },
+  { key: "highdesigners", price: 1200, label: "High Designers" },
 ];
 
 export const JACKET_CATALOG: { key: string; price: number; label: string }[] = [
@@ -186,6 +196,13 @@ export const JACKET_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "dragonscale", price: 1500, label: "Dragon Scale" },
   { key: "magicalgirl", price: 900, label: "Magical Outfit" },
   { key: "akatsuki", price: 1100, label: "Crimson Cloak" },
+  // Streetwear / designer
+  { key: "designerhoodie", price: 700, label: "Designer Hoodie" },
+  { key: "luxuryjacket", price: 950, label: "Luxury Jacket" },
+  { key: "bigpuffer", price: 600, label: "Big Puffer" },
+  { key: "chain", price: 800, label: "Iced Chain" },
+  { key: "gucciset", price: 1100, label: "Designer Stripes" },
+  { key: "tracksuit", price: 380, label: "Tracksuit" },
 ];
 
 // item_id format used in DB inventory
