@@ -363,6 +363,8 @@ function Hat({ kind }: { kind: string }) {
     );
   return null;
 }
+
+function Hair({ kind }: { kind: string }) {
   if (kind === "none" || !kind) return null;
   if (kind === "buzz")
     return (
