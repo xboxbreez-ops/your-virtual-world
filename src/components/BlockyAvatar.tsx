@@ -796,6 +796,29 @@ function Shoe({ kind, color }: { kind: string; color?: string }) {
         </mesh>
       </group>
     );
+  if (kind === "designersneaks")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.54, 0.26, 0.66]} /><meshStandardMaterial color="#fafafa" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.15, 0]} castShadow><boxGeometry args={[0.56, 0.06, 0.68]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0.18, 0, 0]} castShadow><boxGeometry args={[0.04, 0.18, 0.62]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "redbottoms")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.5, 0.22, 0.62]} /><meshStandardMaterial color="#0a0a0a" roughness={0.3} metalness={0.2} /></mesh>
+        <mesh position={[0, -0.14, 0]} castShadow><boxGeometry args={[0.52, 0.06, 0.64]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "highdesigners")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.54, 0.5, 0.66]} /><meshStandardMaterial color="#7c2d12" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.28, 0]} castShadow><boxGeometry args={[0.56, 0.06, 0.68]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+        <mesh position={[0, 0.05, 0.34]}><boxGeometry args={[0.4, 0.14, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+      </group>
+    );
   // sneakers (default)
   return (
     <mesh castShadow>
