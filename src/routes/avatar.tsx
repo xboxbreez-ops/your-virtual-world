@@ -105,8 +105,8 @@ function AvatarPage() {
             </button>
           </div>
 
-          <Section title="Rig">
-            {(["R6", "R15"] as const).map((r) => (
+          <Section title="Body type">
+            {(["R6", "R15", "Realistic"] as const).map((r) => (
               <button
                 key={r}
                 onClick={() => update({ rig: r })}
@@ -116,7 +116,7 @@ function AvatarPage() {
               </button>
             ))}
             <div className="ml-1 self-center text-xs text-muted-foreground">
-              {draft.rig === "R6" ? "Classic 6-limb body" : "15-piece articulated body"}
+              {draft.rig === "R6" ? "Classic 6-limb body" : draft.rig === "R15" ? "15-piece articulated body" : "Proportional human — clothes still fit"}
             </div>
           </Section>
 
