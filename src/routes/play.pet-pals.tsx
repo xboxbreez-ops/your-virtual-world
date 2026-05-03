@@ -154,8 +154,9 @@ function Player({ posRef, inputRef }: {
 }
 
 function PetPalsPage() {
-  const { user, profile, avatar, addBux, setBuxLocal } = useAuth();
-  const input = useGameInput();
+  const { user, profile, avatar, setBuxLocal } = useAuth();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { input } = useGameInput(containerRef);
   const posRef = useRef({ pos: new THREE.Vector3(0, 1, 6), vel: new THREE.Vector3(), yaw: 0, pitch: 0, onGround: true });
   const targetPos = useRef(posRef.current.pos);
   const [pets, setPets] = useState<Pet[]>([]);
@@ -213,12 +214,12 @@ function PetPalsPage() {
   const eggPct = egg && eggInfo ? Math.min(100, ((Date.now() - egg.startedAt) / eggInfo.hatchMs) * 100) : 0;
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <div ref={containerRef} className="relative h-screen w-screen overflow-hidden">
       <HeaderBar location="Pet Pals" />
       <Canvas shadows camera={{ position: [0, 4, 10], fov: 65 }}>
         <GameAtmosphere preset="garden" />
         <World />
-        <Player posRef={posRef} input={input} />
+        <Player posRef={posRef} inputRef={input} />
         <SelfAvatar posRef={posRef} inputRef={input} config={avatar} />
         {equipped && <PetMesh pet={equipped} target={targetPos} />}
       </Canvas>
