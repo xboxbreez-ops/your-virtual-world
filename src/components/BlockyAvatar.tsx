@@ -1016,6 +1016,77 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
         <mesh position={[0, 1.0, 0.4]}><boxGeometry args={[0.28, 0.2, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
       </group>
     );
+  // Streetwear / designer
+  if (kind === "designerhoodie")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.42, 1.45, 0.82]} /><meshStandardMaterial color="#0a0a0a" roughness={0.7} /></mesh>
+        <mesh position={[0, 2.5, -0.22]} castShadow><boxGeometry args={[1.05, 0.6, 0.5]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* monogram band */}
+        <mesh position={[0, 1.95, 0.42]}><boxGeometry args={[1.0, 0.18, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+        <mesh position={[0, 1.55, 0.42]}><boxGeometry args={[1.0, 0.06, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+      </group>
+    );
+  if (kind === "luxuryjacket")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.36, 1.4, 0.76]} /><meshStandardMaterial color="#7c2d12" metalness={0.3} roughness={0.4} /></mesh>
+        <mesh position={[-0.4, 1.85, 0.4]}><boxGeometry args={[0.32, 0.32, 0.04]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+        <mesh position={[0.4, 1.85, 0.4]}><boxGeometry args={[0.32, 0.32, 0.04]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+      </group>
+    );
+  if (kind === "bigpuffer")
+    return (
+      <group>
+        <mesh position={[0, 2.05, 0]} castShadow><boxGeometry args={[1.55, 0.45, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 1.6, 0]} castShadow><boxGeometry args={[1.55, 0.45, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 1.15, 0]} castShadow><boxGeometry args={[1.5, 0.4, 0.92]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* puffed sleeves bumps */}
+        <mesh position={[-0.85, 2.05, 0]} castShadow><sphereGeometry args={[0.32, 12, 12]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0.85, 2.05, 0]} castShadow><sphereGeometry args={[0.32, 12, 12]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+      </group>
+    );
+  if (kind === "chain")
+    return (
+      <group position={[0, 2.35, 0.4]}>
+        {/* big iced chain — torus around neck + pendant */}
+        <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <torusGeometry args={[0.42, 0.06, 8, 24]} />
+          <meshStandardMaterial color="#fbbf24" metalness={0.95} roughness={0.15} emissive="#fbbf24" emissiveIntensity={0.2} />
+        </mesh>
+        <mesh position={[0, -0.4, 0.05]} castShadow>
+          <boxGeometry args={[0.28, 0.32, 0.08]} />
+          <meshStandardMaterial color="#fbbf24" metalness={0.95} roughness={0.15} emissive="#fde047" emissiveIntensity={0.4} />
+        </mesh>
+        <mesh position={[0, -0.4, 0.1]}>
+          <boxGeometry args={[0.16, 0.18, 0.02]} />
+          <meshStandardMaterial color="#bae6fd" metalness={0.9} roughness={0.05} emissive="#bae6fd" emissiveIntensity={0.6} />
+        </mesh>
+      </group>
+    );
+  if (kind === "gucciset")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.36, 1.4, 0.76]} /><meshStandardMaterial color="#16a34a" /></mesh>
+        {/* horizontal stripes red/green/red */}
+        <mesh position={[0, 1.85, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0, 1.7, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0, 1.55, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "tracksuit")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.34, 1.4, 0.74]} /><meshStandardMaterial color="#1e3a8a" /></mesh>
+        {/* 3-stripe sleeves */}
+        <mesh position={[-0.7, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[-0.62, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[-0.78, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.7, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.62, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.78, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
   return null;
 }
 
