@@ -91,6 +91,12 @@ function Face({ kind }: { kind: string }) {
           <mesh position={[-0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
           <mesh position={[0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
         </>
+      ) : kind === "shades" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0.005]}><planeGeometry args={[0.22, 0.14]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          <mesh position={[0.18, eyeY, 0.005]}><planeGeometry args={[0.22, 0.14]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          <mesh position={[0, eyeY, 0.005]}><planeGeometry args={[0.1, 0.03]} /><meshBasicMaterial color="#fbbf24" /></mesh>
+        </>
       ) : (
         <>
           <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
@@ -98,7 +104,14 @@ function Face({ kind }: { kind: string }) {
         </>
       )}
       {/* mouth */}
-      {kind === "angry" ? (
+      {kind === "grillz" ? (
+        <group position={[0, mouthY, 0.005]}>
+          <mesh><planeGeometry args={[0.4, 0.12]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          {[-0.14, -0.07, 0, 0.07, 0.14].map((x) => (
+            <mesh key={x} position={[x, 0, 0.001]}><planeGeometry args={[0.05, 0.1]} /><meshBasicMaterial color="#fbbf24" /></mesh>
+          ))}
+        </group>
+      ) : kind === "angry" ? (
         <mesh position={[0, mouthY, 0]} rotation={[0, 0, Math.PI]}><planeGeometry args={[0.3, 0.05]} /><meshBasicMaterial color="#111" /></mesh>
       ) : kind === "happy" ? (
         <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.4, 0.12]} /><meshBasicMaterial color="#111" /></mesh>
