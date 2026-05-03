@@ -326,10 +326,43 @@ function Hat({ kind }: { kind: string }) {
         <pointLight color="#a855f7" intensity={1.3} distance={4} />
       </group>
     );
+  // Streetwear hats
+  if (kind === "durag_black" || kind === "durag_red" || kind === "durag_blue") {
+    const c = kind === "durag_red" ? "#dc2626" : kind === "durag_blue" ? "#1e40af" : "#0a0a0a";
+    return (
+      <group position={[0, 0.42, 0]}>
+        {/* hugs the skull */}
+        <mesh castShadow><boxGeometry args={[0.92, 0.42, 0.94]} /><meshStandardMaterial color={c} roughness={0.4} metalness={0.1} /></mesh>
+        {/* tied knot front */}
+        <mesh position={[0, 0, 0.48]} castShadow><boxGeometry args={[0.18, 0.14, 0.08]} /><meshStandardMaterial color={c} /></mesh>
+        {/* tail flowing back */}
+        <mesh position={[0, -0.08, -0.55]} rotation={[0.5, 0, 0]} castShadow><boxGeometry args={[0.55, 0.06, 0.6]} /><meshStandardMaterial color={c} side={2} /></mesh>
+      </group>
+    );
+  }
+  if (kind === "fitted_black" || kind === "fitted_red" || kind === "fitted_white") {
+    const c = kind === "fitted_red" ? "#dc2626" : kind === "fitted_white" ? "#fafafa" : "#0a0a0a";
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh position={[0, 0.05, 0]} castShadow><boxGeometry args={[0.98, 0.22, 0.98]} /><meshStandardMaterial color={c} /></mesh>
+        {/* flat brim */}
+        <mesh position={[0, -0.02, 0.6]} castShadow><boxGeometry args={[0.95, 0.04, 0.42]} /><meshStandardMaterial color={c} /></mesh>
+        {/* logo dot */}
+        <mesh position={[0, 0.08, 0.5]}><boxGeometry args={[0.16, 0.12, 0.02]} /><meshStandardMaterial color={c === "#fafafa" ? "#dc2626" : "#fde047"} metalness={0.7} /></mesh>
+      </group>
+    );
+  }
+  if (kind === "designerbucket")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><cylinderGeometry args={[0.55, 0.55, 0.4, 16]} /><meshStandardMaterial color="#7c2d12" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.18, 0]} castShadow><cylinderGeometry args={[0.85, 0.85, 0.06, 16]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+        {/* monogram band */}
+        <mesh position={[0, 0, 0.55]}><boxGeometry args={[0.7, 0.16, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+      </group>
+    );
   return null;
 }
-
-function Hair({ kind }: { kind: string }) {
   if (kind === "none" || !kind) return null;
   if (kind === "buzz")
     return (
