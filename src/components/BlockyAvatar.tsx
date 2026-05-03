@@ -971,6 +971,114 @@ export function BlockyAvatar({ config, position = [0, 0, 0], walking = false, an
     </group>
   );
 
+  if (config.rig === "Realistic") {
+    // Proportional human body — capsule torso, rounded limbs, smoother shading.
+    // Anchor points (head y=2.6, arms y≈2.25, legs y≈1.1) match R15 so all
+    // existing hats/hair/jackets/shoes still fit when the player switches rigs.
+    const muscleRough = 0.55;
+    const skinMat = (
+      <meshStandardMaterial color={skin} roughness={0.7} metalness={0.0} />
+    );
+    return (
+      <group ref={group} position={position}>
+        {/* Head — sphere for smoother silhouette */}
+        <group position={[0, 2.6, 0]}>
+          <mesh castShadow>
+            <sphereGeometry args={[0.42, 20, 20]} />
+            <meshStandardMaterial color={skin} roughness={0.65} />
+          </mesh>
+          {/* neck */}
+          <mesh position={[0, -0.42, 0]} castShadow>
+            <cylinderGeometry args={[0.18, 0.22, 0.25, 12]} />
+            {skinMat}
+          </mesh>
+          <Face kind={config.face} />
+          <Hair kind={hair} />
+          <Hat kind={config.hat} />
+        </group>
+        {/* torso — tapered V-shape (broad shoulders → narrow waist) */}
+        <mesh position={[0, 2.0, 0]} castShadow>
+          <boxGeometry args={[1.25, 0.7, 0.55]} />
+          <meshStandardMaterial color={shirt} roughness={muscleRough} />
+        </mesh>
+        <mesh position={[0, 1.45, 0]} castShadow>
+          <boxGeometry args={[0.95, 0.6, 0.5]} />
+          <meshStandardMaterial color={shirt} roughness={muscleRough} />
+        </mesh>
+        {/* pec/ab definition (subtle dark inset lines) */}
+        <mesh position={[0, 2.05, 0.28]}>
+          <boxGeometry args={[0.04, 0.5, 0.01]} />
+          <meshStandardMaterial color="#000" transparent opacity={0.18} />
+        </mesh>
+        <mesh position={[0, 1.65, 0.26]}>
+          <boxGeometry args={[0.5, 0.02, 0.01]} />
+          <meshStandardMaterial color="#000" transparent opacity={0.18} />
+        </mesh>
+        <Jacket kind={jacket} baseColor={shirt} />
+        {/* arms — capsule (cylinder + sphere caps) for muscular look */}
+        <group ref={lArm as React.RefObject<Group>} position={[-0.78, 2.25, 0]}>
+          <mesh position={[0, -0.05, 0]} castShadow>
+            <sphereGeometry args={[0.22, 16, 16]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.4, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.16, 0.7, 14]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.16, 0.14, 0.55, 14]} />
+            {skinMat}
+          </mesh>
+          <mesh position={[0, -1.3, 0]} castShadow>
+            <sphereGeometry args={[0.16, 14, 14]} />
+            {skinMat}
+          </mesh>
+        </group>
+        <group ref={rArm as React.RefObject<Group>} position={[0.78, 2.25, 0]}>
+          <mesh position={[0, -0.05, 0]} castShadow>
+            <sphereGeometry args={[0.22, 16, 16]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.4, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.16, 0.7, 14]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.16, 0.14, 0.55, 14]} />
+            {skinMat}
+          </mesh>
+          <mesh position={[0, -1.3, 0]} castShadow>
+            <sphereGeometry args={[0.16, 14, 14]} />
+            {skinMat}
+          </mesh>
+        </group>
+        {/* legs — thigh + calf cylinders */}
+        <group ref={lLeg as React.RefObject<Group>} position={[-0.27, 1.1, 0]}>
+          <mesh position={[0, -0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.24, 0.2, 0.65, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.18, 0.55, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <group position={[0, -1.3, 0.05]}><Shoe kind={shoes} /></group>
+        </group>
+        <group ref={rLeg as React.RefObject<Group>} position={[0.27, 1.1, 0]}>
+          <mesh position={[0, -0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.24, 0.2, 0.65, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.18, 0.55, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <group position={[0, -1.3, 0.05]}><Shoe kind={shoes} /></group>
+        </group>
+      </group>
+    );
+  }
+
   if (config.rig === "R6") {
     return (
       <group ref={group} position={position}>
