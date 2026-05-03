@@ -4,11 +4,11 @@ import type { Group, Mesh } from "three";
 import type { AvatarConfig } from "@/lib/auth-context";
 
 // Hat catalog
-export const HATS = ["none", "cap", "beanie", "horns", "headphones", "tophat", "cowboy", "wizard", "halo", "antlers", "crown", "fire", "catears", "foxears", "bunnyears", "headband", "strawhat", "samurai", "demonhorns", "angelhalo", "ninjahood", "magicalgirl", "visor", "skullcrown", "rainbow"] as const;
-export const FACES = ["smile", "happy", "wink", "cool", "kawaii", "angry", "evil", "robot", "anime", "tsundere", "sleepy", "starry", "heart", "demon", "void", "blush"] as const;
-export const HAIRS = ["none", "buzz", "messy", "side", "ponytail", "pigtails", "bun", "spikes", "mohawk", "long", "afro", "fire", "twintails", "hime", "spiky", "silver", "bluebob", "pinkpunk", "swordsman", "lightning", "rainbow", "demonking"] as const;
-export const SHOES = ["sneakers", "sandals", "crocs", "boots", "heels", "cleats", "skates", "platforms", "neonkicks", "rocketboots", "goldenkicks", "geta", "ninjaboots", "samuraiboots", "magicalboots", "iceboots", "lavaboots", "void"] as const;
-export const JACKETS = ["none", "vest", "hoodie", "denim", "varsity", "puffer", "trench", "leather", "armor", "cape", "wings", "kimono", "haori", "schooluniform", "ninjagi", "demonwings", "dragonscale", "magicalgirl", "akatsuki"] as const;
+export const HATS = ["none", "cap", "beanie", "horns", "headphones", "tophat", "cowboy", "wizard", "halo", "antlers", "crown", "fire", "catears", "foxears", "bunnyears", "headband", "strawhat", "samurai", "demonhorns", "angelhalo", "ninjahood", "magicalgirl", "visor", "skullcrown", "rainbow", "durag_black", "durag_red", "durag_blue", "fitted_black", "fitted_red", "fitted_white", "designerbucket"] as const;
+export const FACES = ["smile", "happy", "wink", "cool", "kawaii", "angry", "evil", "robot", "anime", "tsundere", "sleepy", "starry", "heart", "demon", "void", "blush", "grillz", "shades"] as const;
+export const HAIRS = ["none", "buzz", "messy", "side", "ponytail", "pigtails", "bun", "spikes", "mohawk", "long", "afro", "fire", "twintails", "hime", "spiky", "silver", "bluebob", "pinkpunk", "swordsman", "lightning", "rainbow", "demonking", "dreads", "freeform", "longdreads", "twists", "waves360"] as const;
+export const SHOES = ["sneakers", "sandals", "crocs", "boots", "heels", "cleats", "skates", "platforms", "neonkicks", "rocketboots", "goldenkicks", "geta", "ninjaboots", "samuraiboots", "magicalboots", "iceboots", "lavaboots", "void", "designersneaks", "redbottoms", "highdesigners"] as const;
+export const JACKETS = ["none", "vest", "hoodie", "denim", "varsity", "puffer", "trench", "leather", "armor", "cape", "wings", "kimono", "haori", "schooluniform", "ninjagi", "demonwings", "dragonscale", "magicalgirl", "akatsuki", "designerhoodie", "luxuryjacket", "bigpuffer", "chain", "gucciset", "tracksuit"] as const;
 
 function Face({ kind }: { kind: string }) {
   // eyes + mouth as small dark planes on the front of head
@@ -91,6 +91,12 @@ function Face({ kind }: { kind: string }) {
           <mesh position={[-0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
           <mesh position={[0.26, -0.02, 0]}><planeGeometry args={[0.14, 0.08]} /><meshBasicMaterial color="#fb7185" /></mesh>
         </>
+      ) : kind === "shades" ? (
+        <>
+          <mesh position={[-0.18, eyeY, 0.005]}><planeGeometry args={[0.22, 0.14]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          <mesh position={[0.18, eyeY, 0.005]}><planeGeometry args={[0.22, 0.14]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          <mesh position={[0, eyeY, 0.005]}><planeGeometry args={[0.1, 0.03]} /><meshBasicMaterial color="#fbbf24" /></mesh>
+        </>
       ) : (
         <>
           <mesh position={[-0.18, eyeY, 0]}><planeGeometry args={[0.1, 0.1]} /><meshBasicMaterial color="#111" /></mesh>
@@ -98,7 +104,14 @@ function Face({ kind }: { kind: string }) {
         </>
       )}
       {/* mouth */}
-      {kind === "angry" ? (
+      {kind === "grillz" ? (
+        <group position={[0, mouthY, 0.005]}>
+          <mesh><planeGeometry args={[0.4, 0.12]} /><meshBasicMaterial color="#0a0a0a" /></mesh>
+          {[-0.14, -0.07, 0, 0.07, 0.14].map((x) => (
+            <mesh key={x} position={[x, 0, 0.001]}><planeGeometry args={[0.05, 0.1]} /><meshBasicMaterial color="#fbbf24" /></mesh>
+          ))}
+        </group>
+      ) : kind === "angry" ? (
         <mesh position={[0, mouthY, 0]} rotation={[0, 0, Math.PI]}><planeGeometry args={[0.3, 0.05]} /><meshBasicMaterial color="#111" /></mesh>
       ) : kind === "happy" ? (
         <mesh position={[0, mouthY, 0]}><planeGeometry args={[0.4, 0.12]} /><meshBasicMaterial color="#111" /></mesh>
@@ -326,6 +339,41 @@ function Hat({ kind }: { kind: string }) {
         <pointLight color="#a855f7" intensity={1.3} distance={4} />
       </group>
     );
+  // Streetwear hats
+  if (kind === "durag_black" || kind === "durag_red" || kind === "durag_blue") {
+    const c = kind === "durag_red" ? "#dc2626" : kind === "durag_blue" ? "#1e40af" : "#0a0a0a";
+    return (
+      <group position={[0, 0.42, 0]}>
+        {/* hugs the skull */}
+        <mesh castShadow><boxGeometry args={[0.92, 0.42, 0.94]} /><meshStandardMaterial color={c} roughness={0.4} metalness={0.1} /></mesh>
+        {/* tied knot front */}
+        <mesh position={[0, 0, 0.48]} castShadow><boxGeometry args={[0.18, 0.14, 0.08]} /><meshStandardMaterial color={c} /></mesh>
+        {/* tail flowing back */}
+        <mesh position={[0, -0.08, -0.55]} rotation={[0.5, 0, 0]} castShadow><boxGeometry args={[0.55, 0.06, 0.6]} /><meshStandardMaterial color={c} side={2} /></mesh>
+      </group>
+    );
+  }
+  if (kind === "fitted_black" || kind === "fitted_red" || kind === "fitted_white") {
+    const c = kind === "fitted_red" ? "#dc2626" : kind === "fitted_white" ? "#fafafa" : "#0a0a0a";
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh position={[0, 0.05, 0]} castShadow><boxGeometry args={[0.98, 0.22, 0.98]} /><meshStandardMaterial color={c} /></mesh>
+        {/* flat brim */}
+        <mesh position={[0, -0.02, 0.6]} castShadow><boxGeometry args={[0.95, 0.04, 0.42]} /><meshStandardMaterial color={c} /></mesh>
+        {/* logo dot */}
+        <mesh position={[0, 0.08, 0.5]}><boxGeometry args={[0.16, 0.12, 0.02]} /><meshStandardMaterial color={c === "#fafafa" ? "#dc2626" : "#fde047"} metalness={0.7} /></mesh>
+      </group>
+    );
+  }
+  if (kind === "designerbucket")
+    return (
+      <group position={[0, 0.55, 0]}>
+        <mesh castShadow><cylinderGeometry args={[0.55, 0.55, 0.4, 16]} /><meshStandardMaterial color="#7c2d12" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.18, 0]} castShadow><cylinderGeometry args={[0.85, 0.85, 0.06, 16]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+        {/* monogram band */}
+        <mesh position={[0, 0, 0.55]}><boxGeometry args={[0.7, 0.16, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+      </group>
+    );
   return null;
 }
 
@@ -542,6 +590,77 @@ function Hair({ kind }: { kind: string }) {
         <pointLight color="#dc2626" intensity={0.9} distance={3} />
       </group>
     );
+  // Streetwear hair
+  if (kind === "dreads")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.22, 0.92]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        {[[-0.35, 0.35], [0, 0.4], [0.35, 0.35], [-0.4, 0], [0.4, 0], [-0.35, -0.35], [0, -0.4], [0.35, -0.35]].map(([x, z], i) => (
+          <mesh key={i} position={[x, -0.35, z]} castShadow>
+            <cylinderGeometry args={[0.05, 0.05, 0.8, 6]} />
+            <meshStandardMaterial color="#1c1917" roughness={1} />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "longdreads")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.22, 0.92]} /><meshStandardMaterial color="#3b2f1d" /></mesh>
+        {[[-0.35, 0.3], [0, 0.4], [0.35, 0.3], [-0.42, -0.05], [0.42, -0.05], [-0.3, -0.35], [0, -0.42], [0.3, -0.35]].map(([x, z], i) => (
+          <mesh key={i} position={[x, -0.7, z]} castShadow>
+            <cylinderGeometry args={[0.06, 0.06, 1.5, 6]} />
+            <meshStandardMaterial color="#3b2f1d" roughness={1} />
+          </mesh>
+        ))}
+      </group>
+    );
+  if (kind === "freeform")
+    return (
+      <group position={[0, 0.55, 0]}>
+        {/* irregular puffy freeform mass */}
+        <mesh castShadow><sphereGeometry args={[0.62, 14, 14]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[-0.3, 0.15, 0.2]} castShadow><sphereGeometry args={[0.32, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[0.32, 0.18, -0.1]} castShadow><sphereGeometry args={[0.34, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[0.05, 0.3, 0.25]} castShadow><sphereGeometry args={[0.28, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        <mesh position={[-0.2, 0.25, -0.25]} castShadow><sphereGeometry args={[0.3, 10, 10]} /><meshStandardMaterial color="#1c1917" roughness={1} /></mesh>
+        {/* a few stray locks */}
+        <mesh position={[-0.5, -0.1, 0.2]} rotation={[0, 0, 0.4]} castShadow><cylinderGeometry args={[0.05, 0.05, 0.5, 6]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        <mesh position={[0.5, -0.05, -0.1]} rotation={[0, 0, -0.3]} castShadow><cylinderGeometry args={[0.05, 0.05, 0.45, 6]} /><meshStandardMaterial color="#1c1917" /></mesh>
+      </group>
+    );
+  if (kind === "twists")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow><boxGeometry args={[0.92, 0.2, 0.92]} /><meshStandardMaterial color="#1c1917" /></mesh>
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          const r = 0.4;
+          return (
+            <mesh key={i} position={[Math.cos(a) * r, -0.25, Math.sin(a) * r]} castShadow>
+              <cylinderGeometry args={[0.045, 0.045, 0.55, 5]} />
+              <meshStandardMaterial color="#1c1917" />
+            </mesh>
+          );
+        })}
+      </group>
+    );
+  if (kind === "waves360")
+    return (
+      <group position={[0, 0.42, 0]}>
+        <mesh castShadow>
+          <sphereGeometry args={[0.46, 16, 16]} />
+          <meshStandardMaterial color="#1c1917" roughness={0.45} metalness={0.05} />
+        </mesh>
+        {/* faint wave rings to suggest 360 waves */}
+        {[0.1, 0.2, 0.3].map((y) => (
+          <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.42, 0.012, 6, 24]} />
+            <meshStandardMaterial color="#000" transparent opacity={0.25} />
+          </mesh>
+        ))}
+      </group>
+    );
   return null;
 }
 
@@ -688,6 +807,29 @@ function Shoe({ kind, color }: { kind: string; color?: string }) {
           <boxGeometry args={[0.52, 0.24, 0.64]} />
           <meshStandardMaterial color="#fbbf24" metalness={0.9} roughness={0.2} emissive="#fbbf24" emissiveIntensity={0.4} />
         </mesh>
+      </group>
+    );
+  if (kind === "designersneaks")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.54, 0.26, 0.66]} /><meshStandardMaterial color="#fafafa" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.15, 0]} castShadow><boxGeometry args={[0.56, 0.06, 0.68]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0.18, 0, 0]} castShadow><boxGeometry args={[0.04, 0.18, 0.62]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "redbottoms")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.5, 0.22, 0.62]} /><meshStandardMaterial color="#0a0a0a" roughness={0.3} metalness={0.2} /></mesh>
+        <mesh position={[0, -0.14, 0]} castShadow><boxGeometry args={[0.52, 0.06, 0.64]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "highdesigners")
+    return (
+      <group>
+        <mesh castShadow><boxGeometry args={[0.54, 0.5, 0.66]} /><meshStandardMaterial color="#7c2d12" roughness={0.5} /></mesh>
+        <mesh position={[0, -0.28, 0]} castShadow><boxGeometry args={[0.56, 0.06, 0.68]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+        <mesh position={[0, 0.05, 0.34]}><boxGeometry args={[0.4, 0.14, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
       </group>
     );
   // sneakers (default)
@@ -887,6 +1029,77 @@ function Jacket({ kind, baseColor }: { kind: string; baseColor: string }) {
         <mesh position={[0, 1.0, 0.4]}><boxGeometry args={[0.28, 0.2, 0.04]} /><meshStandardMaterial color="#dc2626" /></mesh>
       </group>
     );
+  // Streetwear / designer
+  if (kind === "designerhoodie")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.42, 1.45, 0.82]} /><meshStandardMaterial color="#0a0a0a" roughness={0.7} /></mesh>
+        <mesh position={[0, 2.5, -0.22]} castShadow><boxGeometry args={[1.05, 0.6, 0.5]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* monogram band */}
+        <mesh position={[0, 1.95, 0.42]}><boxGeometry args={[1.0, 0.18, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+        <mesh position={[0, 1.55, 0.42]}><boxGeometry args={[1.0, 0.06, 0.02]} /><meshStandardMaterial color="#fbbf24" metalness={0.7} /></mesh>
+      </group>
+    );
+  if (kind === "luxuryjacket")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.36, 1.4, 0.76]} /><meshStandardMaterial color="#7c2d12" metalness={0.3} roughness={0.4} /></mesh>
+        <mesh position={[-0.4, 1.85, 0.4]}><boxGeometry args={[0.32, 0.32, 0.04]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+        <mesh position={[0.4, 1.85, 0.4]}><boxGeometry args={[0.32, 0.32, 0.04]} /><meshStandardMaterial color="#fbbf24" metalness={0.8} /></mesh>
+      </group>
+    );
+  if (kind === "bigpuffer")
+    return (
+      <group>
+        <mesh position={[0, 2.05, 0]} castShadow><boxGeometry args={[1.55, 0.45, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 1.6, 0]} castShadow><boxGeometry args={[1.55, 0.45, 0.95]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0, 1.15, 0]} castShadow><boxGeometry args={[1.5, 0.4, 0.92]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        {/* puffed sleeves bumps */}
+        <mesh position={[-0.85, 2.05, 0]} castShadow><sphereGeometry args={[0.32, 12, 12]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+        <mesh position={[0.85, 2.05, 0]} castShadow><sphereGeometry args={[0.32, 12, 12]} /><meshStandardMaterial color="#0a0a0a" /></mesh>
+      </group>
+    );
+  if (kind === "chain")
+    return (
+      <group position={[0, 2.35, 0.4]}>
+        {/* big iced chain — torus around neck + pendant */}
+        <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <torusGeometry args={[0.42, 0.06, 8, 24]} />
+          <meshStandardMaterial color="#fbbf24" metalness={0.95} roughness={0.15} emissive="#fbbf24" emissiveIntensity={0.2} />
+        </mesh>
+        <mesh position={[0, -0.4, 0.05]} castShadow>
+          <boxGeometry args={[0.28, 0.32, 0.08]} />
+          <meshStandardMaterial color="#fbbf24" metalness={0.95} roughness={0.15} emissive="#fde047" emissiveIntensity={0.4} />
+        </mesh>
+        <mesh position={[0, -0.4, 0.1]}>
+          <boxGeometry args={[0.16, 0.18, 0.02]} />
+          <meshStandardMaterial color="#bae6fd" metalness={0.9} roughness={0.05} emissive="#bae6fd" emissiveIntensity={0.6} />
+        </mesh>
+      </group>
+    );
+  if (kind === "gucciset")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.36, 1.4, 0.76]} /><meshStandardMaterial color="#16a34a" /></mesh>
+        {/* horizontal stripes red/green/red */}
+        <mesh position={[0, 1.85, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+        <mesh position={[0, 1.7, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0, 1.55, 0.4]}><boxGeometry args={[1.4, 0.1, 0.02]} /><meshStandardMaterial color="#dc2626" /></mesh>
+      </group>
+    );
+  if (kind === "tracksuit")
+    return (
+      <group>
+        <mesh position={[0, 1.7, 0]} castShadow><boxGeometry args={[1.34, 1.4, 0.74]} /><meshStandardMaterial color="#1e3a8a" /></mesh>
+        {/* 3-stripe sleeves */}
+        <mesh position={[-0.7, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[-0.62, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[-0.78, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.7, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.62, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+        <mesh position={[0.78, 2.1, 0]}><boxGeometry args={[0.04, 0.5, 0.45]} /><meshStandardMaterial color="#fafafa" /></mesh>
+      </group>
+    );
   return null;
 }
 
@@ -970,6 +1183,114 @@ export function BlockyAvatar({ config, position = [0, 0, 0], walking = false, an
       <Hat kind={config.hat} />
     </group>
   );
+
+  if (config.rig === "Realistic") {
+    // Proportional human body — capsule torso, rounded limbs, smoother shading.
+    // Anchor points (head y=2.6, arms y≈2.25, legs y≈1.1) match R15 so all
+    // existing hats/hair/jackets/shoes still fit when the player switches rigs.
+    const muscleRough = 0.55;
+    const skinMat = (
+      <meshStandardMaterial color={skin} roughness={0.7} metalness={0.0} />
+    );
+    return (
+      <group ref={group} position={position}>
+        {/* Head — sphere for smoother silhouette */}
+        <group position={[0, 2.6, 0]}>
+          <mesh castShadow>
+            <sphereGeometry args={[0.42, 20, 20]} />
+            <meshStandardMaterial color={skin} roughness={0.65} />
+          </mesh>
+          {/* neck */}
+          <mesh position={[0, -0.42, 0]} castShadow>
+            <cylinderGeometry args={[0.18, 0.22, 0.25, 12]} />
+            {skinMat}
+          </mesh>
+          <Face kind={config.face} />
+          <Hair kind={hair} />
+          <Hat kind={config.hat} />
+        </group>
+        {/* torso — tapered V-shape (broad shoulders → narrow waist) */}
+        <mesh position={[0, 2.0, 0]} castShadow>
+          <boxGeometry args={[1.25, 0.7, 0.55]} />
+          <meshStandardMaterial color={shirt} roughness={muscleRough} />
+        </mesh>
+        <mesh position={[0, 1.45, 0]} castShadow>
+          <boxGeometry args={[0.95, 0.6, 0.5]} />
+          <meshStandardMaterial color={shirt} roughness={muscleRough} />
+        </mesh>
+        {/* pec/ab definition (subtle dark inset lines) */}
+        <mesh position={[0, 2.05, 0.28]}>
+          <boxGeometry args={[0.04, 0.5, 0.01]} />
+          <meshStandardMaterial color="#000" transparent opacity={0.18} />
+        </mesh>
+        <mesh position={[0, 1.65, 0.26]}>
+          <boxGeometry args={[0.5, 0.02, 0.01]} />
+          <meshStandardMaterial color="#000" transparent opacity={0.18} />
+        </mesh>
+        <Jacket kind={jacket} baseColor={shirt} />
+        {/* arms — capsule (cylinder + sphere caps) for muscular look */}
+        <group ref={lArm as React.RefObject<Group>} position={[-0.78, 2.25, 0]}>
+          <mesh position={[0, -0.05, 0]} castShadow>
+            <sphereGeometry args={[0.22, 16, 16]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.4, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.16, 0.7, 14]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.16, 0.14, 0.55, 14]} />
+            {skinMat}
+          </mesh>
+          <mesh position={[0, -1.3, 0]} castShadow>
+            <sphereGeometry args={[0.16, 14, 14]} />
+            {skinMat}
+          </mesh>
+        </group>
+        <group ref={rArm as React.RefObject<Group>} position={[0.78, 2.25, 0]}>
+          <mesh position={[0, -0.05, 0]} castShadow>
+            <sphereGeometry args={[0.22, 16, 16]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.4, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.16, 0.7, 14]} />
+            <meshStandardMaterial color={shirt} roughness={muscleRough} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.16, 0.14, 0.55, 14]} />
+            {skinMat}
+          </mesh>
+          <mesh position={[0, -1.3, 0]} castShadow>
+            <sphereGeometry args={[0.16, 14, 14]} />
+            {skinMat}
+          </mesh>
+        </group>
+        {/* legs — thigh + calf cylinders */}
+        <group ref={lLeg as React.RefObject<Group>} position={[-0.27, 1.1, 0]}>
+          <mesh position={[0, -0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.24, 0.2, 0.65, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.18, 0.55, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <group position={[0, -1.3, 0.05]}><Shoe kind={shoes} /></group>
+        </group>
+        <group ref={rLeg as React.RefObject<Group>} position={[0.27, 1.1, 0]}>
+          <mesh position={[0, -0.35, 0]} castShadow>
+            <cylinderGeometry args={[0.24, 0.2, 0.65, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <mesh position={[0, -0.95, 0]} castShadow>
+            <cylinderGeometry args={[0.2, 0.18, 0.55, 14]} />
+            <meshStandardMaterial color={pants} roughness={0.7} />
+          </mesh>
+          <group position={[0, -1.3, 0.05]}><Shoe kind={shoes} /></group>
+        </group>
+      </group>
+    );
+  }
 
   if (config.rig === "R6") {
     return (

@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type Profile = { id: string; username: string; bux: number };
 export type AvatarConfig = {
-  rig: "R6" | "R15";
+  rig: "R6" | "R15" | "Realistic";
   skin_color: string;
   shirt_color: string;
   pants_color: string;
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ]);
     if (p) setProfile(p as Profile);
     if (a) setAvatar({
-      rig: a.rig as "R6" | "R15",
+      rig: a.rig as "R6" | "R15" | "Realistic",
       skin_color: a.skin_color,
       shirt_color: a.shirt_color,
       pants_color: a.pants_color,

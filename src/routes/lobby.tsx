@@ -121,6 +121,15 @@ const GAMES = [
     playable: true,
     route: "/play/obby-sky" as const,
   },
+  {
+    id: "pet-pals",
+    title: "Pet Pals",
+    blurb: "Buy eggs, hatch baby pets, watch them grow up, and let them follow you around.",
+    bg: "linear-gradient(135deg, #fb7185, #fde68a)",
+    icon: "🥚",
+    playable: true,
+    route: "/play/pet-pals" as const,
+  },
 ];
 
 function LobbyPage() {
