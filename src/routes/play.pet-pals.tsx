@@ -125,30 +125,30 @@ function PetMesh({ pet, target }: { pet: Pet; target: RefObject<THREE.Vector3> }
   );
 }
 
-function Player({ posRef, input }: {
+function Player({ posRef, inputRef }: {
   posRef: RefObject<{ pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; pitch: number; onGround: boolean }>;
-  input: ReturnType<typeof useGameInput>;
+  inputRef: RefObject<import("@/hooks/useGameInput").GameInput>;
 }) {
   const { camera } = useThree();
   useFrame((_s, dt) => {
-    const p = posRef.current; if (!p) return;
-    p.yaw -= input.current.lookDX; p.pitch -= input.current.lookDY;
+    const p = posRef.current; const inp = inputRef.current; if (!p || !inp) return;
+    p.yaw -= inp.lookDX; p.pitch -= inp.lookDY;
     p.pitch = Math.max(-1.5, Math.min(1.5, p.pitch));
-    input.current.lookDX = 0; input.current.lookDY = 0;
+    inp.lookDX = 0; inp.lookDY = 0;
     const fwd = new THREE.Vector3(-Math.sin(p.yaw), 0, -Math.cos(p.yaw));
     const right = new THREE.Vector3(Math.cos(p.yaw), 0, -Math.sin(p.yaw));
     const m = new THREE.Vector3();
-    if (input.current.f) m.add(fwd);
-    if (input.current.b) m.sub(fwd);
-    if (input.current.r) m.add(right);
-    if (input.current.l) m.sub(right);
-    if (m.lengthSq() > 0) m.normalize().multiplyScalar(input.current.sprint ? 8 : 5);
+    if (inp.f) m.add(fwd);
+    if (inp.b) m.sub(fwd);
+    if (inp.r) m.add(right);
+    if (inp.l) m.sub(right);
+    if (m.lengthSq() > 0) m.normalize().multiplyScalar(inp.sprint ? 8 : 5);
     p.vel.x = m.x; p.vel.z = m.z;
-    if (input.current.jump && p.onGround) { p.vel.y = 6; p.onGround = false; }
+    if (inp.jump && p.onGround) { p.vel.y = 6; p.onGround = false; }
     p.vel.y -= 18 * dt;
     p.pos.addScaledVector(p.vel, dt);
     if (p.pos.y <= 1) { p.pos.y = 1; p.vel.y = 0; p.onGround = true; }
-    applyPlayerCamera(camera, p, input.current.zoomOut);
+    applyPlayerCamera(camera, p.pos, p.yaw, p.pitch, inp.zoomOut);
   });
   return null;
 }
