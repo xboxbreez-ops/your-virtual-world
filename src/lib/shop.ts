@@ -20,6 +20,14 @@ export const HAT_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "antlers", price: 300, label: "Antlers" },
   { key: "crown", price: 500, label: "Crown" },
   { key: "fire", price: 800, label: "Fire Crown" },
+  // Streetwear
+  { key: "durag_black", price: 120, label: "Durag (Black)" },
+  { key: "durag_red", price: 120, label: "Durag (Red)" },
+  { key: "durag_blue", price: 120, label: "Durag (Blue)" },
+  { key: "fitted_black", price: 180, label: "Fitted Cap (Black)" },
+  { key: "fitted_red", price: 180, label: "Fitted Cap (Red)" },
+  { key: "fitted_white", price: 180, label: "Fitted Cap (White)" },
+  { key: "designerbucket", price: 650, label: "Designer Bucket" },
   // Anime / new
   { key: "catears", price: 220, label: "Cat Ears 🐱" },
   { key: "foxears", price: 260, label: "Fox Ears 🦊" },
@@ -54,6 +62,8 @@ export const FACE_CATALOG: { key: string; price: number; label: string }[] = [
   { key: "demon", price: 500, label: "Demon Glare" },
   { key: "void", price: 700, label: "Void Stare" },
   { key: "blush", price: 150, label: "Blush" },
+  { key: "shades", price: 280, label: "Designer Shades" },
+  { key: "grillz", price: 450, label: "Gold Grillz" },
 ];
 
 // Shirt/pants color packs — basic free, premium colors unlock
