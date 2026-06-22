@@ -245,6 +245,9 @@ export function ObbyGame({
   const [deaths, setDeaths] = useState(0);
   const [finished, setFinished] = useState(false);
   const [reward, setReward] = useState(0);
+  const [touchStarted, setTouchStarted] = useState(false);
+  const isTouch = useIsTouchDevice();
+  const started = locked || touchStarted;
 
   const getSelfState = useCallback(() => {
     const p = refs.current.player;
