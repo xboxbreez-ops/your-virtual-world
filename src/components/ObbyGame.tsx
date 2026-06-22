@@ -11,11 +11,12 @@ import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
 import { RemotePlayers } from "@/components/RemotePlayers";
 import { GameAtmosphere, type AtmospherePreset } from "@/components/GameAtmosphere";
+import { TouchControls, useIsTouchDevice } from "@/components/TouchControls";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
 import { type Platform, platformGround, platformWorldPos, resolvePlatformBodyCollisions } from "@/lib/obby";
-import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users } from "lucide-react";
+import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users, Smartphone } from "lucide-react";
 
 type Refs = {
   player: { pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; pitch: number; onGround: boolean };
