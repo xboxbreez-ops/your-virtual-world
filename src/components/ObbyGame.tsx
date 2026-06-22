@@ -335,7 +335,7 @@ export function ObbyGame({
     <div className="min-h-screen">
       <HeaderBar location={title} />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
-        <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
+        <div ref={containerRef} className="relative h-[78vh] min-h-[420px] overflow-hidden rounded-2xl border border-border shadow-block sm:min-h-[520px]">
           <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
             <Sky sunPosition={[100, 40, 100]} turbidity={preset === "lava" ? 8 : preset === "ice" ? 1 : 2} rayleigh={preset === "lava" ? 4 : 1} />
             <fog attach="fog" args={[bgFar, 30, 120]} />
