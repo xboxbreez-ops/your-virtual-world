@@ -27,8 +27,6 @@ import { Route as PlayObbyJungleRouteImport } from './routes/play.obby-jungle'
 import { Route as PlayObbyIceRouteImport } from './routes/play.obby-ice'
 import { Route as PlayNaturalDisasterRouteImport } from './routes/play.natural-disaster'
 import { Route as PlayGrowGardenRouteImport } from './routes/play.grow-garden'
-import { Route as PlaySlapTowerRouteImport } from './routes/play.slap-tower'
-import { Route as PlayRaftSurvivalRouteImport } from './routes/play.raft-survival'
 
 const LobbyRoute = LobbyRouteImport.update({
   id: '/lobby',
@@ -120,18 +118,6 @@ const PlayGrowGardenRoute = PlayGrowGardenRouteImport.update({
   path: '/play/grow-garden',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlaySlapTowerRoute = PlaySlapTowerRouteImport.update({
-  id: '/play/slap-tower',
-  path: '/play/slap-tower',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlayRaftSurvivalRoute = PlayRaftSurvivalRouteImport.update({
-  id: '/play/raft-survival',
-  path: '/play/raft-survival',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
