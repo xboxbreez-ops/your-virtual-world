@@ -11,11 +11,12 @@ import { SettingsPanel } from "@/components/SettingsPanel";
 import { SelfAvatar } from "@/components/SelfAvatar";
 import { RemotePlayers } from "@/components/RemotePlayers";
 import { GameAtmosphere, type AtmospherePreset } from "@/components/GameAtmosphere";
+import { TouchControls, useIsTouchDevice } from "@/components/TouchControls";
 import { useRoomPlayers } from "@/lib/multiplayer";
 import { useGameInput } from "@/hooks/useGameInput";
 import { applyPlayerCamera } from "@/lib/camera";
 import { type Platform, platformGround, platformWorldPos, resolvePlatformBodyCollisions } from "@/lib/obby";
-import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users } from "lucide-react";
+import { Flag, Timer, Coins, Keyboard, Gamepad2, RefreshCcw, Users, Smartphone } from "lucide-react";
 
 type Refs = {
   player: { pos: THREE.Vector3; vel: THREE.Vector3; yaw: number; pitch: number; onGround: boolean };
@@ -244,6 +245,9 @@ export function ObbyGame({
   const [deaths, setDeaths] = useState(0);
   const [finished, setFinished] = useState(false);
   const [reward, setReward] = useState(0);
+  const [touchStarted, setTouchStarted] = useState(false);
+  const isTouch = useIsTouchDevice();
+  const started = locked || touchStarted;
 
   const getSelfState = useCallback(() => {
     const p = refs.current.player;
@@ -331,7 +335,7 @@ export function ObbyGame({
     <div className="min-h-screen">
       <HeaderBar location={title} />
       <div className="relative mx-auto max-w-7xl px-4 py-4">
-        <div ref={containerRef} className="relative h-[78vh] min-h-[520px] overflow-hidden rounded-2xl border border-border shadow-block">
+        <div ref={containerRef} className="relative h-[78vh] min-h-[420px] overflow-hidden rounded-2xl border border-border shadow-block sm:min-h-[520px]">
           <Canvas shadows camera={{ position: [0, 1.6, 6], fov: 75 }} dpr={[1, 1.75]} gl={{ antialias: true, toneMappingExposure: 1.05 }}>
             <Sky sunPosition={[100, 40, 100]} turbidity={preset === "lava" ? 8 : preset === "ice" ? 1 : 2} rayleigh={preset === "lava" ? 4 : 1} />
             <fog attach="fog" args={[bgFar, 30, 120]} />
@@ -354,41 +358,59 @@ export function ObbyGame({
           </Canvas>
 
           <SettingsPanel />
+          {started && !finished && <TouchControls inputRef={input} />}
 
-          <div className="pointer-events-none absolute inset-0 p-4">
-            <div className="flex items-start justify-between gap-2">
-              <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
-                <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
-                  <Timer className="h-3.5 w-3.5" /> Time
+          <div className="pointer-events-none absolute inset-0 p-2 sm:p-4">
+            <div className="flex items-start justify-between gap-1.5 sm:gap-2">
+              <div className="rounded-xl bg-black/55 px-2.5 py-1.5 backdrop-blur sm:px-4 sm:py-3">
+                <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-white/70 sm:text-xs">
+                  <Timer className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Time
                 </div>
-                <div className="font-display text-2xl text-white">{elapsed.toFixed(1)}s</div>
+                <div className="font-display text-lg text-white sm:text-2xl">{elapsed.toFixed(1)}s</div>
               </div>
-              <div className="rounded-xl bg-black/55 px-4 py-3 backdrop-blur">
-                <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/70">
-                  <Users className="h-3.5 w-3.5" /> Live
+              <div className="rounded-xl bg-black/55 px-2.5 py-1.5 backdrop-blur sm:px-4 sm:py-3">
+                <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-white/70 sm:text-xs">
+                  <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Live
                 </div>
-                <div className="font-display text-2xl text-white">{1 + (playersRef.current?.size ?? 0)}</div>
+                <div className="font-display text-lg text-white sm:text-2xl">{1 + (playersRef.current?.size ?? 0)}</div>
               </div>
-              <div className="rounded-xl bg-black/55 px-4 py-3 text-right backdrop-blur">
-                <div className="text-xs uppercase tracking-wider text-white/70">Deaths</div>
-                <div className="font-display text-2xl text-white">{deaths}</div>
+              <div className="rounded-xl bg-black/55 px-2.5 py-1.5 text-right backdrop-blur sm:px-4 sm:py-3">
+                <div className="text-[10px] uppercase tracking-wider text-white/70 sm:text-xs">Deaths</div>
+                <div className="font-display text-lg text-white sm:text-2xl">{deaths}</div>
               </div>
             </div>
 
-            {!locked && !finished && (
-              <div className="pointer-events-auto absolute inset-0 grid place-items-center bg-black/65 backdrop-blur-sm">
-                <div className="max-w-md rounded-2xl border border-border bg-card p-6 text-center shadow-block">
-                  <h2 className="font-display text-3xl">{title}</h2>
+            {!started && !finished && (
+              <div className="pointer-events-auto absolute inset-0 grid place-items-center bg-black/65 p-3 backdrop-blur-sm">
+                <div className="w-full max-w-md rounded-2xl border border-border bg-card p-5 text-center shadow-block sm:p-6">
+                  <h2 className="font-display text-2xl sm:text-3xl">{title}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">Reach the gold finish pad. Don't fall, don't touch lava.</p>
                   <button
-                    onClick={(e) => { e.stopPropagation(); containerRef.current?.requestPointerLock?.(); }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isTouch) {
+                        if (input.current) input.current.pointerLocked = true;
+                        setTouchStarted(true);
+                      } else {
+                        containerRef.current?.requestPointerLock?.();
+                      }
+                    }}
                     className="mt-5 w-full rounded-lg bg-primary py-3 font-display text-lg text-primary-foreground shadow-block"
                   >
-                    Click to start
+                    {isTouch ? "Tap to start" : "Click to start"}
                   </button>
                   <div className="mt-5 grid grid-cols-1 gap-2 text-left text-xs text-muted-foreground sm:grid-cols-2">
-                    <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space · Shift · V zoom</div>
-                    <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> Sticks · A · LB sprint {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
+                    {isTouch ? (
+                      <>
+                        <div className="flex items-center gap-2"><Smartphone className="h-4 w-4" /> Left stick · Right swipe look</div>
+                        <div className="flex items-center gap-2"><Smartphone className="h-4 w-4" /> Jump · Sprint · Camera buttons</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-2"><Keyboard className="h-4 w-4" /> WASD · Space · Shift · V zoom</div>
+                        <div className="flex items-center gap-2"><Gamepad2 className="h-4 w-4" /> Sticks · A · LB sprint {usingPad && <span className="ml-1 rounded-full bg-success/20 px-1.5 text-[10px] text-success">Pad</span>}</div>
+                      </>
+                    )}
                   </div>
                   <Link to="/lobby" className="mt-3 inline-block text-xs text-muted-foreground hover:text-foreground">← Back to lobby</Link>
                 </div>
@@ -396,8 +418,8 @@ export function ObbyGame({
             )}
 
             {finished && (
-              <div className="pointer-events-auto absolute inset-0 grid place-items-center bg-black/75 backdrop-blur-sm">
-                <div className="max-w-sm rounded-2xl border border-border bg-card p-6 text-center shadow-block">
+              <div className="pointer-events-auto absolute inset-0 grid place-items-center bg-black/75 p-3 backdrop-blur-sm">
+                <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-5 text-center shadow-block sm:p-6">
                   <Flag className="mx-auto h-10 w-10 text-bux" />
                   <h2 className="mt-2 font-display text-3xl text-primary">Finished!</h2>
                   <p className="mt-1 text-sm text-muted-foreground">{refs.current.finishTime.toFixed(1)}s · {deaths} deaths</p>
@@ -414,7 +436,7 @@ export function ObbyGame({
               </div>
             )}
 
-            {locked && !finished && (
+            {started && !finished && !isTouch && (
               <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80" />
             )}
           </div>

@@ -14,7 +14,9 @@ import { Route as AvatarRouteImport } from './routes/avatar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayStealBrainrotRouteImport } from './routes/play.steal-brainrot'
+import { Route as PlaySlapTowerRouteImport } from './routes/play.slap-tower'
 import { Route as PlayRivalsRouteImport } from './routes/play.rivals'
+import { Route as PlayRaftSurvivalRouteImport } from './routes/play.raft-survival'
 import { Route as PlayPetPalsRouteImport } from './routes/play.pet-pals'
 import { Route as PlayObbyTowerRouteImport } from './routes/play.obby-tower'
 import { Route as PlayObbySpeedRouteImport } from './routes/play.obby-speed'
@@ -51,9 +53,19 @@ const PlayStealBrainrotRoute = PlayStealBrainrotRouteImport.update({
   path: '/play/steal-brainrot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaySlapTowerRoute = PlaySlapTowerRouteImport.update({
+  id: '/play/slap-tower',
+  path: '/play/slap-tower',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayRivalsRoute = PlayRivalsRouteImport.update({
   id: '/play/rivals',
   path: '/play/rivals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayRaftSurvivalRoute = PlayRaftSurvivalRouteImport.update({
+  id: '/play/raft-survival',
+  path: '/play/raft-survival',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlayPetPalsRoute = PlayPetPalsRouteImport.update({
@@ -122,7 +134,9 @@ export interface FileRoutesByFullPath {
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/pet-pals': typeof PlayPetPalsRoute
+  '/play/raft-survival': typeof PlayRaftSurvivalRoute
   '/play/rivals': typeof PlayRivalsRoute
+  '/play/slap-tower': typeof PlaySlapTowerRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRoutesByTo {
@@ -140,7 +154,9 @@ export interface FileRoutesByTo {
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/pet-pals': typeof PlayPetPalsRoute
+  '/play/raft-survival': typeof PlayRaftSurvivalRoute
   '/play/rivals': typeof PlayRivalsRoute
+  '/play/slap-tower': typeof PlaySlapTowerRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRoutesById {
@@ -159,7 +175,9 @@ export interface FileRoutesById {
   '/play/obby-speed': typeof PlayObbySpeedRoute
   '/play/obby-tower': typeof PlayObbyTowerRoute
   '/play/pet-pals': typeof PlayPetPalsRoute
+  '/play/raft-survival': typeof PlayRaftSurvivalRoute
   '/play/rivals': typeof PlayRivalsRoute
+  '/play/slap-tower': typeof PlaySlapTowerRoute
   '/play/steal-brainrot': typeof PlayStealBrainrotRoute
 }
 export interface FileRouteTypes {
@@ -179,7 +197,9 @@ export interface FileRouteTypes {
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/pet-pals'
+    | '/play/raft-survival'
     | '/play/rivals'
+    | '/play/slap-tower'
     | '/play/steal-brainrot'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -197,7 +217,9 @@ export interface FileRouteTypes {
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/pet-pals'
+    | '/play/raft-survival'
     | '/play/rivals'
+    | '/play/slap-tower'
     | '/play/steal-brainrot'
   id:
     | '__root__'
@@ -215,7 +237,9 @@ export interface FileRouteTypes {
     | '/play/obby-speed'
     | '/play/obby-tower'
     | '/play/pet-pals'
+    | '/play/raft-survival'
     | '/play/rivals'
+    | '/play/slap-tower'
     | '/play/steal-brainrot'
   fileRoutesById: FileRoutesById
 }
@@ -234,7 +258,9 @@ export interface RootRouteChildren {
   PlayObbySpeedRoute: typeof PlayObbySpeedRoute
   PlayObbyTowerRoute: typeof PlayObbyTowerRoute
   PlayPetPalsRoute: typeof PlayPetPalsRoute
+  PlayRaftSurvivalRoute: typeof PlayRaftSurvivalRoute
   PlayRivalsRoute: typeof PlayRivalsRoute
+  PlaySlapTowerRoute: typeof PlaySlapTowerRoute
   PlayStealBrainrotRoute: typeof PlayStealBrainrotRoute
 }
 
@@ -275,11 +301,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayStealBrainrotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/slap-tower': {
+      id: '/play/slap-tower'
+      path: '/play/slap-tower'
+      fullPath: '/play/slap-tower'
+      preLoaderRoute: typeof PlaySlapTowerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/rivals': {
       id: '/play/rivals'
       path: '/play/rivals'
       fullPath: '/play/rivals'
       preLoaderRoute: typeof PlayRivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/raft-survival': {
+      id: '/play/raft-survival'
+      path: '/play/raft-survival'
+      fullPath: '/play/raft-survival'
+      preLoaderRoute: typeof PlayRaftSurvivalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/play/pet-pals': {
@@ -370,18 +410,11 @@ const rootRouteChildren: RootRouteChildren = {
   PlayObbySpeedRoute: PlayObbySpeedRoute,
   PlayObbyTowerRoute: PlayObbyTowerRoute,
   PlayPetPalsRoute: PlayPetPalsRoute,
+  PlayRaftSurvivalRoute: PlayRaftSurvivalRoute,
   PlayRivalsRoute: PlayRivalsRoute,
+  PlaySlapTowerRoute: PlaySlapTowerRoute,
   PlayStealBrainrotRoute: PlayStealBrainrotRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

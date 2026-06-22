@@ -130,6 +130,24 @@ const GAMES = [
     playable: true,
     route: "/play/pet-pals" as const,
   },
+  {
+    id: "slap-tower",
+    title: "Slap Tower",
+    blurb: "Climb a spinning neon tower of slap pads that fling you sideways. Don't get knocked off.",
+    bg: "linear-gradient(135deg, #7c3aed, #ec4899)",
+    icon: "✋",
+    playable: true,
+    route: "/play/slap-tower" as const,
+  },
+  {
+    id: "raft-survival",
+    title: "Raft Survival",
+    blurb: "Hop between drifting wooden rafts on the open ocean. Don't fall in the shark water.",
+    bg: "linear-gradient(135deg, #0c4a6e, #38bdf8)",
+    icon: "🛟",
+    playable: true,
+    route: "/play/raft-survival" as const,
+  },
 ];
 
 function LobbyPage() {
