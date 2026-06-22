@@ -88,7 +88,7 @@ function SlapTower() {
       bgNear="#7c3aed"
       baseReward={80}
       rewardPerSec={180}
-      preset="neon"
+      preset="arena"
     />
   );
 }
