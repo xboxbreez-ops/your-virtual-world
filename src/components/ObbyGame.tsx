@@ -403,7 +403,7 @@ export function ObbyGame({
                     {isTouch ? (
                       <>
                         <div className="flex items-center gap-2"><Smartphone className="h-4 w-4" /> Left stick · Right swipe look</div>
-                        <div className="flex items-center gap-2"><ChevronUpIcon /> Jump · Sprint · Camera buttons</div>
+                        <div className="flex items-center gap-2"><Smartphone className="h-4 w-4" /> Jump · Sprint · Camera buttons</div>
                       </>
                     ) : (
                       <>
